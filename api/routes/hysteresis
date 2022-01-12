@@ -1,0 +1,55 @@
+const express = require('express')
+const state = require('../state')
+const router = express.Router()
+
+/* GET positive hysteresis */
+router.get('/pos', (req, res, next) => {
+  try {
+    res.json({ result: true, value: state.config.hysteresis.positive })
+  } catch (error) {
+    res.status(500).json({ result: false, error: error.message })
+  }
+})
+
+/* GET negative hysteresis */
+router.get('/neg', (req, res, next) => {
+  try {
+    res.json({ result: true, value: state.config.hysteresis.negative })
+  } catch (error) {
+    res.status(500).json({ result: false, error: error.message })
+  }
+})
+
+/* PUT positive hysteresis */
+router.put('/pos', async (req, res, next) => {
+  try {
+    // mode value must be an absolute value
+    if (req.body && req.body.value >= 0) {
+      state.config.hysteresis.pos = req.body.value
+      await state.save()
+      res.json({ result: true })
+    } else {
+      res.status(400).json({ result: false })
+    }
+  } catch (error) {
+    res.status(500).json({ result: false, error: error.message })
+  }
+})
+
+/* PUT negative hysteresis */
+router.put('/neg', async (req, res, next) => {
+  try {
+    // mode value must be an absolute value
+    if (req.body && req.body.value >= 0) {
+      state.config.hysteresis.neg = req.body.value
+      await state.save()
+      res.json({ result: true })
+    } else {
+      res.status(400).json({ result: false })
+    }
+  } catch (error) {
+    res.status(500).json({ result: false, error: error.message })
+  }
+})
+
+module.exports = router

@@ -1,3 +1,8 @@
+/**
+ * State class
+ * Manage DomoFox global config state load and save
+ */
+
 const fs = require('fs/promises')
 const defaultConfig = {
   mode: 0
@@ -10,11 +15,17 @@ class State {
     this.ready = false
   }
 
+  /**
+   * Proceed to the first file load
+   */
   async init () {
     await this.load()
     this.ready = true
   }
 
+  /**
+   * Load the local config file into 'config' object
+   */
   async load () {
     try {
       const data = await fs.readFile(this.fileName)
@@ -26,6 +37,9 @@ class State {
     }
   }
 
+  /**
+   * Save the current config object into the local file
+   */
   async save () {
     try {
       await fs.writeFile(this.fileName, JSON.stringify(this.config, null, '  '))

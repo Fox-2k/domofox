@@ -1,9 +1,9 @@
 #!/usr/bin/env node
 
-const app = require('../app')
+const app = require('./app')
 const debug = require('debug')('api:server')
 const http = require('http')
-const state = require('../state')
+const state = require('./state')
 
 // Get port from environment and store in Express.
 const port = normalizePort(process.env.PORT || '3000')
@@ -19,6 +19,8 @@ state.init().then(() => {
   server.on('error', onError)
   server.on('listening', onListening)
 })
+
+module.exports = server
 
 /**
  * Normalize a port into a number, string, or false.
