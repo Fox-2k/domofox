@@ -31,7 +31,7 @@ class State {
       const data = await fs.readFile(this.fileName)
       this.config = JSON.parse(data)
     } catch (error) {
-      console.warn('Error while loading config, creating default config', error)
+      console.warn('Error while loading config, creating default config.', error)
       this.config = JSON.parse(JSON.stringify(defaultConfig))
       await this.save()
     }
@@ -44,7 +44,7 @@ class State {
     try {
       await fs.writeFile(this.fileName, JSON.stringify(this.config, null, '  '))
     } catch (error) {
-      console.error('Error while saving config !', error)
+      console.error('Error while saving config!', error)
     }
   }
 }
