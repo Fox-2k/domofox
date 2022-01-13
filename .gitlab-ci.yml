@@ -1,0 +1,24 @@
+image: node:16-alpine
+
+cache:
+  paths:
+    - api/node_modules/
+
+stages:
+  - build
+  - test
+
+build-api:
+  stage: build
+  script:
+    - cd api
+    - npm install
+
+unit-test-server:
+  stage: test
+  needs: 
+    - build-api
+  script:
+    - cd api
+    - npm test
+
