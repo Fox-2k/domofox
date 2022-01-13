@@ -65,3 +65,6 @@ typings/
 
 # DomoFox state file
 api/state.json
+
+# Jest report
+junit.xml

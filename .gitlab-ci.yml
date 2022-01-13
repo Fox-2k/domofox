@@ -21,4 +21,9 @@ unit-test-server:
   script:
     - cd api
     - npm test
+  artifacts:
+    when: always
+    reports:
+      junit:
+        - junit.xml
 

@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "start": "node ./index.js",
-    "test": "jest --coverage"
+    "test": "jest --coverage --ci --reporters=default --reporters=jest-junit"
   },
   "dependencies": {
     "debug": "~2.6.9",
@@ -19,6 +19,7 @@
     "eslint-plugin-node": "^11.1.0",
     "eslint-plugin-promise": "^5.2.0",
     "jest": "^27.4.7",
+    "jest-junit": "^13.0.0",
     "supertest": "^6.2.1"
   },
   "jest": {
