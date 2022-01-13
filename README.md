@@ -1,4 +1,4 @@
-# DomoFox
+# DomoFox [![pipeline status](https://gitlab.com/Fox2k/domofox/badges/main/pipeline.svg)](https://gitlab.com/Fox2k/domofox/-/commits/main) [![coverage report](https://gitlab.com/Fox2k/domofox/badges/main/coverage.svg)](https://gitlab.com/Fox2k/domofox/-/commits/main)
 
 An home thermostat project, intended to run into Raspberry pi with a 7" screen
 
