@@ -5,7 +5,7 @@ const router = express.Router()
 /* GET positive hysteresis */
 router.get('/pos', (req, res, next) => {
   try {
-    res.json({ result: true, value: state.config.hysteresis.positive })
+    res.json({ result: true, value: state.config.hysteresis.pos })
   } catch (error) {
     res.status(500).json({ result: false, error: error.message })
   }
@@ -14,7 +14,7 @@ router.get('/pos', (req, res, next) => {
 /* GET negative hysteresis */
 router.get('/neg', (req, res, next) => {
   try {
-    res.json({ result: true, value: state.config.hysteresis.negative })
+    res.json({ result: true, value: state.config.hysteresis.neg })
   } catch (error) {
     res.status(500).json({ result: false, error: error.message })
   }
@@ -23,8 +23,8 @@ router.get('/neg', (req, res, next) => {
 /* PUT positive hysteresis */
 router.put('/pos', async (req, res, next) => {
   try {
-    // mode value must be an absolute value
-    if (req.body && req.body.value >= 0) {
+    // hysteresis value must be an absolute value
+    if (req.body && typeof req.body.value === 'number' && req.body.value >= 0) {
       state.config.hysteresis.pos = req.body.value
       await state.save()
       res.json({ result: true })
@@ -39,8 +39,8 @@ router.put('/pos', async (req, res, next) => {
 /* PUT negative hysteresis */
 router.put('/neg', async (req, res, next) => {
   try {
-    // mode value must be an absolute value
-    if (req.body && req.body.value >= 0) {
+    // hysteresis value must be an absolute value
+    if (req.body && typeof req.body.value === 'number' && req.body.value >= 0) {
       state.config.hysteresis.neg = req.body.value
       await state.save()
       res.json({ result: true })

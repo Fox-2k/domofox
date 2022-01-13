@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "start": "node ./index.js",
-    "test": "jest --detectOpenHandles"
+    "test": "jest --coverage"
   },
   "dependencies": {
     "debug": "~2.6.9",
