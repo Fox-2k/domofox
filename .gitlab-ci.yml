@@ -14,7 +14,7 @@ build-api:
     - cd api
     - npm install
 
-unit-test-server:
+unit-test-api:
   stage: test
   needs: 
     - build-api
@@ -25,5 +25,5 @@ unit-test-server:
     when: always
     reports:
       junit:
-        - junit.xml
+        - api/junit.xml
 
