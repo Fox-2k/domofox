@@ -5,7 +5,6 @@ const request = require('supertest')(app)
 
 // Fake config for tests
 const testConfig = {
-  mode: 0,
   hysteresis: {
     pos: 0,
     neg: 0

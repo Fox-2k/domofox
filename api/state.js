@@ -5,7 +5,17 @@
 
 const fs = require('fs/promises')
 const defaultConfig = {
-  mode: 0
+  mode: 0, // 0: Manu, 1: Auto, 2: Forced
+  hysteresis: {
+    pos: 0.5,
+    neg: 0.5
+  },
+  setpoint: {
+    manu: 20,
+    auto: 20,
+    forced: 20
+  },
+  sensors: []
 }
 
 class State {
