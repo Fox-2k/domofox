@@ -27,106 +27,106 @@ afterAll(async () => {
   spySave.mockRestore()
 })
 
-test('PUT setpoint manu - Correct value', async () => {
+test('PUT setpoints manu - Correct value', async () => {
   const res = await request
-    .put('/api/setpoint/manu')
+    .put('/api/setpoints/manu')
     .send({ value: 23.3 })
   expect(res.statusCode).toBe(200)
   expect(res.headers['content-type']).toMatch(/json/)
   expect(res.body).toMatchObject({ result: true })
 })
 
-test('PUT setpoint manu - Wrong value', async () => {
+test('PUT setpoints manu - Wrong value', async () => {
   const res = await request
-    .put('/api/setpoint/manu')
+    .put('/api/setpoints/manu')
     .send({ value: 456.54 })
   expect(res.statusCode).toBe(400)
   expect(res.headers['content-type']).toMatch(/json/)
   expect(res.body).toMatchObject({ result: false })
 })
 
-test('PUT setpoint manu - Wrong type', async () => {
+test('PUT setpoints manu - Wrong type', async () => {
   const res = await request
-    .put('/api/setpoint/manu')
+    .put('/api/setpoints/manu')
     .send({ value: '15.3' })
   expect(res.statusCode).toBe(400)
   expect(res.headers['content-type']).toMatch(/json/)
   expect(res.body).toMatchObject({ result: false })
 })
 
-test('GET setpoint manu', async () => {
+test('GET setpoints manu', async () => {
   const res = await request
-    .get('/api/setpoint/manu')
+    .get('/api/setpoints/manu')
   expect(res.statusCode).toBe(200)
   expect(res.headers['content-type']).toMatch(/json/)
   expect(res.body).toEqual({ result: true, value: 23.3 })
 })
 
-test('PUT setpoint auto - Correct value', async () => {
+test('PUT setpoints auto - Correct value', async () => {
   const res = await request
-    .put('/api/setpoint/auto')
+    .put('/api/setpoints/auto')
     .send({ value: 19.3 })
   expect(res.statusCode).toBe(200)
   expect(res.headers['content-type']).toMatch(/json/)
   expect(res.body).toMatchObject({ result: true })
 })
 
-test('PUT setpoint auto - Wrong value', async () => {
+test('PUT setpoints auto - Wrong value', async () => {
   const res = await request
-    .put('/api/setpoint/auto')
+    .put('/api/setpoints/auto')
     .send({ value: -10.2 })
   expect(res.statusCode).toBe(400)
   expect(res.headers['content-type']).toMatch(/json/)
   expect(res.body).toMatchObject({ result: false })
 })
 
-test('PUT setpoint auto - Wrong type', async () => {
+test('PUT setpoints auto - Wrong type', async () => {
   const res = await request
-    .put('/api/setpoint/auto')
+    .put('/api/setpoints/auto')
     .send({ value: '20.1' })
   expect(res.statusCode).toBe(400)
   expect(res.headers['content-type']).toMatch(/json/)
   expect(res.body).toMatchObject({ result: false })
 })
 
-test('GET setpoint auto', async () => {
+test('GET setpoints auto', async () => {
   const res = await request
-    .get('/api/setpoint/auto')
+    .get('/api/setpoints/auto')
   expect(res.statusCode).toBe(200)
   expect(res.headers['content-type']).toMatch(/json/)
   expect(res.body).toEqual({ result: true, value: 19.3 })
 })
 
-test('PUT setpoint forced - Correct value', async () => {
+test('PUT setpoints forced - Correct value', async () => {
   const res = await request
-    .put('/api/setpoint/forced')
+    .put('/api/setpoints/forced')
     .send({ value: 18.3 })
   expect(res.statusCode).toBe(200)
   expect(res.headers['content-type']).toMatch(/json/)
   expect(res.body).toMatchObject({ result: true })
 })
 
-test('PUT setpoint forced - Wrong value', async () => {
+test('PUT setpoints forced - Wrong value', async () => {
   const res = await request
-    .put('/api/setpoint/forced')
+    .put('/api/setpoints/forced')
     .send({ value: 2.3 })
   expect(res.statusCode).toBe(400)
   expect(res.headers['content-type']).toMatch(/json/)
   expect(res.body).toMatchObject({ result: false })
 })
 
-test('PUT setpoint forced - Wrong type', async () => {
+test('PUT setpoints forced - Wrong type', async () => {
   const res = await request
-    .put('/api/setpoint/forced')
+    .put('/api/setpoints/forced')
     .send({ value: '17.1' })
   expect(res.statusCode).toBe(400)
   expect(res.headers['content-type']).toMatch(/json/)
   expect(res.body).toMatchObject({ result: false })
 })
 
-test('GET setpoint forced', async () => {
+test('GET setpoints forced', async () => {
   const res = await request
-    .get('/api/setpoint/forced')
+    .get('/api/setpoints/forced')
   expect(res.statusCode).toBe(200)
   expect(res.headers['content-type']).toMatch(/json/)
   expect(res.body).toEqual({ result: true, value: 18.3 })
