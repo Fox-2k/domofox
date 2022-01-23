@@ -1,7 +1,7 @@
 const { randomUUID } = require('crypto')
 const assert = require('assert')
 const express = require('express')
-const state = require('../state')
+const state = require('../lib/state')
 const router = express.Router()
 
 const MINSETPOINT = 10

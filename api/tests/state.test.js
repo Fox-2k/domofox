@@ -1,5 +1,5 @@
 const fs = require('fs/promises')
-const state = require('../state')
+const state = require('../lib/state')
 
 jest.mock('fs/promises')
 

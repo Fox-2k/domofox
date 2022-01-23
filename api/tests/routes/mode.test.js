@@ -1,6 +1,6 @@
 
-const state = require('../../state')
-const app = require('../../app')
+const state = require('../../lib/state')
+const app = require('../../lib/app')
 const request = require('supertest')(app)
 
 // Fake config for tests
