@@ -5,6 +5,7 @@ const modeRouter = require('./routes/mode')
 const hysteresisRouter = require('./routes/hysteresis')
 const setpointsRouter = require('./routes/setpoints')
 const sensorsRouter = require('./routes/sensors')
+const planningsRouter = require('./routes/plannings')
 
 // Launch express web server
 const app = express()
@@ -17,5 +18,6 @@ app.use('/api/mode', modeRouter)
 app.use('/api/hysteresis', hysteresisRouter)
 app.use('/api/setpoints', setpointsRouter)
 app.use('/api/sensors', sensorsRouter)
+app.use('/api/plannings', planningsRouter)
 
 module.exports = app

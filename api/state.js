@@ -15,7 +15,8 @@ const defaultConfig = {
     auto: 20,
     forced: 20
   },
-  sensors: []
+  sensors: [],
+  plannings: []
 }
 
 class State {
