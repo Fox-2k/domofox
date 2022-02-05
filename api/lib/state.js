@@ -6,7 +6,8 @@
 const fs = require('fs/promises')
 const defaultConfig = {
   heater: {
-    gpio: 17
+    gpio: 17,
+    coolDown: 10000
   },
   mode: 0, // 0: Manu, 1: Auto, 2: Forced
   hysteresis: {

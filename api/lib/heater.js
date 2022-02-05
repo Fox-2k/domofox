@@ -6,6 +6,7 @@ class Heater {
   constructor () {
     this.ready = false
     this.heating = false
+    this.coolDown = Promise.resolve()
   }
 
   async init () {
@@ -33,9 +34,17 @@ class Heater {
     // Change only if state is different
     if (await this.heaterRelay.read() !== value) {
       this.heaterRelay.write(value ? 1 : 0)
+      this.heating = value
     }
-
-    return { heating: await this.heaterRelay.read() }
+    // FIXME:
+    // // Change only if state is different
+    // if (await this.heaterRelay.read() !== value) {
+    //   this.heating = value
+    //   this.coolDown.then(() => {
+    //     this.heaterRelay.write(this.heating ? 1 : 0)
+    //     this.coolDown = new Promise(resolve => setTimeout(resolve, state?.config?.heater?.coolDown || 1000))
+    //   })
+    // }
   }
 
   async toggleState () {
