@@ -2,9 +2,9 @@
 
 An home thermostat project, intended to run into Raspberry pi with a 7" screen
 
-## Overview
+# Overview
 
-### Working modes
+## Working modes
 
 Domofox can work in 4 modes:
  * OFF mode: switch the heater off
@@ -12,31 +12,31 @@ Domofox can work in 4 modes:
  * AUTOMATIC mode: Same as manual mode, except it regulating according the 'auto' setpoint, which is updated according the planning you defined
  * FORCED mode: Useful when you want to manually change the temperature setpoint once, but keeping the automatic mode on so the next automatic setpoint will apply and reset your device in AUTO mode
 
-### Customized ambiant temperature
+## Customized ambiant temperature
 
 The ambiant temperature used to regulate is computed as a weighted average of your sensors value. Thus you can adapt sensor influence into the regulation.
 
 Providing you use an existing driver code, or develop your own, you can use any kind of sensor
 
-## Architecture
+# Architecture
 
-### Client
+## Client
 
 VueJS interface to do
 
-### API
+## API
 
 This is the core engine of Domofox temperature regulation
 
-## Installation
+# Installation
 To do
 
-## Usage
+# Usage
 To do
 
-## Contributing
+# Contributing
 To do
 
-## License
+# License
 To do
 
