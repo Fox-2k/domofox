@@ -2,19 +2,18 @@ const assert = require('assert')
 const Gpio = require('onoff').Gpio
 const state = require('./state')
 
-let heaterRelay
+class Heater {
+  constructor () {
+    this.ready = false
+    this.heating = false
+  }
 
-module.exports = {
-  ready: false,
-  heating: false,
-
-  init: async function () {
-    // FIXME: will call multiple time init()
+  async init () {
     if (!state.ready) await state.init()
     const heaterPin = state?.config?.heater?.gpio
 
     // GPIO controlled heater relay, the real one or the fake one if unaccessible
-    heaterRelay = Gpio.accessible && heaterPin
+    this.heaterRelay = Gpio.accessible && heaterPin
       ? new Gpio(heaterPin, 'out')
       : {
           write: async value => {
@@ -23,19 +22,27 @@ module.exports = {
           },
           read: async () => !!this.internal
         }
-  },
+  }
 
-  switchState: async function (value) {
+  async switchState (value) {
     assert(typeof value === 'boolean', 'state value must be true or false')
 
-    if (await heaterRelay.read() !== value) {
-      heaterRelay.write(value ? 1 : 0)
+    // Init before if not ready
+    if (!this.ready) await this.init()
+
+    // Change only if state is different
+    if (await this.heaterRelay.read() !== value) {
+      this.heaterRelay.write(value ? 1 : 0)
     }
 
-    return { heating: await heaterRelay.read() }
-  },
+    return { heating: await this.heaterRelay.read() }
+  }
 
-  toggleState: async function () {
-    return this.switchState(!(await heaterRelay.read()))
+  async toggleState () {
+    // Init before if not ready
+    if (!this.ready) await this.init()
+    return this.switchState(!(await this.heaterRelay.read()))
   }
 }
+
+module.exports = new Heater()
