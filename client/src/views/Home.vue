@@ -2,11 +2,10 @@
   <div class="home container">
     <div class="row justify-content-center">
       <Clock />
-      <Block class="block-sm" />
-      <Block title="Température"/>
-      <Block title="Consigne"/>
-      <Block title="Planning"/>
-      <Block />
+      <Block class="block-sm" icon="toggles" />
+      <Block icon="thermometer-half"/>
+      <Setpoint />
+      <Block class="block-xxl" icon="journals"/>
     </div>
   </div>
 </template>
@@ -15,20 +14,22 @@
 // @ is an alias to /src
 import Block from '@/components/Block.vue'
 import Clock from '@/components/Clock.vue'
+import Setpoint from '@/components/Setpoint.vue'
 
 export default {
   name: 'Home',
   components: {
     Block,
-    Clock
+    Clock,
+    Setpoint
   }
 }
 </script>
 
 <style>
-  .clock .title{
-    background: url(../assets/logo.png) !important;
-    background-size: contain !important;
+  .block-xxl {
+    width: 26em!important;
+    height: 12em;
   }
   .block-xl {
     width: 18em!important;

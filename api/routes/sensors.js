@@ -134,4 +134,22 @@ router.get('/', (req, res, next) => {
   }
 })
 
+/**
+ * Get weighted average of temperatures
+ */
+router.get('/average', (req, res, next) => {
+  try {
+    // At least 1 active sensor must be defined
+    const activeSensors = state.config.sensors.filter(s => s.active && s.value !== undefined)
+    assert(activeSensors && activeSensors.length > 0, 'No current active sensor found, average unavailable !')
+
+    // Get weighted average of temperatures
+    const tempAvg = activeSensors.reduce((c, v) => c + (v.weight || 1) * v.value, 0) / state.config.sensors.length
+
+    res.json({ result: true, value: tempAvg })
+  } catch (error) {
+    errorAnswer(error, res)
+  }
+})
+
 module.exports = router

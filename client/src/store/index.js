@@ -1,23 +1,40 @@
+/* eslint-disable no-return-assign */
 import Vue from 'vue'
 import Vuex from 'vuex'
+
+import setpoints from '../api/setpoints'
 
 Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
-    date: new Date()
+    date: new Date(),
+    setpoint: {
+      manu: 0,
+      auto: 0,
+      forced: 0
+    }
   },
   getters: {
     getDate: state => state.date.toLocaleDateString(),
     getTime: state => state.date.toLocaleTimeString(),
+    getSetpointManu: state => state.setpoint.manu,
+    getSetpointAuto: state => state.setpoint.auto,
+    getSetpointForced: state => state.setpoint.Forced
   },
   mutations: {
-    setDateTime: state => state.date = new Date()
+    setDateTime: state => state.date = new Date(),
+    setSetpoint: (state, payload) => state.setpoint[payload.type] = payload.value
   },
   actions: {
-    updateDateTime({ commit, dispatch }) {
-      commit('setDateTime');
+    updateDateTime ({ commit, dispatch }) {
+      commit('setDateTime')
       setTimeout(() => dispatch('updateDateTime'), 1000)
+    },
+    async getSetpoint ({ commit }, type) {
+      const { data } = await setpoints.getSetpoint(type)
+      console.log(data)
+      commit('setSetpoint', { type, value: data.value })
     }
   },
   modules: {

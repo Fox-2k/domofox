@@ -1,4 +1,5 @@
 const express = require('express')
+const cors = require('cors')
 const logger = require('morgan')
 
 const modeRouter = require('../routes/mode')
@@ -13,6 +14,7 @@ const app = express()
 app.use(logger('dev'))
 app.use(express.json())
 app.use(express.urlencoded({ extended: false }))
+app.use(cors())
 
 // Define api routes
 app.use('/api/mode', modeRouter)

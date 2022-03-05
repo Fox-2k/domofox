@@ -107,10 +107,11 @@ module.exports = async function () {
   assert(state.config.sensors.length > 0, 'No sensors defined, unable to regulate something!')
 
   // Ensure there is at least one WORKING sensor
-  assert(state.config.sensors.filter(s => s.active && s.value !== undefined).length > 0, 'It seems that no sensor are working, unable to get values from them!')
+  const activeSensors = state.config.sensors.filter(s => s.active && s.value !== undefined)
+  assert(activeSensors && activeSensors.length > 0, 'It seems that no sensor are working, unable to get values from them!')
 
   // Get weighted average of temperatures
-  const tempAvg = state.config.sensors.filter(s => s.active && s.value !== undefined).reduce((c, v) => c + (v.weight || 1) * v.value, 0) / state.config.sensors.length
+  const tempAvg = activeSensors.filter(s => s.active && s.value !== undefined).reduce((c, v) => c + (v.weight || 1) * v.value, 0) / activeSensors.length
 
   // MANUAL MODE
   if (state.config.mode === MODE_MANU) {

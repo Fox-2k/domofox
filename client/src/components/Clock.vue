@@ -1,5 +1,5 @@
 <template>
-  <Block class="clock block-xl pt-5 align-items-center">
+  <Block class="clock block-xl pt-5 align-items-center" icon="clock">
     <p class="display-3">{{ getTime }}</p>
     <p class="display-4">{{ getDate }}</p>
   </Block>

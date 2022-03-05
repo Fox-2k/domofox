@@ -11,11 +11,23 @@ Vue.config.productionTip = false
 Vue.use(BootstrapVue)
 Vue.use(IconsPlugin)
 
-new Vue({
-  router,
-  store,
-  render: function (h) {
-    store.dispatch('updateDateTime')
-    return h(App)
-  }
-}).$mount('#app')
+fetch(`${process.env.BASE_URL}config/config.json?t=${new Date().getTime()}`)
+  .then((response) => response.json())
+  .then((config) => {
+    Vue.prototype.$config = config
+    new Vue({
+      router,
+      store,
+      render: function (h) {
+        store.dispatch('updateDateTime')
+        setInterval(refreshRoutine, 5000)
+        return h(App)
+      }
+    }).$mount('#app')
+  })
+
+function refreshRoutine () {
+  store.dispatch('getSetpoint', 'manu')
+  store.dispatch('getSetpoint', 'auto')
+  store.dispatch('getSetpoint', 'forced')
+}
