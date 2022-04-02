@@ -9,10 +9,10 @@
 
 <script>
 export default {
-  name: "Block",
+  name: 'Block',
   props: {
     icon: String
-  },
+  }
 }
 </script>
 
