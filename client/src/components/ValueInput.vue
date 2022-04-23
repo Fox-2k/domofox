@@ -1,42 +1,66 @@
 <template>
-  <b-container fluid>
-    <b-row class="my-2">
-      <b-col class="p-1 col-1"><b-button class="p-0 h-100" block size="lg" variant="primary"><b-icon-chevron-double-left /></b-button></b-col>
-      <b-col class="p-1 col-1"><b-button class="p-0 h-100" block size="lg" variant="primary"><b-icon-chevron-left /></b-button></b-col>
-      <b-col class="p-1 col-8"><b-form-input class="text-center" size="lg" type="number"></b-form-input></b-col>
-      <b-col class="p-1 col-1"><b-button class="p-0 h-100" block size="lg" variant="primary"><b-icon-chevron-double-right /></b-button></b-col>
-      <b-col class="p-1 col-1"><b-button class="p-0 h-100" block size="lg" variant="primary"><b-icon-chevron-right /></b-button></b-col>
-    </b-row>
-    <b-row class="my-2">
-      <b-col><b-button block size="lg" variant="primary">7</b-button></b-col>
-      <b-col><b-button block size="lg" variant="primary">8</b-button></b-col>
-      <b-col><b-button block size="lg" variant="primary">9</b-button></b-col>
-    </b-row>
-    <b-row class="my-2">
-      <b-col><b-button block size="lg" variant="primary">4</b-button></b-col>
-      <b-col><b-button block size="lg" variant="primary">5</b-button></b-col>
-      <b-col><b-button block size="lg" variant="primary">6</b-button></b-col>
-    </b-row>
-    <b-row class="my-2">
-      <b-col><b-button block size="lg" variant="primary">1</b-button></b-col>
-      <b-col><b-button block size="lg" variant="primary">2</b-button></b-col>
-      <b-col><b-button block size="lg" variant="primary">3</b-button></b-col>
-    </b-row>
-    <b-row class="my-2">
-      <b-col><b-button block size="lg" variant="primary"><b-icon :icon="'backspace'" /></b-button></b-col>
-      <b-col><b-button block size="lg" variant="primary">0</b-button></b-col>
-      <b-col><b-button block size="lg" variant="primary">.</b-button></b-col>
-    </b-row>
-  </b-container>
+  <div @click.stop="openDialog()" class="value-input">
+    <slot></slot>
+    <v-dialog v-model="dialog" width="400">
+      <v-card class="grey darken-2">
+        <v-container>
+          <v-row>
+            <v-col><p class="display-3 text-center mb-0">{{ tempValue }}</p></v-col>
+          </v-row>
+          <v-row>
+            <v-col>
+              <v-divider></v-divider>
+            </v-col>
+          </v-row>
+          <v-row>
+            <v-col><v-btn block color="primary" @click="increment(-1)">--</v-btn></v-col>
+            <v-col><v-btn block color="primary" @click="increment(1)">++</v-btn></v-col>
+          </v-row>
+          <v-row>
+            <v-col><v-btn block color="primary" @click="increment(-0.1)">-</v-btn></v-col>
+            <v-col><v-btn block color="primary" @click="increment(0.1)">+</v-btn></v-col>
+          </v-row>
+        </v-container>
+        <v-card-actions>
+          <v-btn color="secondary" @click="dialog = false">Annuler</v-btn>
+          <v-btn color="primary" @click="validate()">Valider</v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
+  </div>
 </template>
 
 <script>
 export default {
-  name: 'ValueInput'
-
+  name: 'ValueInput',
+  data() {
+    return { 
+      dialog: false,
+      tempValue: 0,
+    }
+  },
+  props: {
+    value: Number,
+  },
+  methods: {
+    openDialog () {
+      this.tempValue = this.value
+      this.dialog = true
+    },
+    validate() {
+      this.$emit('input', this.tempValue)
+      this.dialog = false
+    },
+    increment(step) {
+      this.tempValue = Math.round((this.tempValue + step) * 100) / 100
+    }
+  }
 }
 </script>
 
-<style>
-
+<style scoped>
+  .value-input {
+    height: 100%;
+    cursor: pointer;
+  }
 </style>

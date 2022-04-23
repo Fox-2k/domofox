@@ -33,8 +33,11 @@ export default new Vuex.Store({
     },
     async getSetpoint ({ commit }, type) {
       const { data } = await setpoints.getSetpoint(type)
-      console.log(data)
       commit('setSetpoint', { type, value: data.value })
+    },
+    async setSetpoint ({ commit }, { type, value }) {
+      await setpoints.setSetpoint(type, value)
+      commit('setSetpoint', { type, value })
     }
   },
   modules: {

@@ -1,8 +1,10 @@
 <template>
-  <Block class="clock block-xl pt-5 align-items-center" icon="clock">
-    <p class="display-3">{{ getTime }}</p>
-    <p class="display-4">{{ getDate }}</p>
-  </Block>
+  <block class="block-xl" icon="mdi-clock">
+    <v-card-text class="text-center pt-8">
+      <p class="display-3">{{ getTime }}</p>
+      <p class="display-1">{{ getDate }}</p>
+    </v-card-text>
+  </block>
 </template>
 
 <script>
@@ -20,6 +22,6 @@ export default {
 }
 </script>
 
-<style scoped>
+<style>
 
 </style>

@@ -1,10 +1,10 @@
 <template>
-  <div class="block rounded m-3">
-    <div class="title rounded text-center p-1">
-      <b-icon :icon="icon"></b-icon>
-      </div>
+  <v-card elevation="6" shaped class="block ma-3">
+    <div class="title rounded text-center">
+      <v-icon>{{ icon }}</v-icon>
+    </div>
     <slot></slot>
-  </div>
+  </v-card>
 </template>
 
 <script>
@@ -18,8 +18,8 @@ export default {
 
 <style scoped>
   .block {
-    position: relative;
-    background: #ffffff20;
+    /* position: relative; */
+    /* background: #ffffff20; */
     width: 12em;
     height: 12em;
   }
@@ -27,7 +27,7 @@ export default {
     display: inline-block;
     position: absolute;
     top: -0.5em;
-    left: -0.5em;
+    right: -0.5em;
     width: 2em;
     height: 2em;
     /* line-height: 2.5em; */

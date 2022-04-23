@@ -1,12 +1,12 @@
 <template>
-  <div class="home container">
-    <div class="row justify-content-center">
-      <Clock />
-      <Block class="block-sm" icon="toggles" />
-      <Block icon="thermometer-half"/>
+  <div class="home">
+    <v-container class="d-flex flex-wrap justify-center">
+      <clock />
+      <block icon="mdi-tune" class="block-sm"></block>
+      <block icon="mdi-thermometer"></block>
       <Setpoint />
-      <Block class="block-xxl" icon="journals"/>
-    </div>
+      <block class="block-xxl"></block>
+    </v-container>
   </div>
 </template>
 
