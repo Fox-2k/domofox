@@ -1,16 +1,10 @@
 import Vue from 'vue'
-import { BootstrapVue, IconsPlugin } from 'bootstrap-vue'
 import App from './App.vue'
 import router from './router'
 import store from './store'
-
-import './app.scss'
+import vuetify from './plugins/vuetify'
 
 Vue.config.productionTip = false
-
-Vue.use(BootstrapVue)
-Vue.use(IconsPlugin)
-
 fetch(`${process.env.BASE_URL}config/config.json?t=${new Date().getTime()}`)
   .then((response) => response.json())
   .then((config) => {
@@ -18,6 +12,7 @@ fetch(`${process.env.BASE_URL}config/config.json?t=${new Date().getTime()}`)
     new Vue({
       router,
       store,
+      vuetify,
       render: function (h) {
         store.dispatch('updateDateTime')
         setInterval(refreshRoutine, 5000)

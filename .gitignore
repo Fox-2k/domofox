@@ -68,3 +68,5 @@ api/state.json
 
 # Jest report
 junit.xml
+
+client-old/
