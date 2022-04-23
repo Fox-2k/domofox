@@ -25,4 +25,5 @@ function refreshRoutine () {
   store.dispatch('getSetpoint', 'manu')
   store.dispatch('getSetpoint', 'auto')
   store.dispatch('getSetpoint', 'forced')
+  store.dispatch('getSensors')
 }

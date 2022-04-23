@@ -7,7 +7,6 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
 import Block from '@/components/Block.vue'
 import ValueInput from '@/components/ValueInput.vue'
 

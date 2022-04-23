@@ -112,7 +112,7 @@ test('DELETE sensors - Correct request', async () => {
 test('DELETE sensors - unknown sensor', async () => {
   const res = await request
     .delete('/api/sensors/dummy-id')
-  expect(res.statusCode).toBe(400)
+  expect(res.statusCode).toBe(200)
   expect(res.headers['content-type']).toMatch(/json/)
   expect(res.body).toMatchObject({ result: false, error: expect.any(String) })
   expect(state.config.sensors).toHaveLength(0)

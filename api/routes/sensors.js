@@ -25,7 +25,7 @@ const _newDefaultSensor = {
  */
 function errorAnswer (error, res) {
   if (error instanceof assert.AssertionError) {
-    res.status(400).json({ result: false, error: error.message })
+    res.status(200).json({ result: false, error: error.message })
   } else {
     res.status(500).json({ result: false, error: error.message })
   }
@@ -109,6 +109,24 @@ router.put('/:id', (req, res, next) => {
 })
 
 /**
+ * Get weighted average of temperatures
+ */
+router.get('/average', (req, res, next) => {
+  try {
+    // At least 1 active sensor must be defined
+    const activeSensors = state.config.sensors.filter(s => s.active && s.value !== undefined)
+    assert(activeSensors && activeSensors.length > 0, 'No current active sensor found, average unavailable !')
+
+    // Get weighted average of temperatures
+    const tempAvg = activeSensors.reduce((c, v) => c + (v.weight || 1) * v.value, 0) / state.config.sensors.length
+
+    res.json({ result: true, value: tempAvg })
+  } catch (error) {
+    errorAnswer(error, res)
+  }
+})
+
+/**
  * Get a sensor configuration
  */
 router.get('/:id', (req, res, next) => {
@@ -134,22 +152,6 @@ router.get('/', (req, res, next) => {
   }
 })
 
-/**
- * Get weighted average of temperatures
- */
-router.get('/average', (req, res, next) => {
-  try {
-    // At least 1 active sensor must be defined
-    const activeSensors = state.config.sensors.filter(s => s.active && s.value !== undefined)
-    assert(activeSensors && activeSensors.length > 0, 'No current active sensor found, average unavailable !')
 
-    // Get weighted average of temperatures
-    const tempAvg = activeSensors.reduce((c, v) => c + (v.weight || 1) * v.value, 0) / state.config.sensors.length
-
-    res.json({ result: true, value: tempAvg })
-  } catch (error) {
-    errorAnswer(error, res)
-  }
-})
 
 module.exports = router
