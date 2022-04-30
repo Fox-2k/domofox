@@ -79,7 +79,7 @@ function updateAutoSetPoint () {
     if (job.active && job.time && !isNaN(job.time.hour) && !isNaN(job.time.min) && Array.isArray(job.days) && job.days.length === 7) {
       if (job.time.hour === dateNow.getHours() && job.time.min === dateNow.getMinutes() && !!job.days[dateNow.getDay()]) {
         // Update setpoint
-        state.config.setpoint.auto = job.setpoint
+        state.config.setpoint = job.setpoint
         // If forced mode was on, this terminate its activity, returning to auto mode
         if (state.config.mode === MODE_FORCED) state.config.mode = MODE_AUTO
       }
@@ -113,30 +113,37 @@ module.exports = async function () {
   // Get weighted average of temperatures
   const tempAvg = activeSensors.filter(s => s.active && s.value !== undefined).reduce((c, v) => c + (v.weight || 1) * v.value, 0) / activeSensors.length
 
-  // MANUAL MODE
-  if (state.config.mode === MODE_MANU) {
-    // Regulate with manual setpoint
-    await coreRegulate(state.config.setpoint.manu, tempAvg)
+  // REGULATION
+  // Regulate with general setpoint
+  await coreRegulate(state.config.setpoint, tempAvg)
 
-    // Return mode, heater state and message
-    return { mode: state.config.mode, heating: heater.heating, message: 'Manual regulation done.' }
-  }
+  // Return mode, heater state and message
+  return { mode: state.config.mode, heating: heater.heating, message: 'Regulation done.' }
 
-  // AUTO MODE
-  if (state.config.mode === MODE_AUTO) {
-    // Regulate with automatic setpoint
-    await coreRegulate(state.config.setpoint.auto, tempAvg)
+  // // MANUAL MODE
+  // if (state.config.mode === MODE_MANU) {
+  //   // Regulate with manual setpoint
+  //   await coreRegulate(state.config.setpoint.manu, tempAvg)
 
-    // Return mode, heater state and message
-    return { mode: state.config.mode, heating: heater.heating, message: 'Automatic regulation done.' }
-  }
+  //   // Return mode, heater state and message
+  //   return { mode: state.config.mode, heating: heater.heating, message: 'Manual regulation done.' }
+  // }
 
-  // FORCED MODE
-  if (state.config.mode === MODE_FORCED) {
-    // Regulate with forced setpoint
-    await coreRegulate(state.config.setpoint.forced, tempAvg)
+  // // AUTO MODE
+  // if (state.config.mode === MODE_AUTO) {
+  //   // Regulate with automatic setpoint
+  //   await coreRegulate(state.config.setpoint.auto, tempAvg)
 
-    // Return mode, heater state and message
-    return { mode: state.config.mode, heating: heater.heating, message: 'Forced regulation done.' }
-  }
+  //   // Return mode, heater state and message
+  //   return { mode: state.config.mode, heating: heater.heating, message: 'Automatic regulation done.' }
+  // }
+
+  // // FORCED MODE
+  // if (state.config.mode === MODE_FORCED) {
+  //   // Regulate with forced setpoint
+  //   await coreRegulate(state.config.setpoint.forced, tempAvg)
+
+  //   // Return mode, heater state and message
+  //   return { mode: state.config.mode, heating: heater.heating, message: 'Forced regulation done.' }
+  // }
 }

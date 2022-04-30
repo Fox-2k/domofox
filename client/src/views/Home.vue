@@ -2,7 +2,7 @@
   <div class="home">
     <v-container class="d-flex flex-wrap justify-center">
       <clock />
-      <block icon="mdi-tune" class="block-sm"></block>
+      <ModeStatus class="block-sm" />
       <sensor-value icon="mdi-tune" :value="getSensorsAverage"></sensor-value>
       <Setpoint />
       <block class="block-xxl"></block>
@@ -17,6 +17,7 @@ import Block from '@/components/Block.vue'
 import Clock from '@/components/Clock.vue'
 import Setpoint from '@/components/Setpoint.vue'
 import SensorValue from '@/components/SensorValue.vue'
+import ModeStatus from '@/components/ModeStatus.vue'
 import { mapGetters } from 'vuex'
 
 export default {
@@ -25,7 +26,8 @@ export default {
     Block,
     Clock,
     Setpoint,
-    SensorValue
+    SensorValue,
+    ModeStatus
   },
   computed: {
     ...mapGetters(['getIsOnline', 'getSensorsAverage'])

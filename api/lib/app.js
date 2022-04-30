@@ -19,7 +19,7 @@ app.use(cors())
 // Define api routes
 app.use('/api/mode', modeRouter)
 app.use('/api/hysteresis', hysteresisRouter)
-app.use('/api/setpoints', setpointsRouter)
+app.use('/api/setpoint', setpointsRouter)
 app.use('/api/sensors', sensorsRouter)
 app.use('/api/plannings', planningsRouter)
 app.use('/api/regulate', regulateRouter)

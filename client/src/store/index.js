@@ -3,7 +3,8 @@ import Vue from 'vue'
 import Vuex from 'vuex'
 import assert from 'assert'
 
-import setpoints from '../api/setpoints'
+import mode from '../api/mode'
+import setpoint from '../api/setpoint'
 import sensors from '../api/sensors'
 
 Vue.use(Vuex)
@@ -25,11 +26,8 @@ export default new Vuex.Store({
   state: {
     isOnline: false,
     date: new Date(),
-    setpoint: {
-      manu: 0,
-      auto: 0,
-      forced: 0
-    },
+    mode: 0,
+    setpoint: 0,
     sensors: {
       list: [],
       average: 0
@@ -39,15 +37,15 @@ export default new Vuex.Store({
     getIsOnline: state => state.isOnline,
     getDate: state => state.date.toLocaleDateString(),
     getTime: state => state.date.toLocaleTimeString(),
-    getSetpointManu: state => state.setpoint.manu,
-    getSetpointAuto: state => state.setpoint.auto,
-    getSetpointForced: state => state.setpoint.forced,
+    getMode: state => state.mode,
+    getSetpoint: state => state.setpoint,
     getSensorsAverage: state => state.sensors.average
   },
   mutations: {
     setIsOnline: (state, isOnline) => state.isOnline = isOnline,
     setDateTime: state => state.date = new Date(),
-    setSetpoint: (state, payload) => state.setpoint[payload.type] = payload.value,
+    setMode: (state, value) => state.mode = value,
+    setSetpoint: (state, value) => state.setpoint = value,
     setSensorsList: (state, value) => state.sensors.list = value,
     setSensorsAverage: (state, value) => state.sensors.average = value
   },
@@ -58,16 +56,28 @@ export default new Vuex.Store({
       setTimeout(() => dispatch('updateDateTime'), 1000)
       // })
     },
-    async getSetpoint ({ commit }, type) {
+    async getMode ({ commit }) {
       await handleIfError(commit, async () => {
-        const { data } = await setpoints.getSetpoint(type)
-        commit('setSetpoint', { type, value: data.value })
+        const { data } = await mode.getMode()
+        commit('setMode', data.value)
       })
     },
-    async setSetpoint ({ commit }, { type, value }) {
+    async setMode ({ commit }, value) {
       await handleIfError(async () => {
-        await setpoints.setSetpoint(type, value)
-        commit('setSetpoint', { type, value })
+        await mode.setMode(value)
+        commit('setMode', value)
+      })
+    },
+    async getSetpoint ({ commit }) {
+      await handleIfError(commit, async () => {
+        const { data } = await setpoint.getSetpoint()
+        commit('setSetpoint', data.value)
+      })
+    },
+    async setSetpoint ({ commit }, value) {
+      await handleIfError(async () => {
+        await setpoint.setSetpoint(value)
+        commit('setSetpoint', value)
       })
     },
     async getSensors ({ commit }) {

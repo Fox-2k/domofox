@@ -14,11 +14,7 @@ const defaultConfig = {
     pos: 0.5,
     neg: 0.5
   },
-  setpoint: {
-    manu: 20,
-    auto: 20,
-    forced: 20
-  },
+  setpoint: 20,
   sensors: [],
   plannings: []
 }

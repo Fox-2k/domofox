@@ -1,7 +1,7 @@
 <template>
   <block icon="mdi-pencil">
-    <value-input v-model="setpointManu">
-      <v-card-text class="text-center display-3 pt-6">{{ setpointManu }}<span class="display-2">{{ unit }}</span></v-card-text>
+    <value-input v-model="setpoint">
+      <v-card-text class="text-center display-3 pt-6">{{ setpoint }}<span class="display-2">{{ unit }}</span></v-card-text>
     </value-input>
   </block>
 </template>
@@ -24,13 +24,13 @@ export default {
     ValueInput
   },
   computed: {
-    // ...mapGetters(['getSetpointManu']),
-    setpointManu: {
+    // ...mapGetters(['getSetpoint']),
+    setpoint: {
       get () {
-        return this.$store.state.setpoint.manu
+        return this.$store.state.setpoint
       },
       set (value) {
-        this.$store.dispatch('setSetpoint', {type: 'manu', value})
+        this.$store.dispatch('setSetpoint', value)
       }
     }
   }

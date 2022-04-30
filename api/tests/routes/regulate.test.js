@@ -17,11 +17,7 @@ const testConfig = {
     pos: 0.2,
     neg: 0.5
   },
-  setpoint: {
-    manu: 20,
-    auto: 20,
-    forced: 20
-  },
+  setpoint: 20,
   sensors: [{
     id: 'dummyId',
     label: 'DriverMock',
@@ -106,7 +102,7 @@ test('GET regulate - OFF mode - Just reading mock driver', async () => {
 
 test('GET regulate - MANUAL mode - need Heating', async () => {
   state.config.mode = MODE_MANU
-  state.config.setpoint.manu = 21 // Mock driver return 20°C
+  state.config.setpoint = 21 // Mock driver return 20°C
   const res = await request
     .get('/api/regulate/')
   expect(res.statusCode).toBe(200)
@@ -120,7 +116,7 @@ test('GET regulate - MANUAL mode - need Heating', async () => {
 
 test('GET regulate - MANUAL mode - still Heating (negative hysteresis)', async () => {
   state.config.mode = MODE_MANU
-  state.config.setpoint.manu = 19.6 // Mock driver return 20°C
+  state.config.setpoint = 19.6 // Mock driver return 20°C
   const res = await request
     .get('/api/regulate/')
   expect(res.statusCode).toBe(200)
@@ -134,7 +130,7 @@ test('GET regulate - MANUAL mode - still Heating (negative hysteresis)', async (
 
 test('GET regulate - MANUAL mode - stop heating', async () => {
   state.config.mode = MODE_MANU
-  state.config.setpoint.manu = 19 // Mock driver return 20°C
+  state.config.setpoint = 19 // Mock driver return 20°C
   const res = await request
     .get('/api/regulate/')
   expect(res.statusCode).toBe(200)
@@ -148,7 +144,7 @@ test('GET regulate - MANUAL mode - stop heating', async () => {
 
 test('GET regulate - MANUAL mode - still stop heating (positive hysteresis)', async () => {
   state.config.mode = MODE_MANU
-  state.config.setpoint.manu = 20.1 // Mock driver return 20°C
+  state.config.setpoint = 20.1 // Mock driver return 20°C
   const res = await request
     .get('/api/regulate/')
   expect(res.statusCode).toBe(200)
@@ -162,7 +158,7 @@ test('GET regulate - MANUAL mode - still stop heating (positive hysteresis)', as
 
 test('GET regulate - AUTO mode - start heating after auto setpoint changed by planning', async () => {
   state.config.mode = MODE_AUTO
-  state.config.setpoint.auto = 19 // Mock driver return 20°C
+  state.config.setpoint = 19 // Mock driver return 20°C
   // At 08:01 on 02/05/2022, setpoint should change to 22
   jest.spyOn(Date, 'now').mockImplementationOnce(() => new Date('05 Feb 2022 08:01:10').valueOf())
 
@@ -170,7 +166,7 @@ test('GET regulate - AUTO mode - start heating after auto setpoint changed by pl
     .get('/api/regulate/')
   expect(res.statusCode).toBe(200)
   expect(res.headers['content-type']).toMatch(/json/)
-  expect(state.config.setpoint.auto).toBe(22)
+  expect(state.config.setpoint).toBe(22)
   expect(res.body.value).toMatchObject({
     mode: MODE_AUTO,
     heating: true,
@@ -180,7 +176,7 @@ test('GET regulate - AUTO mode - start heating after auto setpoint changed by pl
 
 test('GET regulate - AUTO mode - still heating after auto setpoint NOT changed by planning (not saturday)', async () => {
   state.config.mode = MODE_AUTO
-  state.config.setpoint.auto = 22 // Mock driver return 20°C
+  state.config.setpoint = 22 // Mock driver return 20°C
   // At 18:01 on 02/05/2022, setpoint should not change to 19 because we are on saturday
   jest.spyOn(Date, 'now').mockImplementationOnce(() => new Date('05 Feb 2022 18:01:10').valueOf())
 
@@ -188,7 +184,7 @@ test('GET regulate - AUTO mode - still heating after auto setpoint NOT changed b
     .get('/api/regulate/')
   expect(res.statusCode).toBe(200)
   expect(res.headers['content-type']).toMatch(/json/)
-  expect(state.config.setpoint.auto).toBe(22)
+  expect(state.config.setpoint).toBe(22)
   expect(res.body.value).toMatchObject({
     mode: MODE_AUTO,
     heating: true,
@@ -198,7 +194,7 @@ test('GET regulate - AUTO mode - still heating after auto setpoint NOT changed b
 
 test('GET regulate - AUTO mode - stop heating after auto setpoint changed by planning', async () => {
   state.config.mode = MODE_AUTO
-  state.config.setpoint.auto = 19 // Mock driver return 20°C
+  state.config.setpoint = 19 // Mock driver return 20°C
   // At 19:32 on 02/05/2022, setpoint should change to 15
   jest.spyOn(Date, 'now').mockImplementationOnce(() => new Date('05 Feb 2022 19:32:15').valueOf())
 
@@ -206,7 +202,7 @@ test('GET regulate - AUTO mode - stop heating after auto setpoint changed by pla
     .get('/api/regulate/')
   expect(res.statusCode).toBe(200)
   expect(res.headers['content-type']).toMatch(/json/)
-  expect(state.config.setpoint.auto).toBe(15)
+  expect(state.config.setpoint).toBe(15)
   expect(res.body.value).toMatchObject({
     mode: MODE_AUTO,
     heating: false,
@@ -216,7 +212,7 @@ test('GET regulate - AUTO mode - stop heating after auto setpoint changed by pla
 
 test('GET regulate - FORCED mode - start heating', async () => {
   state.config.mode = MODE_FORCED
-  state.config.setpoint.forced = 23 // Mock driver return 20°C
+  state.config.setpoint = 23 // Mock driver return 20°C
   const res = await request
     .get('/api/regulate/')
   expect(res.statusCode).toBe(200)
@@ -230,8 +226,7 @@ test('GET regulate - FORCED mode - start heating', async () => {
 
 test('GET regulate - FORCED mode - stop heating and return to AUTO mode after auto setpoint changed by planning', async () => {
   state.config.mode = MODE_FORCED
-  state.config.setpoint.auto = 22
-  state.config.setpoint.forced = 23 // Mock driver return 20°C
+  state.config.setpoint = 23 // Mock driver return 20°C
   // At 19:32 on 02/05/2022, setpoint should change to 15
   jest.spyOn(Date, 'now').mockImplementationOnce(() => new Date('05 Feb 2022 19:32:15').valueOf())
 
@@ -239,7 +234,7 @@ test('GET regulate - FORCED mode - stop heating and return to AUTO mode after au
     .get('/api/regulate/')
   expect(res.statusCode).toBe(200)
   expect(res.headers['content-type']).toMatch(/json/)
-  expect(state.config.setpoint.auto).toBe(15)
+  expect(state.config.setpoint).toBe(15)
   expect(res.body.value).toMatchObject({
     mode: MODE_AUTO,
     heating: false,

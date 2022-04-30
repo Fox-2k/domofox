@@ -22,8 +22,6 @@ fetch(`${process.env.BASE_URL}config/config.json?t=${new Date().getTime()}`)
   })
 
 function refreshRoutine () {
-  store.dispatch('getSetpoint', 'manu')
-  store.dispatch('getSetpoint', 'auto')
-  store.dispatch('getSetpoint', 'forced')
+  store.dispatch('getSetpoint')
   store.dispatch('getSensors')
 }
