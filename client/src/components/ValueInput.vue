@@ -5,25 +5,25 @@
       <v-card class="grey darken-2">
         <v-container>
           <v-row>
-            <v-col><p class="display-3 text-center mb-0">{{ tempValue }}</p></v-col>
+            <v-col class="mb-0"><p class="display-3 text-center mb-0">{{ tempValue }}</p></v-col>
           </v-row>
           <v-row>
-            <v-col>
+            <!-- <v-col> -->
               <v-divider></v-divider>
-            </v-col>
+            <!-- </v-col> -->
           </v-row>
-          <v-row>
-            <v-col><v-btn block color="primary" @click="increment(-1)">--</v-btn></v-col>
-            <v-col><v-btn block color="primary" @click="increment(1)">++</v-btn></v-col>
+          <v-row class="justify-space-around">
+            <v-col cols="5"><v-btn x-large block color="primary" @click="increment(-1)"><v-icon>mdi-chevron-double-left</v-icon></v-btn></v-col>
+            <v-col cols="5"><v-btn x-large block color="primary" @click="increment(1)"><v-icon>mdi-chevron-double-right</v-icon></v-btn></v-col>
           </v-row>
-          <v-row>
-            <v-col><v-btn block color="primary" @click="increment(-0.1)">-</v-btn></v-col>
-            <v-col><v-btn block color="primary" @click="increment(0.1)">+</v-btn></v-col>
+          <v-row class="justify-space-around">
+            <v-col cols="5"><v-btn x-large block color="primary" @click="increment(-0.1)"><v-icon>mdi-chevron-left</v-icon></v-btn></v-col>
+            <v-col cols="5"><v-btn x-large block color="primary" @click="increment(0.1)"><v-icon>mdi-chevron-right</v-icon></v-btn></v-col>
           </v-row>
         </v-container>
-        <v-card-actions>
-          <v-btn color="secondary" @click="dialog = false">Annuler</v-btn>
-          <v-btn color="primary" @click="validate()">Valider</v-btn>
+        <v-card-actions class="justify-space-around">
+          <v-btn fab x-large color="secondary" @click="dialog = false"><v-icon>mdi-close-circle-outline</v-icon></v-btn>
+          <v-btn fab x-large color="primary" @click="validate()"><v-icon>mdi-checkbox-marked-circle-outline</v-icon></v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>
@@ -33,25 +33,25 @@
 <script>
 export default {
   name: 'ValueInput',
-  data() {
-    return { 
+  data () {
+    return {
       dialog: false,
-      tempValue: 0,
+      tempValue: 0
     }
   },
   props: {
-    value: Number,
+    value: Number
   },
   methods: {
     openDialog () {
       this.tempValue = this.value
       this.dialog = true
     },
-    validate() {
+    validate () {
       this.$emit('input', this.tempValue)
       this.dialog = false
     },
-    increment(step) {
+    increment (step) {
       this.tempValue = Math.round((this.tempValue + step) * 100) / 100
     }
   }

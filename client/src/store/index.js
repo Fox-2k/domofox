@@ -4,6 +4,7 @@ import Vuex from 'vuex'
 import assert from 'assert'
 
 import mode from '../api/mode'
+import heater from '../api/heater'
 import setpoint from '../api/setpoint'
 import sensors from '../api/sensors'
 
@@ -27,6 +28,7 @@ export default new Vuex.Store({
     isOnline: false,
     date: new Date(),
     mode: 0,
+    heating: false,
     setpoint: 0,
     sensors: {
       list: [],
@@ -38,6 +40,7 @@ export default new Vuex.Store({
     getDate: state => state.date.toLocaleDateString(),
     getTime: state => state.date.toLocaleTimeString(),
     getMode: state => state.mode,
+    getHeating: state => state.heating,
     getSetpoint: state => state.setpoint,
     getSensorsAverage: state => state.sensors.average
   },
@@ -45,6 +48,7 @@ export default new Vuex.Store({
     setIsOnline: (state, isOnline) => state.isOnline = isOnline,
     setDateTime: state => state.date = new Date(),
     setMode: (state, value) => state.mode = value,
+    setHeating: (state, value) => state.heating = value,
     setSetpoint: (state, value) => state.setpoint = value,
     setSensorsList: (state, value) => state.sensors.list = value,
     setSensorsAverage: (state, value) => state.sensors.average = value
@@ -66,6 +70,12 @@ export default new Vuex.Store({
       await handleIfError(async () => {
         await mode.setMode(value)
         commit('setMode', value)
+      })
+    },
+    async getHeating ({ commit }) {
+      await handleIfError(commit, async () => {
+        const { data } = await heater.getHeating()
+        commit('setHeating', data.value)
       })
     },
     async getSetpoint ({ commit }) {

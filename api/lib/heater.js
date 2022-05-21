@@ -52,6 +52,10 @@ class Heater {
     if (!this.ready) await this.init()
     return this.switchState(!(await this.heaterRelay.read()))
   }
+
+  isHeating () {
+    return this.heating
+  }
 }
 
 module.exports = new Heater()

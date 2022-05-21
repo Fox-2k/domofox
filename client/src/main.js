@@ -15,6 +15,7 @@ fetch(`${process.env.BASE_URL}config/config.json?t=${new Date().getTime()}`)
       vuetify,
       render: function (h) {
         store.dispatch('updateDateTime')
+        refreshRoutine()
         setInterval(refreshRoutine, 5000)
         return h(App)
       }
@@ -24,4 +25,6 @@ fetch(`${process.env.BASE_URL}config/config.json?t=${new Date().getTime()}`)
 function refreshRoutine () {
   store.dispatch('getSetpoint')
   store.dispatch('getSensors')
+  store.dispatch('getMode')
+  store.dispatch('getHeating')
 }

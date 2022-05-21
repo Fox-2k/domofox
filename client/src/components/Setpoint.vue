@@ -1,7 +1,7 @@
 <template>
   <block icon="mdi-pencil">
     <value-input v-model="setpoint">
-      <v-card-text class="text-center display-3 pt-6">{{ setpoint }}<span class="display-2">{{ unit }}</span></v-card-text>
+      <v-card-text class="text-center display-3 pt-15">{{ setpoint }}<span class="display-1">{{ unit }}</span></v-card-text>
     </value-input>
   </block>
 </template>
