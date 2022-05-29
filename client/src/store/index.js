@@ -7,6 +7,7 @@ import mode from '../api/mode'
 import heater from '../api/heater'
 import setpoint from '../api/setpoint'
 import sensors from '../api/sensors'
+import plannings from '../api/plannings'
 
 Vue.use(Vuex)
 
@@ -33,7 +34,8 @@ export default new Vuex.Store({
     sensors: {
       list: [],
       average: 0
-    }
+    },
+    plannings: []
   },
   getters: {
     getIsOnline: state => state.isOnline,
@@ -42,7 +44,8 @@ export default new Vuex.Store({
     getMode: state => state.mode,
     getHeating: state => state.heating,
     getSetpoint: state => state.setpoint,
-    getSensorsAverage: state => state.sensors.average
+    getSensorsAverage: state => state.sensors.average,
+    getPlannings: state => state.plannings
   },
   mutations: {
     setIsOnline: (state, isOnline) => state.isOnline = isOnline,
@@ -51,7 +54,8 @@ export default new Vuex.Store({
     setHeating: (state, value) => state.heating = value,
     setSetpoint: (state, value) => state.setpoint = value,
     setSensorsList: (state, value) => state.sensors.list = value,
-    setSensorsAverage: (state, value) => state.sensors.average = value
+    setSensorsAverage: (state, value) => state.sensors.average = value,
+    setPlannings: (state, value) => state.plannings = value
   },
   actions: {
     async updateDateTime ({ commit, dispatch }) {
@@ -99,6 +103,12 @@ export default new Vuex.Store({
         res = await sensors.getSensorsAverage()
         assert(res.data.result, res.data.error)
         commit('setSensorsAverage', res.data.value)
+      })
+    },
+    async getPlannings ({ commit }) {
+      await handleIfError(commit, async () => {
+        const { data } = await plannings.getPlannings()
+        commit('setPlannings', data.value)
       })
     }
   },

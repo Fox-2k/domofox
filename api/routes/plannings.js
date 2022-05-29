@@ -46,7 +46,7 @@ router.post('/', (req, res, next) => {
 
     // Ensure time is provided
     assert(newPlanning.time && newPlanning.time.hour >= 0 && newPlanning.time.hour < 24 && parseInt(newPlanning.time.hour) === newPlanning.time.hour, 'New planning : you must provide a valid time with hour and minute value')
-    assert(newPlanning.time && newPlanning.time.min >= 0 && newPlanning.time.min < 24 && parseInt(newPlanning.time.min) === newPlanning.time.min, 'New planning : you must provide a valid time with hour and minute value')
+    assert(newPlanning.time && newPlanning.time.min >= 0 && newPlanning.time.min < 60 && parseInt(newPlanning.time.min) === newPlanning.time.min, 'New planning : you must provide a valid time with hour and minute value')
 
     // Assign an unique id
     newPlanning.id = randomUUID()
@@ -95,13 +95,13 @@ router.put('/:id', (req, res, next) => {
     }
 
     // Check days validity if specified
-    if (req.days) {
-      assert(Array.isArray(req.days) && req.days.length === 7, 'days activity are not valid, they must be send as an array of 7 booleans')
-      assert(req.days.reduce((c, v) => c && typeof v === 'boolean', true), 'days activity are not valid, they must be send as an array of 7 booleans')
+    if (req.body.days) {
+      assert(Array.isArray(req.body.days) && req.body.days.length === 7, 'days activity are not valid, they must be send as an array of 7 booleans')
+      assert(req.body.days.reduce((c, v) => c && typeof v === 'boolean', true), 'days activity are not valid, they must be send as an array of 7 booleans')
     }
 
     // Check setpoint validity
-    if (req.setpoint) {
+    if (req.body.setpoint) {
       assert(typeof req.body.setpoint === 'number' && req.body.setpoint >= MINSETPOINT && req.body.setpoint <= MAXSETPOINT, `Setpoint must be between ${MINSETPOINT}°C and ${MAXSETPOINT}°C`)
     }
 
