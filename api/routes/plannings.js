@@ -91,7 +91,7 @@ router.put('/:id', (req, res, next) => {
     // Check time validity if specified
     if (req.body.time) {
       assert(req.body.time.hour >= 0 && req.body.time.hour < 24 && parseInt(req.body.time.hour) === req.body.time.hour, 'Time specified is not valid')
-      assert(req.body.time.min >= 0 && req.body.time.min < 24 && parseInt(req.body.time.min) === req.body.time.min, 'Time specified is not valid')
+      assert(req.body.time.min >= 0 && req.body.time.min < 60 && parseInt(req.body.time.min) === req.body.time.min, 'Time specified is not valid')
     }
 
     // Check days validity if specified

@@ -18,7 +18,7 @@ export default {
   addPlanning (value) {
     const API_URL = Vue.prototype.$config.API_URL
     const url = `${API_URL}/api/plannings/`
-    return axios.post(url, { value })
+    return axios.post(url, value)
   },
 
   /**
@@ -29,6 +29,6 @@ export default {
   setPlanning (id, value) {
     const API_URL = Vue.prototype.$config.API_URL
     const url = `${API_URL}/api/plannings/${id}`
-    return axios.put(url, { value })
+    return axios.put(url, value)
   }
 }

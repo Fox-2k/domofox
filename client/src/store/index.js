@@ -55,7 +55,14 @@ export default new Vuex.Store({
     setSetpoint: (state, value) => state.setpoint = value,
     setSensorsList: (state, value) => state.sensors.list = value,
     setSensorsAverage: (state, value) => state.sensors.average = value,
-    setPlannings: (state, value) => state.plannings = value
+    setPlannings: (state, value) => state.plannings = value,
+    setPlanning: (state, { id, value }) => {
+      if (state.plannings.some(p => p.id === id)) {
+        // this._vm.$set(state.plannings, state.plannings.indexOf(p => p.id === id), value)
+        state.plannings.splice(state.plannings.indexOf(p => p.id === id), 1, value)
+        // state.plannings[state.plannings.indexOf(p => p.id === id)] = value
+      }
+    }
   },
   actions: {
     async updateDateTime ({ commit, dispatch }) {
@@ -109,6 +116,12 @@ export default new Vuex.Store({
       await handleIfError(commit, async () => {
         const { data } = await plannings.getPlannings()
         commit('setPlannings', data.value)
+      })
+    },
+    async setPlanning ({ commit }, { id, value }) {
+      await handleIfError(async () => {
+        const { data } = await plannings.setPlanning(id, value)
+        commit('setPlanning', { id, value: data.value })
       })
     }
   },
