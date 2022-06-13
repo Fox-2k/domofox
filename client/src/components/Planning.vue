@@ -3,10 +3,9 @@
     <v-card-title class="justify-space-between flex-grow-1 pb-0">
       <v-switch v-model="planning.active" @change="update('active', $event)"></v-switch>
       <div class="text-h4 flex-grow-1">{{ planning.time.hour }}:{{ planning.time.min }}</div>
-      <value-input :value="planning.setpoint" @input="update('setpoint', $event)">
-        <div class="text-h3 flex-grow-1">{{ planning.setpoint }}°C</div>
+      <value-input class="flex-grow-1" :value="planning.setpoint" @input="update('setpoint', $event)">
+        <div class="text-h3">{{ planning.setpoint }}°C</div>
       </value-input>
-      <v-btn small text color="light"><v-icon>mdi-pencil</v-icon></v-btn>
       <v-btn small text color="#B71C1C"><v-icon>mdi-delete</v-icon></v-btn>
     </v-card-title>
     <v-card-actions class="d-flex justify-end">

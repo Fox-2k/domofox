@@ -57,9 +57,10 @@ export default new Vuex.Store({
     setSensorsAverage: (state, value) => state.sensors.average = value,
     setPlannings: (state, value) => state.plannings = value,
     setPlanning: (state, { id, value }) => {
-      if (state.plannings.some(p => p.id === id)) {
+      const idx = state.plannings.findIndex(p => p.id === id)
+      if (idx > -1) {
         // this._vm.$set(state.plannings, state.plannings.indexOf(p => p.id === id), value)
-        state.plannings.splice(state.plannings.indexOf(p => p.id === id), 1, value)
+        state.plannings.splice(idx, 1, value)
         // state.plannings[state.plannings.indexOf(p => p.id === id)] = value
       }
     }

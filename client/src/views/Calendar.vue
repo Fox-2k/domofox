@@ -9,6 +9,7 @@
           <v-btn>Fri</v-btn>
           <v-btn>Sat</v-btn>
           <v-btn>Sun</v-btn>
+          <v-btn>all</v-btn>
         </v-btn-toggle>
     </v-app-bar>
     <div class="pa-2 mt-12">
@@ -40,7 +41,7 @@ export default {
     ...mapGetters(['getPlannings']),
     plannings: {
       get () {
-        return this.$store.state.plannings.filter(p => p.days[this.selectedDay])
+        return this.selectedDay < 7 ? this.$store.state.plannings.filter(p => p.days[this.selectedDay]) : this.$store.state.plannings
       },
       set (value) {
         console.log('DISPATCH plannings')
