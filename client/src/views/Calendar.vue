@@ -24,7 +24,7 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
+// import { mapGetters } from 'vuex'
 import Planning from '@/components/Planning.vue'
 
 export default {
@@ -38,14 +38,9 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(['getPlannings']),
-    plannings: {
-      get () {
-        return this.selectedDay < 7 ? this.$store.state.plannings.filter(p => p.days[this.selectedDay]) : this.$store.state.plannings
-      },
-      set (value) {
-        console.log('DISPATCH plannings')
-      }
+    // ...mapGetters(['getPlannings']),
+    plannings: function () {
+        return this.selectedDay < 7 ? this.$store.state.plannings.filter(p => p.days[this.selectedDay]) : this.$store.state.plannings      
     }
   },
   mounted () {

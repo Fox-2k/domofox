@@ -2,7 +2,14 @@
   <v-card class="my-2">
     <v-card-title class="justify-space-between flex-grow-1 pb-0">
       <v-switch v-model="planning.active" @change="update('active', $event)"></v-switch>
-      <div class="text-h4 flex-grow-1">{{ planning.time.hour }}:{{ planning.time.min }}</div>
+      <div class="text-h4 flex-grow-1" @click.stop="openDialogTime()">{{ planning.time.hour }}:{{ planning.time.min }}</div>
+      <v-dialog persistent v-model="dialogTime" width="290px">
+        <v-time-picker dark v-if="dialogTime" v-model="time" full-width format="24hr" color="primary">
+          <v-btn fab x-large color="secondary" @click="dialogTime = false"><v-icon>mdi-close-circle-outline</v-icon></v-btn>
+          <v-spacer></v-spacer>
+          <v-btn fab x-large color="primary" @click="validateTime()"><v-icon>mdi-checkbox-marked-circle-outline</v-icon></v-btn>
+        </v-time-picker>
+      </v-dialog>
       <value-input class="flex-grow-1" :value="planning.setpoint" @input="update('setpoint', $event)">
         <div class="text-h3">{{ planning.setpoint }}°C</div>
       </value-input>
@@ -25,6 +32,9 @@ import ValueInput from '@/components/ValueInput.vue'
 
 export default {
   name: 'Planning',
+  data() {
+    return { dialogTime: false, time: "" }
+  },
   props: {
     id: String
   },
@@ -50,12 +60,23 @@ export default {
       const newPlanning = { ...this.planning, [key]: value }
       console.log('update', newPlanning)
       this.$store.dispatch('setPlanning', { id: this.id, value: newPlanning })
+    },
+    openDialogTime() {
+      this.time = ("00" + (this.planning.time.hour || 0)).slice(-2) + ":" + ("00" + (this.planning.time.min || 0)).slice(-2)
+      this.dialogTime = true
+    },
+    validateTime() {
+      if(this.time && this.time.includes(":")) {
+        this.update("time", { hour: parseInt(this.time.split(":")[0]), min: parseInt(this.time.split(":")[1]) })
+      }
+      this.dialogTime = false
     }
   }
-  // watch: {
-  //   planning: function (value) {
-  //     console.log('planning changed: ', value)
-  //   }
-  // }
 }
 </script>
+
+<style>
+.v-time-picker-title {
+  justify-content: center!important;
+}
+</style>
