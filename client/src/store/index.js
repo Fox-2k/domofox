@@ -59,9 +59,7 @@ export default new Vuex.Store({
     setPlanning: (state, { id, value }) => {
       const idx = state.plannings.findIndex(p => p.id === id)
       if (idx > -1) {
-        // this._vm.$set(state.plannings, state.plannings.indexOf(p => p.id === id), value)
-        state.plannings.splice(idx, 1, value)
-        // state.plannings[state.plannings.indexOf(p => p.id === id)] = value
+        value ? state.plannings.splice(idx, 1, value) : state.plannings.splice(idx, 1)
       }
     }
   },
@@ -123,6 +121,12 @@ export default new Vuex.Store({
       await handleIfError(async () => {
         const { data } = await plannings.setPlanning(id, value)
         commit('setPlanning', { id, value: data.value })
+      })
+    },
+    async deletePlanning ({ commit }, id) {
+      await handleIfError(async () => {
+        await plannings.deletePlanning(id)
+        commit('setPlanning', { id, value: undefined })
       })
     }
   },

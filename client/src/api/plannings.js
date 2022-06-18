@@ -30,5 +30,15 @@ export default {
     const API_URL = Vue.prototype.$config.API_URL
     const url = `${API_URL}/api/plannings/${id}`
     return axios.put(url, value)
+  },
+
+  /**
+   * Delete a planning
+   * @param {String} id planning unique id
+   */
+  deletePlanning (id) {
+    const API_URL = Vue.prototype.$config.API_URL
+    const url = `${API_URL}/api/plannings/${id}`
+    return axios.delete(url)
   }
 }

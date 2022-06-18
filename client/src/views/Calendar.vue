@@ -40,7 +40,7 @@ export default {
   computed: {
     // ...mapGetters(['getPlannings']),
     plannings: function () {
-        return this.selectedDay < 7 ? this.$store.state.plannings.filter(p => p.days[this.selectedDay]) : this.$store.state.plannings      
+      return this.selectedDay < 7 ? this.$store.state.plannings.filter(p => p.days[this.selectedDay]) : this.$store.state.plannings
     }
   },
   mounted () {
