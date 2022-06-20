@@ -40,5 +40,22 @@ export default {
     const API_URL = Vue.prototype.$config.API_URL
     const url = `${API_URL}/api/plannings/${id}`
     return axios.delete(url)
+  },
+
+  /**
+   * Create a default planning
+   */
+  createPlanning () {
+    const now = new Date()
+    const defaultPlanning = {
+      time: {
+        hour: now.getHours(),
+        min: now.getMinutes()
+      },
+      setpoint: 19,
+      active: false,
+      days: Array(7).fill(true)
+    }
+    return this.addPlanning(defaultPlanning)
   }
 }

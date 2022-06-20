@@ -2,7 +2,7 @@
   <v-card class="my-2">
     <v-card-title class="justify-space-between flex-grow-1 pb-0">
       <v-switch v-model="planning.active" @change="update('active', $event)"></v-switch>
-      <div class="text-h4 flex-grow-1" @click.stop="openDialogTime()">{{ planning.time.hour }}:{{ planning.time.min }}</div>
+      <div class="text-h4 flex-grow-1" @click.stop="openDialogTime()">{{ ('0' + planning.time.hour).slice(-2) }}:{{ ('0' + planning.time.min).slice(-2) }}</div>
       <v-dialog persistent v-model="dialogTime" width="320px">
         <v-time-picker dark v-if="dialogTime" v-model="time" full-width format="24hr" color="primary">
           <v-btn fab x-large color="secondary" @click="dialogTime = false"><v-icon>mdi-close-circle-outline</v-icon></v-btn>

@@ -13,10 +13,10 @@
         </v-btn-toggle>
     </v-app-bar>
     <div class="pa-2 mt-12">
-      <div class="list">
-        <planning v-for="item in plannings" :key="item.id" :id="item.id"></planning>
-      </div>
-      <v-btn fab x-large color="primary" class="btn-calendar-plus">
+        <transition-group name="calendar" tag="div">
+          <planning v-for="item in plannings" :key="item.id" :id="item.id" class="calendar-item"></planning>
+        </transition-group>
+      <v-btn fab x-large color="primary" class="btn-calendar-plus" @click="createNewPlanning()">
         <v-icon>mdi-calendar-plus</v-icon>
       </v-btn>
     </div>
@@ -40,11 +40,31 @@ export default {
   computed: {
     // ...mapGetters(['getPlannings']),
     plannings: function () {
-      return this.selectedDay < 7 ? this.$store.state.plannings.filter(p => p.days[this.selectedDay]) : this.$store.state.plannings
+      // Get plannings from store
+      let plannings = this.$store.state.plannings
+
+      // Only show selected day plannings, or all
+      if (this.selectedDay < 7) {
+        plannings = plannings.filter(p => p.days[this.selectedDay])
+      }
+
+      // Order plannings by time
+      plannings = plannings.sort((a, b) => {
+        const hour = a.time.hour - b.time.hour
+        const min = a.time.min - b.time.min
+        return hour || min
+      })
+
+      return plannings
     }
   },
   mounted () {
     this.$store.dispatch('getPlannings')
+  },
+  methods: {
+    createNewPlanning: function () {
+      this.$store.dispatch('createPlanning')
+    }
   }
 }
 </script>
@@ -58,5 +78,28 @@ export default {
 
 .activeday {
   background-color: green;
+}
+
+.calendar-item {
+  transition: all 0.4s;
+}
+
+.calendar-enter {
+  opacity: 0;
+  transform: translateX(200px);
+}
+
+.calendar-leave {
+  opacity: 0;
+  transform: translateX(0px);
+}
+
+.calendar-leave-to {
+  opacity: 0;
+  transform: translateX(-200px);
+}
+
+.calendar-leave-active {
+  position: absolute;
 }
 </style>

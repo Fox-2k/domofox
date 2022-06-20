@@ -128,6 +128,12 @@ export default new Vuex.Store({
         await plannings.deletePlanning(id)
         commit('setPlanning', { id, value: undefined })
       })
+    },
+    async createPlanning ({ dispatch }) {
+      await handleIfError(async () => {
+        await plannings.createPlanning()
+        dispatch('getPlannings')
+      })
     }
   },
   modules: {
