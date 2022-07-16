@@ -1,6 +1,6 @@
 <template>
   <block icon="mdi-thermometer">
-    <v-card-text class="text-center display-3 pt-15">{{ value }}<span class="display-1">{{ unit }}</span></v-card-text>
+    <v-card-text class="text-center display-3 pt-15">{{ formattedValue }}<span class="display-1">{{ unit }}</span></v-card-text>
   </block>
 </template>
 
@@ -18,6 +18,11 @@ export default {
   },
   components: {
     Block
+  },
+  computed: {
+    formattedValue () {
+      return typeof this.value === 'number' ? this.value.toFixed(1) : '--'
+    }
   }
 }
 </script>

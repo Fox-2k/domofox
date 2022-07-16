@@ -96,8 +96,8 @@ router.put('/:id', (req, res, next) => {
     sensorToUpdate.driver = typeof req.body.driver === 'string' ? req.body.driver : sensorToUpdate.driver
     sensorToUpdate.params = typeof req.body.params === 'object' ? req.body.params : sensorToUpdate.params
     sensorToUpdate.weight = typeof req.body.weight === 'number' ? req.body.weight : sensorToUpdate.weight
-    sensorToUpdate.calibration.a = typeof req.body.calibration.a === 'number' ? req.body.calibration.a : sensorToUpdate.calibration.a
-    sensorToUpdate.calibration.b = typeof req.body.calibration.b === 'number' ? req.body.calibration.b : sensorToUpdate.calibration.b
+    sensorToUpdate.calibration.a = typeof req.body.calibration?.a === 'number' ? req.body.calibration.a : sensorToUpdate.calibration.a
+    sensorToUpdate.calibration.b = typeof req.body.calibration?.b === 'number' ? req.body.calibration.b : sensorToUpdate.calibration.b
     sensorToUpdate.active = typeof req.body.active === 'boolean' ? req.body.active : sensorToUpdate.active
     sensorToUpdate.updated = new Date().toISOString()
     state.save()
@@ -118,7 +118,7 @@ router.get('/average', (req, res, next) => {
     assert(activeSensors && activeSensors.length > 0, 'No current active sensor found, average unavailable !')
 
     // Get weighted average of temperatures
-    const tempAvg = activeSensors.reduce((c, v) => c + (v.weight || 1) * v.value, 0) / state.config.sensors.length
+    const tempAvg = activeSensors.reduce((c, v) => c + (v.weight || 1) * v.value, 0) / activeSensors.length
 
     res.json({ result: true, value: tempAvg })
   } catch (error) {
