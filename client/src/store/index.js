@@ -8,6 +8,7 @@ import heater from '../api/heater'
 import setpoint from '../api/setpoint'
 import sensors from '../api/sensors'
 import plannings from '../api/plannings'
+import hysteresis from '../api/hysteresis'
 
 Vue.use(Vuex)
 
@@ -35,7 +36,11 @@ export default new Vuex.Store({
       list: [],
       average: 0
     },
-    plannings: []
+    plannings: [],
+    hysteresis: {
+      pos: 0.5,
+      neg: 0.5
+    }
   },
   getters: {
     getIsOnline: state => state.isOnline,
@@ -61,6 +66,14 @@ export default new Vuex.Store({
       if (idx > -1) {
         value ? state.plannings.splice(idx, 1, value) : state.plannings.splice(idx, 1)
       }
+    },
+    setHysteresis: (state, { sign, value }) => {
+      state.hysteresis[sign] = value
+      // if (sign === 'pos') {
+      //   state.hysteresis.pos = value
+      // } else {
+      //   state.hysteresis.neg = value
+      // }
     }
   },
   actions: {
@@ -133,6 +146,13 @@ export default new Vuex.Store({
       await handleIfError(async () => {
         await plannings.createPlanning()
         dispatch('getPlannings')
+      })
+    },
+    async setHysteresis ({ commit }, { sign, value }) {
+      await handleIfError(async () => {
+        const { data } = await hysteresis.setHysteresis(sign, value)
+        console.log(data)
+        commit('setHysteresis', { sign, value: data.value })
       })
     }
   },

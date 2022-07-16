@@ -27,7 +27,7 @@ router.put('/pos', async (req, res, next) => {
     if (req.body && typeof req.body.value === 'number' && req.body.value >= 0) {
       state.config.hysteresis.pos = req.body.value
       await state.save()
-      res.json({ result: true })
+      res.json({ result: true, value: state.config.hysteresis.pos })
     } else {
       res.status(400).json({ result: false })
     }
@@ -43,7 +43,7 @@ router.put('/neg', async (req, res, next) => {
     if (req.body && typeof req.body.value === 'number' && req.body.value >= 0) {
       state.config.hysteresis.neg = req.body.value
       await state.save()
-      res.json({ result: true })
+      res.json({ result: true, value: state.config.hysteresis.neg })
     } else {
       res.status(400).json({ result: false })
     }
