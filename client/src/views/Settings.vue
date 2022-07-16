@@ -3,20 +3,28 @@
     <v-container class="d-flex flex-wrap justify-center">
         <hysteresis sign="pos"></hysteresis>
         <hysteresis sign="neg"></hysteresis>
-        <block class="block-xxl"></block>
+        <block class="block-xxl pa-3 pt-8">
+          <sensor-config v-for="item in getSensorsList" :key="item.id" :id="item.id" class="calendar-item"></sensor-config>
+        </block>
     </v-container>
   </div>
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
 import Block from '@/components/Block.vue'
 import Hysteresis from '@/components/Hysteresis.vue'
+import SensorConfig from '@/components/SensorConfig.vue'
 
 export default {
   name: 'Settings',
   components: {
     Block,
-    Hysteresis
+    Hysteresis,
+    SensorConfig
+  },
+  computed: {
+    ...mapGetters(['getSensorsList'])
   }
 }
 </script>

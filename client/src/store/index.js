@@ -50,7 +50,8 @@ export default new Vuex.Store({
     getHeating: state => state.heating,
     getSetpoint: state => state.setpoint,
     getSensorsAverage: state => state.sensors.average,
-    getPlannings: state => state.plannings
+    getPlannings: state => state.plannings,
+    getSensorsList: state => state.sensors.list
   },
   mutations: {
     setIsOnline: (state, isOnline) => state.isOnline = isOnline,
