@@ -31,7 +31,9 @@ export default {
 }
 </script>
 
-<style scoped>
+<style>
+  html { overflow-y: auto }
+
   #nav {
     position: fixed;
   }
