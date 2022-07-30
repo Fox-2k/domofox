@@ -12,7 +12,7 @@ const heaterRouter = require('../routes/heater')
 
 // Launch express web server
 const app = express()
-app.use(logger('dev'))
+if(process.env.SERVER_DEBUG) app.use(logger('dev'))
 app.use(express.json())
 app.use(express.urlencoded({ extended: false }))
 app.use(cors())
