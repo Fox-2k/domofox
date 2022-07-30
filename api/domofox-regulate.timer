@@ -1,0 +1,11 @@
+[Unit]
+Description=Launch the domofox api regultation periodically
+Requires=domofox-regulate.service
+
+[Timer]
+Unit=domofox-regulate.service
+OnUnitActiveSec=10
+AccuracySec=1s
+
+[Install]
+WantedBy=timers.target

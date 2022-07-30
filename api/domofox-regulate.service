@@ -1,0 +1,10 @@
+[Unit]
+Description=Domofox regulation launch
+Wants=domofox-regulate.timer
+
+[Service]
+Type=oneshot
+ExecStart=/usr/bin/curl -s http://localhost:3000/api/regulate
+
+[Install]
+WantedBy=multi-user.target
