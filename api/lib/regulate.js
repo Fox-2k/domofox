@@ -81,7 +81,7 @@ function updateAutoSetPoint () {
         // Update setpoint
         state.config.setpoint = job.setpoint
         // If forced mode was on, this terminate its activity, returning to auto mode
-        if (state.config.mode === MODE_FORCED) state.config.mode = MODE_AUTO
+        // if (state.config.mode === MODE_FORCED) state.config.mode = MODE_AUTO
       }
     }
   }
@@ -93,14 +93,17 @@ module.exports = async function () {
 
   // Read all configured sensors
   await readSensors()
-
-  // Update auto setpoint according to plannings
-  updateAutoSetPoint()
-
+  
   // OFF MODE
   if (state.config.mode === MODE_OFF) {
     heater.switchState(false)
     return { mode: state.config.mode, heating: heater.heating, message: 'Regulation is off.' }
+  }
+
+  // AUTO MODE
+  if (state.config.mode === MODE_AUTO) {
+    // Update auto setpoint according to plannings
+    updateAutoSetPoint()
   }
 
   // Ensure there is at least one configured sensor

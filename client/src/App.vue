@@ -32,8 +32,6 @@ export default {
 </script>
 
 <style>
-  html { overflow-y: auto }
-
   #nav {
     position: fixed;
   }
