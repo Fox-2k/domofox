@@ -82,9 +82,6 @@ function updateAutoSetPoint () {
         state.config.setpoint = job.setpoint
         // If forced mode was on, this terminate its activity, returning to auto mode
         // if (state.config.mode === MODE_FORCED) state.config.mode = MODE_AUTO
-
-        // Ensure new state is saved !
-        await state.save()
       }
     }
   }
@@ -107,6 +104,9 @@ module.exports = async function () {
   if (state.config.mode === MODE_AUTO) {
     // Update auto setpoint according to plannings
     updateAutoSetPoint()
+    
+    // Ensure new state is saved !
+    await state.save()
   }
 
   // Ensure there is at least one configured sensor
