@@ -82,6 +82,9 @@ function updateAutoSetPoint () {
         state.config.setpoint = job.setpoint
         // If forced mode was on, this terminate its activity, returning to auto mode
         // if (state.config.mode === MODE_FORCED) state.config.mode = MODE_AUTO
+
+        // Ensure new state is saved !
+        await state.save()
       }
     }
   }
