@@ -210,34 +210,34 @@ test('GET regulate - AUTO mode - stop heating after auto setpoint changed by pla
   })
 })
 
-test('GET regulate - FORCED mode - start heating', async () => {
-  state.config.mode = MODE_FORCED
-  state.config.setpoint = 23 // Mock driver return 20°C
-  const res = await request
-    .get('/api/regulate/')
-  expect(res.statusCode).toBe(200)
-  expect(res.headers['content-type']).toMatch(/json/)
-  expect(res.body.value).toMatchObject({
-    mode: MODE_FORCED,
-    heating: true,
-    message: expect.any(String)
-  })
-})
+// test('GET regulate - FORCED mode - start heating', async () => {
+//   state.config.mode = MODE_FORCED
+//   state.config.setpoint = 23 // Mock driver return 20°C
+//   const res = await request
+//     .get('/api/regulate/')
+//   expect(res.statusCode).toBe(200)
+//   expect(res.headers['content-type']).toMatch(/json/)
+//   expect(res.body.value).toMatchObject({
+//     mode: MODE_FORCED,
+//     heating: true,
+//     message: expect.any(String)
+//   })
+// })
 
-test('GET regulate - FORCED mode - stop heating and return to AUTO mode after auto setpoint changed by planning', async () => {
-  state.config.mode = MODE_FORCED
-  state.config.setpoint = 23 // Mock driver return 20°C
-  // At 19:32 on 02/05/2022, setpoint should change to 15
-  jest.spyOn(Date, 'now').mockImplementationOnce(() => new Date('05 Feb 2022 19:32:15').valueOf())
+// test('GET regulate - FORCED mode - stop heating and return to AUTO mode after auto setpoint changed by planning', async () => {
+//   state.config.mode = MODE_FORCED
+//   state.config.setpoint = 23 // Mock driver return 20°C
+//   // At 19:32 on 02/05/2022, setpoint should change to 15
+//   jest.spyOn(Date, 'now').mockImplementationOnce(() => new Date('05 Feb 2022 19:32:15').valueOf())
 
-  const res = await request
-    .get('/api/regulate/')
-  expect(res.statusCode).toBe(200)
-  expect(res.headers['content-type']).toMatch(/json/)
-  expect(state.config.setpoint).toBe(15)
-  expect(res.body.value).toMatchObject({
-    mode: MODE_AUTO,
-    heating: false,
-    message: expect.any(String)
-  })
-})
+//   const res = await request
+//     .get('/api/regulate/')
+//   expect(res.statusCode).toBe(200)
+//   expect(res.headers['content-type']).toMatch(/json/)
+//   expect(state.config.setpoint).toBe(15)
+//   expect(res.body.value).toMatchObject({
+//     mode: MODE_AUTO,
+//     heating: false,
+//     message: expect.any(String)
+//   })
+// })
