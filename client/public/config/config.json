@@ -1,3 +1,6 @@
 {
-  "API_URL" : "http://localhost:3000"
+  "API_URL" : "http://localhost:3000",
+  "HOME_BKG" : "url(/img/clouds.jpg)",
+  "CALENDAR_BKG" : "url(/img/clouds.jpg)",
+  "SETTINGS_BKG" : "url(/img/clouds.jpg)"
 }

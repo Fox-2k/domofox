@@ -1,12 +1,12 @@
 <template>
-  <div class="home">
+  <div class="home" :style="styleObject">
     <v-container class="d-flex flex-wrap justify-center">
       <clock />
       <ModeStatus class="block-sm" />
       <sensor-value icon="mdi-tune" :value="getSensorsAverage"></sensor-value>
       <Setpoint />
       <block class="block-xxl"></block>
-      <v-alert dark border="top" type="error" transition="scale-transition" :value="!getIsOnline">Vous semblez déconnecté de DomoFox ! Vérifiez votre connexion.</v-alert>
+      <v-alert dark border="top" type="error" transition="scale-transition" :value="!getIsOnline" style="position: absolute; top: 0.5em;">Vous semblez déconnecté de DomoFox ! Vérifiez votre connexion.</v-alert>
     </v-container>
   </div>
 </template>
@@ -28,6 +28,18 @@ export default {
     Setpoint,
     SensorValue,
     ModeStatus
+  },
+  data () {
+    return {
+      styleObject: {
+        height: "100%",
+        background: this.$config.HOME_BKG || "black",
+        backgroundSize: "cover",
+        backgroundRepeat: "no-repeat",
+        backgroundPosition: "top",
+        backgroundAttachment: "fixed"
+      }
+    }
   },
   computed: {
     ...mapGetters(['getIsOnline', 'getSensorsAverage'])

@@ -1,5 +1,5 @@
 <template>
-  <div class="calendar">
+  <div class="calendar" :style="styleObject">
     <v-app-bar fixed class="justify-center">
         <v-btn-toggle mandatory class="mx-auto" v-model="selectedDay">
           <v-btn>Mon</v-btn>
@@ -34,7 +34,15 @@ export default {
   },
   data () {
     return {
-      selectedDay: 0
+      selectedDay: 0,
+      styleObject: {
+        height: "100%",
+        background: this.$config.CALENDAR_BKG || "black",
+        backgroundSize: "cover",
+        backgroundRepeat: "no-repeat",
+        backgroundPosition: "top",
+        backgroundAttachment: "fixed"
+      }
     }
   },
   computed: {

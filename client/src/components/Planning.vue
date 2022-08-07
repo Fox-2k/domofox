@@ -1,10 +1,10 @@
 <template>
-  <v-card class="my-2">
+  <v-card class="job my-2">
     <v-card-title class="justify-space-between flex-grow-1 pb-0">
       <v-switch v-model="planning.active" @change="update('active', $event)"></v-switch>
       <div class="text-h4 flex-grow-1" @click.stop="openDialogTime()">{{ ('0' + planning.time.hour).slice(-2) }}:{{ ('0' + planning.time.min).slice(-2) }}</div>
-      <v-dialog persistent v-model="dialogTime" width="320px">
-        <v-time-picker dark v-if="dialogTime" v-model="time" full-width format="24hr" color="primary">
+      <v-dialog persistent v-model="dialogTime">
+        <v-time-picker dark :landscape="screenRatio > 1" v-if="dialogTime" v-model="time" full-width format="24hr" color="primary">
           <v-btn fab x-large color="secondary" @click="dialogTime = false"><v-icon>mdi-close-circle-outline</v-icon></v-btn>
           <v-spacer></v-spacer>
           <v-btn fab x-large color="primary" @click="validateTime()"><v-icon>mdi-checkbox-marked-circle-outline</v-icon></v-btn>
@@ -44,7 +44,7 @@ import ValueInput from '@/components/ValueInput.vue'
 export default {
   name: 'Planning',
   data () {
-    return { dialogTime: false, time: '', dialogDelete: false }
+    return { dialogTime: false, time: '', dialogDelete: false, screenRatio: window.innerWidth /window.innerHeight }
   },
   props: {
     id: String
@@ -90,6 +90,9 @@ export default {
 </script>
 
 <style>
+.job {
+  background-color: rgba(30,30,30, 0.8) !important;
+}
 .v-time-picker-title {
   justify-content: center!important;
 }

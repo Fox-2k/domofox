@@ -21,7 +21,8 @@ export default {
     /* position: relative; */
     /* background: #ffffff20; */
     width: 12em;
-    height: 12em;
+    height: 11em;
+    background-color: rgba(30,30,30, 0.6) !important;
   }
   .title {
     display: inline-block;

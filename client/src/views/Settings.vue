@@ -1,5 +1,5 @@
 <template>
-  <div class="settings">
+  <div class="settings" :style="styleObject">
     <v-container class="d-flex flex-wrap justify-center">
         <hysteresis sign="pos"></hysteresis>
         <hysteresis sign="neg"></hysteresis>
@@ -25,6 +25,18 @@ export default {
   },
   computed: {
     ...mapGetters(['getSensorsList'])
-  }
+  },
+  data () {
+    return {
+      styleObject: {
+        height: "100%",
+        background: this.$config.SETTINGS_BKG || "black",
+        backgroundSize: "cover",
+        backgroundRepeat: "no-repeat",
+        backgroundPosition: "top",
+        backgroundAttachment: "fixed"
+      }
+    }
+  },
 }
 </script>
