@@ -1,7 +1,7 @@
 #!/bin/bash
 
-# Rotate screen touch (Raspberry pi 4 with official Raspberry pi screen)
-DISPLAY=:0 sudo xinput --set-prop 'raspberrypi-ts' 'Coordinate Transformation Matrix' 0 1 0 -1 0 1 0 0 1
+# Uncomment to rotate screen touch (Raspberry pi 4 with official Raspberry pi screen)
+# DISPLAY=:0 sudo xinput --set-prop 'raspberrypi-ts' 'Coordinate Transformation Matrix' 0 1 0 -1 0 1 0 0 1
 
 # Enable screen saver (after 60sec)
 xset dpms 0 0 60 
@@ -14,7 +14,7 @@ x-window-manager &
 
 # Start Vnc Server
 #logger -t startbrowser 'Start VNC Server...'
-#x11vnc -bg -forever -passwdfile /home/yoann/domofox/linux/vncpasswd > /dev/null
+#x11vnc -bg -forever -passwd > /dev/null
 
 echo "Wait 2 secs ..."
 sleep 2
