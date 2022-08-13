@@ -1,11 +1,15 @@
 <template>
   <div class="home" :style="styleObject">
     <v-container class="d-flex flex-wrap justify-center">
+      <div class="d-flex flex-row flex-sm-column justify-content-between">
+        <sensor-value icon="mdi-tune" :value="getSensorsAverage"></sensor-value>
+        <Setpoint />
+      </div>
       <clock />
-      <ModeStatus class="block-sm" />
-      <sensor-value icon="mdi-tune" :value="getSensorsAverage"></sensor-value>
-      <Setpoint />
-      <block class="block-xxl"></block>
+      <div class="d-flex flex-row flex-sm-column justify-content-between">
+        <ModeStatus />
+        <block class="block"></block>
+      </div>
       <v-alert dark border="top" type="error" transition="scale-transition" :value="!getIsOnline" style="position: absolute; top: 0.5em;">Vous semblez déconnecté de DomoFox ! Vérifiez votre connexion.</v-alert>
     </v-container>
   </div>
@@ -48,6 +52,10 @@ export default {
 </script>
 
 <style>
+  .block-tall-xxl {
+    width: 26em!important;
+    height: 24em!important;
+  }
   .block-xxl {
     width: 26em!important;
     height: 12em;
