@@ -6,8 +6,7 @@ export default {
    * Get setpoint from API
    */
   getSetpoint () {
-    const API_URL = Vue.prototype.$config.API_URL
-    const url = `${API_URL}/api/setpoint`
+    const url = `http://${document.location.hostname}:3000/api/setpoint`
     return axios.get(url)
   },
 
@@ -16,8 +15,7 @@ export default {
    * @param {Number} value Setpoint value
    */
   setSetpoint (value) {
-    const API_URL = Vue.prototype.$config.API_URL
-    const url = `${API_URL}/api/setpoint`
+    const url = `http://${document.location.hostname}:3000/api/setpoint`
     return axios.put(url, { value })
   }
 }

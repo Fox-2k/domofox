@@ -6,8 +6,7 @@ export default {
    * Get plannings from API
    */
   getPlannings () {
-    const API_URL = Vue.prototype.$config.API_URL
-    const url = `${API_URL}/api/plannings`
+    const url = `http://${document.location.hostname}:3000/api/plannings`
     return axios.get(url)
   },
 
@@ -16,8 +15,7 @@ export default {
    * @param {Object} value planning details
    */
   addPlanning (value) {
-    const API_URL = Vue.prototype.$config.API_URL
-    const url = `${API_URL}/api/plannings/`
+    const url = `http://${document.location.hostname}:3000/api/plannings/`
     return axios.post(url, value)
   },
 
@@ -27,8 +25,7 @@ export default {
    * @param {Object} value planning details
    */
   setPlanning (id, value) {
-    const API_URL = Vue.prototype.$config.API_URL
-    const url = `${API_URL}/api/plannings/${id}`
+    const url = `http://${document.location.hostname}:3000/api/plannings/${id}`
     return axios.put(url, value)
   },
 
@@ -37,8 +34,7 @@ export default {
    * @param {String} id planning unique id
    */
   deletePlanning (id) {
-    const API_URL = Vue.prototype.$config.API_URL
-    const url = `${API_URL}/api/plannings/${id}`
+    const url = `http://${document.location.hostname}:3000/api/plannings/${id}`
     return axios.delete(url)
   },
 

@@ -52,12 +52,7 @@ npm run build
 ```
 The app production version is now created at `/home/<user-name>/domofox/client/dist`
 
-Ensure the config file `/home/<user-name>/domofox/client/dist/config/config.json` has the correct API url:
-```
-{
-  "API_URL" : "http://domofox.local:3000"
-}
-```
+Check the config file `/home/<user-name>/domofox/client/dist/config/config.json` if you want to customize somme settings
 
 
 # Install Nginx server

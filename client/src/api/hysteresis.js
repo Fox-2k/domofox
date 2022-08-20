@@ -6,8 +6,7 @@ export default {
    * Get hysteresis from API
    */
   getHysteresis (sign) {
-    const API_URL = Vue.prototype.$config.API_URL
-    const url = `${API_URL}/api/hysteresis/${sign}`
+    const url = `http://${document.location.hostname}:3000/api/hysteresis/${sign}`
     return axios.get(url)
   },
 
@@ -17,8 +16,7 @@ export default {
    * @param {Number} value hysteresis value
    */
   setHysteresis (sign, value) {
-    const API_URL = Vue.prototype.$config.API_URL
-    const url = `${API_URL}/api/hysteresis/${sign}`
+    const url = `http://${document.location.hostname}:3000/api/hysteresis/${sign}`
     return axios.put(url, { value })
   }
 }

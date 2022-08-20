@@ -61,6 +61,12 @@ export default new Vuex.Store({
     setSetpoint: (state, value) => state.setpoint = value,
     setSensorsList: (state, value) => state.sensors.list = value,
     setSensorsAverage: (state, value) => state.sensors.average = value,
+    setSensor: (state, { id, value }) => {
+      const idx = state.sensors.list.findIndex(s => s.id === id)
+      if (idx > -1) {
+        value ? state.sensors.list.splice(idx, 1, value) : state.sensors.list.splice(idx, 1)
+      }
+    },
     setPlannings: (state, value) => state.plannings = value,
     setPlanning: (state, { id, value }) => {
       const idx = state.plannings.findIndex(p => p.id === id)
@@ -70,12 +76,7 @@ export default new Vuex.Store({
     },
     setHysteresis: (state, { sign, value }) => {
       state.hysteresis[sign] = value
-      // if (sign === 'pos') {
-      //   state.hysteresis.pos = value
-      // } else {
-      //   state.hysteresis.neg = value
-      // }
-    }
+    },
   },
   actions: {
     async updateDateTime ({ commit, dispatch }) {
@@ -155,7 +156,25 @@ export default new Vuex.Store({
         console.log(data)
         commit('setHysteresis', { sign, value: data.value })
       })
-    }
+    },
+    async createSensor ({ dispatch }) {
+      await handleIfError(async () => {
+        await sensors.createSensor()
+        dispatch('getSensors')
+      })
+    },
+    async setSensor ({ commit }, { id, value }) {
+      await handleIfError(async () => {
+        const { data } = await sensors.setSensor(id, value)
+        commit('setSensor', { id, value: data.value })
+      })
+    },
+    async deleteSensor ({ commit }, id) {
+      await handleIfError(async () => {
+        await sensors.deleteSensor(id)
+        commit('setSensor', { id, value: undefined })
+      })
+    },
   },
   modules: {
   }

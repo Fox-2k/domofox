@@ -6,8 +6,7 @@ export default {
    * Get mode from API
    */
   getMode () {
-    const API_URL = Vue.prototype.$config.API_URL
-    const url = `${API_URL}/api/mode`
+    const url = `http://${document.location.hostname}:3000/api/mode`
     return axios.get(url)
   },
 
@@ -16,8 +15,7 @@ export default {
    * @param {Number} value mode value
    */
   setMode (value) {
-    const API_URL = Vue.prototype.$config.API_URL
-    const url = `${API_URL}/api/mode`
+    const url = `http://${document.location.hostname}:3000/api/mode`
     return axios.put(url, { value })
   }
 }
