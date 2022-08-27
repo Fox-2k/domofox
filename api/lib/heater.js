@@ -22,6 +22,8 @@ class Heater {
           },
           read: async () => this.internal ?? Gpio.LOW
         }
+    
+    this.ready = true
   }
 
   async switchState (value) {
