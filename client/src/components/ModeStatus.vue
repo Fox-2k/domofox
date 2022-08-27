@@ -4,7 +4,7 @@
       <v-btn color="dark" fab x-large dark class="mt-10"  @click="dialog = true">
         <v-icon>{{ modeIcon }}</v-icon>
       </v-btn>
-      <v-icon v-if="getHeating" large class="mt-4">mdi-radiator</v-icon>
+      <v-icon v-if="getHeating" large class="d-block ma-1">mdi-radiator</v-icon>
     </v-container>
     <v-dialog v-model="dialog" width="400">
       <v-card class="grey darken-2 pa-5">

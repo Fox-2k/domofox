@@ -5,13 +5,13 @@
       <router-view/>
       <v-footer id="nav" padless absolute fixed class="justify-space-around pa-3">
         <v-btn value="home" plain class="flex-grow-1">
-          <router-link to="/"><v-icon x-large color="#E57373">mdi-home</v-icon></router-link>
+          <router-link to="/" class="flex-grow-1"><v-icon x-large color="#E57373" style="width: 100%;">mdi-home</v-icon></router-link>
         </v-btn>
         <v-btn value="calendar" plain class="flex-grow-1">
-          <router-link to="/calendar"><v-icon x-large color="#E57373">mdi-calendar</v-icon></router-link>
+          <router-link to="/calendar" class="flex-grow-1"><v-icon x-large color="#E57373" style="width: 100%;">mdi-calendar</v-icon></router-link>
         </v-btn>
         <v-btn value="settings" plain class="flex-grow-1">
-          <router-link to="/settings"><v-icon x-large color="#E57373">mdi-cog</v-icon></router-link>
+          <router-link to="/settings" class="flex-grow-1"><v-icon x-large color="#E57373" style="width: 100%;">mdi-cog</v-icon></router-link>
         </v-btn>
       </v-footer>
 

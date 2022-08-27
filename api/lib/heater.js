@@ -6,7 +6,6 @@ class Heater {
   constructor () {
     this.ready = false
     this.heating = false
-    this.coolDown = Promise.resolve()
   }
 
   async init () {
@@ -19,32 +18,24 @@ class Heater {
       : {
           write: async value => {
             value ? console.log('Heater (virtual) relay switched to ON') : console.log('Heater (virtual) relay switched to OFF')
-            this.internal = !!value
+            this.internal = value ?? Gpio.LOW
           },
-          read: async () => !!this.internal
+          read: async () => this.internal ?? Gpio.LOW
         }
   }
 
   async switchState (value) {
     assert(typeof value === 'boolean', 'state value must be true or false')
+    value = value ? Gpio.HIGH : Gpio.LOW
 
     // Init before if not ready
     if (!this.ready) await this.init()
 
     // Change only if state is different
     if (await this.heaterRelay.read() !== value) {
-      this.heaterRelay.write(value ? 1 : 0)
-      this.heating = value
+      this.heaterRelay.write(value ? Gpio.HIGH : Gpio.LOW)
+      this.heating = !!value
     }
-    // FIXME:
-    // // Change only if state is different
-    // if (await this.heaterRelay.read() !== value) {
-    //   this.heating = value
-    //   this.coolDown.then(() => {
-    //     this.heaterRelay.write(this.heating ? 1 : 0)
-    //     this.coolDown = new Promise(resolve => setTimeout(resolve, state?.config?.heater?.coolDown || 1000))
-    //   })
-    // }
   }
 
   async toggleState () {

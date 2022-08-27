@@ -21,15 +21,14 @@ const driverCache = {}
  * @param {Number} temp The actual temperature
  */
 async function coreRegulate (setpoint, temp) {
-  // Heating conditions
-  if (setpoint - temp >= state.config.hysteresis.pos) {
-    await heater.switchState(true)
-  }
-
   // Stopping conditions
   if (setpoint - temp <= state.config.hysteresis.neg * -1) {
     await heater.switchState(false)
   }
+  // Heating conditions
+  else if (setpoint - temp >= state.config.hysteresis.pos) {
+    await heater.switchState(true)
+  } 
 }
 
 /**
@@ -117,7 +116,7 @@ module.exports = async function () {
   assert(activeSensors && activeSensors.length > 0, 'It seems that no sensor are working, unable to get values from them!')
 
   // Get weighted average of temperatures
-  const tempAvg = activeSensors.filter(s => s.active && s.value !== undefined).reduce((c, v) => c + (v.weight || 1) * v.value, 0) / activeSensors.length
+  const tempAvg = activeSensors.reduce((c, v) => c + (v.weight || 1) * v.value, 0) / activeSensors.reduce((c,v) => c + (v.weight || 1), 0)
 
   // REGULATION
   // Regulate with general setpoint
