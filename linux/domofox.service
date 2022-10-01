@@ -4,8 +4,8 @@ After=network.target
 
 [Service]
 Type=exec
-WorkingDirectory=/home/yoann/domofox/api
-ExecStart=/usr/bin/node /home/yoann/domofox/api/index.js
+WorkingDirectory=/opt/domofox/api
+ExecStart=/usr/bin/node /opt/domofox/api/index.js
 RemainAfterExit=yes
 
 [Install]

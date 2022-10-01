@@ -1,12 +1,12 @@
 [Unit]
 Description=Domofox local browser launch
 Wants=domofox.service
-ConditionFileIsExecutable=/home/yoann/domofox/linux/domofox-browser.sh
+ConditionFileIsExecutable=/opt/domofox/linux/domofox-browser.sh
 After=network.target
 
 [Service]
 Type=oneshot
-ExecStart=/usr/bin/xinit /home/yoann/domofox/linux/domofox-browser.sh "http://127.0.0.1/" -- -nocursor
+ExecStart=/usr/bin/xinit /opt/domofox/linux/domofox-browser.sh "http://127.0.0.1/" -- -nocursor
 
 [Install]
 WantedBy=multi-user.target
