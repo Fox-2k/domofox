@@ -9,6 +9,7 @@ import setpoint from '../api/setpoint'
 import sensors from '../api/sensors'
 import plannings from '../api/plannings'
 import hysteresis from '../api/hysteresis'
+import traces from '../api/traces'
 
 Vue.use(Vuex)
 
@@ -40,6 +41,11 @@ export default new Vuex.Store({
     hysteresis: {
       pos: 0.5,
       neg: 0.5
+    },
+    traces: {
+      AVG_TEMP: [],
+      SETPOINT: [],
+      HEATER: []
     }
   },
   getters: {
@@ -76,6 +82,10 @@ export default new Vuex.Store({
     },
     setHysteresis: (state, { sign, value }) => {
       state.hysteresis[sign] = value
+    },
+    setTraces: (state, { code, value }) => {
+      Vue.set(state.traces, code, [...value] )
+      state.traces[code] = value
     },
   },
   actions: {
@@ -173,6 +183,12 @@ export default new Vuex.Store({
       await handleIfError(async () => {
         await sensors.deleteSensor(id)
         commit('setSensor', { id, value: undefined })
+      })
+    },
+    async getTraces ({ commit }, { code, from, to, table }) {
+      await handleIfError(async () => {
+        const { data } = await traces.getTraces(code, from, to, table)
+        commit('setTraces', { code, value: data.value })
       })
     },
   },

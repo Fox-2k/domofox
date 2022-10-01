@@ -1,0 +1,11 @@
+[Unit]
+Description=Launch the domofox api archive periodically
+Requires=domofox-archive.service
+
+[Timer]
+Unit=domofox-archive.service
+OnUnitActiveSec=600
+AccuracySec=1s
+
+[Install]
+WantedBy=timers.target

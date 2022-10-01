@@ -9,10 +9,11 @@ const sensorsRouter = require('../routes/sensors')
 const planningsRouter = require('../routes/plannings')
 const regulateRouter = require('../routes/regulate')
 const heaterRouter = require('../routes/heater')
+const tracesRouter = require('../routes/traces')
 
 // Launch express web server
 const app = express()
-if(process.env.SERVER_DEBUG) app.use(logger('dev'))
+if (process.env.SERVER_DEBUG) app.use(logger('dev'))
 app.use(express.json())
 app.use(express.urlencoded({ extended: false }))
 app.use(cors())
@@ -25,5 +26,6 @@ app.use('/api/sensors', sensorsRouter)
 app.use('/api/plannings', planningsRouter)
 app.use('/api/regulate', regulateRouter)
 app.use('/api/heater', heaterRouter)
+app.use('/api/traces', tracesRouter)
 
 module.exports = app

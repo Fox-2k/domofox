@@ -43,6 +43,17 @@ sudo systemctl start domofox-regulate.timer
 sudo systemctl enable domofox-regulate.timer
 ```
 
+# Create the archive service and timer
+This service and timer enable your installation to periodically archive the setpoint, the temperature and the heater state
+
+```
+sudo ln -s /home/<user-name>/domofox/linux/domofox-archive.service /etc/systemd/system
+sudo ln -s /home/<user-name>/domofox/linux/domofox-archive.timer /etc/systemd/system
+sudo systemctl daemon-reload
+sudo systemctl start domofox-archive.timer
+sudo systemctl enable domofox-archive.timer
+```
+
 # Build the vueJS app
 This is the front side, the human interface to control Domofox.
 

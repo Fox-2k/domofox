@@ -22,7 +22,7 @@ class Heater {
           },
           read: async () => this.internal ?? Gpio.LOW
         }
-    
+
     this.ready = true
   }
 
@@ -37,6 +37,11 @@ class Heater {
     if (await this.heaterRelay.read() !== value) {
       this.heaterRelay.write(value ? Gpio.HIGH : Gpio.LOW)
       this.heating = !!value
+
+      if (state.config.heater) {
+        state.config.heater.value = this.heating
+        await state.save()
+      }
     }
   }
 
