@@ -7,14 +7,14 @@
 xset dpms 0 0 300 
 
 # Hide mouse
-unclutter -idle 0.1 &
+#unclutter -idle 0.1 &
 
 # Window manager
 x-window-manager &
 
 # Start Vnc Server
-#logger -t startbrowser 'Start VNC Server...'
-#x11vnc -bg -forever -passwd > /dev/null
+logger -t startbrowser 'Start VNC Server...'
+x11vnc -bg -forever -passwdfile /opt/domofox/linux/vncpasswd > /dev/null
 
 echo "Wait 2 secs ..."
 sleep 2
