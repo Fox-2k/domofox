@@ -1,15 +1,17 @@
 <template>
   <div class="home" :style="styleObject">
     <v-container class="d-flex flex-wrap justify-center">
-      <div class="d-flex flex-row flex-sm-column justify-content-between">
-        <sensor-value icon="mdi-tune" :value="getSensorsAverage"></sensor-value>
-        <Setpoint />
-      </div>
+      <sensor-value icon="mdi-tune" :value="getSensorsAverage"></sensor-value>
+      <Setpoint />
+      <ModeStatus />
       <clock />
-      <div class="d-flex flex-row flex-sm-column justify-content-between">
-        <ModeStatus />
-        <block class="block"></block>
+      <graph />
+      <!-- <div class="d-flex flex-row flex-sm-column justify-content-between">
       </div>
+      <div class="d-flex flex-column justify-content-between">
+      </div>
+      <div class="d-flex flex-row flex-sm-column justify-content-between">
+      </div> -->
       <v-alert dark border="top" type="error" transition="scale-transition" :value="!getIsOnline" style="position: absolute; top: 0.5em;">Vous semblez déconnecté de DomoFox ! Vérifiez votre connexion.</v-alert>
     </v-container>
   </div>
@@ -19,6 +21,7 @@
 // @ is an alias to /src
 import Block from '@/components/Block.vue'
 import Clock from '@/components/Clock.vue'
+import Graph from '@/components/Graph.vue'
 import Setpoint from '@/components/Setpoint.vue'
 import SensorValue from '@/components/SensorValue.vue'
 import ModeStatus from '@/components/ModeStatus.vue'
@@ -29,6 +32,7 @@ export default {
   components: {
     Block,
     Clock,
+    Graph,
     Setpoint,
     SensorValue,
     ModeStatus

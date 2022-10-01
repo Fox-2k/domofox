@@ -118,7 +118,7 @@ router.get('/average', (req, res, next) => {
     assert(activeSensors && activeSensors.length > 0, 'No current active sensor found, average unavailable !')
 
     // Get weighted average of temperatures
-    const tempAvg = activeSensors.reduce((c, v) => c + (v.weight || 1) * v.value, 0) / activeSensors.reduce((c,v) => c + (v.weight || 1), 0)
+    const tempAvg = activeSensors.reduce((c, v) => c + (v.weight || 1) * v.value, 0) / activeSensors.reduce((c, v) => c + (v.weight || 1), 0)
 
     res.json({ result: true, value: tempAvg })
   } catch (error) {

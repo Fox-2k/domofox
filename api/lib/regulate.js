@@ -1,19 +1,17 @@
 /**
  * REGULATE : Define one regulation iteration
- * The exported function is intended to be launched periodically at each minutes
+ * The exported function is intended to be launched periodically
  * so the thermostat can regulate as intended
  */
 
 const assert = require('assert')
 const state = require('./state')
 const heater = require('./heater')
+const sensors = require('./sensors')
 
 const MODE_OFF = 0
-const MODE_MANU = 1
+// const MODE_MANU = 1
 const MODE_AUTO = 2
-const MODE_FORCED = 3
-
-const driverCache = {}
 
 /**
  * Core basic regulation with positive and negative hysteresis
@@ -21,50 +19,12 @@ const driverCache = {}
  * @param {Number} temp The actual temperature
  */
 async function coreRegulate (setpoint, temp) {
-  // Stopping conditions
   if (setpoint - temp <= state.config.hysteresis.neg * -1) {
+    // Stopping conditions
     await heater.switchState(false)
-  }
-  // Heating conditions
-  else if (setpoint - temp >= state.config.hysteresis.pos) {
+  } else if (setpoint - temp >= state.config.hysteresis.pos) {
+    // Heating conditions
     await heater.switchState(true)
-  } 
-}
-
-/**
- * Read all configured sensors to store their calibrated values
- */
-async function readSensors () {
-  for (const sensor of state.config.sensors.filter(sensor => sensor.active)) {
-    try {
-      // First, get driver instance from cache
-      let driver = driverCache[sensor.id]
-      if (!driver) {
-        // If not available, create a new instance from driver specified in configuration
-        const DriverClass = require(`../sensors/${sensor.driver}`)
-        driver = new DriverClass(sensor.params)
-
-        // Ensure it has required interface
-        assert(typeof driver.read === 'function', 'Sensor driver must implement the read() function')
-        assert(typeof driver.init === 'function', 'Sensor driver must implement the init() function')
-        assert(typeof driver.ready === 'boolean', 'Sensor driver must implement the ready boolean state')
-
-        // Save instance to driver cache
-        driverCache[sensor.id] = driver
-      }
-
-      // Init sensor if needed
-      if (!driver.ready) {
-        await driver.init()
-      }
-
-      // Read sensor, calibrate value, store it and timestamp it
-      sensor.raw = await driver.read()
-      sensor.value = sensor.raw * (sensor?.calibration?.a || 1) + (sensor?.calibration?.b || 0)
-      sensor.last = new Date().toISOString()
-    } catch (error) {
-      console.warn(`[readSensors] Error while trying to read sensor ${sensor.name}. Check the configuration. ${error.message || error}`)
-    }
   }
 }
 
@@ -91,64 +51,47 @@ module.exports = async function () {
   await state.load()
 
   // Read all configured sensors
-  await readSensors()
-  
-  // OFF MODE
-  if (state.config.mode === MODE_OFF) {
-    heater.switchState(false)
-    return { mode: state.config.mode, heating: heater.heating, message: 'Regulation is off.' }
-  }
+  await sensors.readSensors()
 
   // AUTO MODE
   if (state.config.mode === MODE_AUTO) {
     // Update auto setpoint according to plannings
     updateAutoSetPoint()
-    
-    // Ensure new state is saved !
-    await state.save()
   }
 
-  // Ensure there is at least one configured sensor
-  assert(state.config.sensors.length > 0, 'No sensors defined, unable to regulate something!')
+  // Ensure new state is saved !
+  await state.save()
 
-  // Ensure there is at least one WORKING sensor
-  const activeSensors = state.config.sensors.filter(s => s.active && s.value !== undefined)
-  assert(activeSensors && activeSensors.length > 0, 'It seems that no sensor are working, unable to get values from them!')
+  let tempAvg = null
 
-  // Get weighted average of temperatures
-  const tempAvg = activeSensors.reduce((c, v) => c + (v.weight || 1) * v.value, 0) / activeSensors.reduce((c,v) => c + (v.weight || 1), 0)
+  try {
+    // Ensure there is at least one configured sensor
+    assert(state.config.sensors.length > 0, 'No sensors defined, unable to regulate something!')
 
-  // REGULATION
-  // Regulate with general setpoint
-  await coreRegulate(state.config.setpoint, tempAvg)
+    // Ensure there is at least one WORKING sensor
+    const activeSensors = state.config.sensors.filter(s => s.active && s.value !== undefined)
+    assert(activeSensors && activeSensors.length > 0, 'It seems that no sensor are working, unable to get values from them!')
 
-  // Return mode, heater state and message
-  return { mode: state.config.mode, heating: heater.heating, message: 'Regulation done.' }
+    // Get weighted average of temperatures
+    tempAvg = activeSensors.reduce((c, v) => c + (v.weight || 1) * v.value, 0) / activeSensors.reduce((c, v) => c + (v.weight || 1), 0)
 
-  // // MANUAL MODE
-  // if (state.config.mode === MODE_MANU) {
-  //   // Regulate with manual setpoint
-  //   await coreRegulate(state.config.setpoint.manu, tempAvg)
+    if (state.config.mode === MODE_OFF) {
+      // OFF MODE
 
-  //   // Return mode, heater state and message
-  //   return { mode: state.config.mode, heating: heater.heating, message: 'Manual regulation done.' }
-  // }
+      heater.switchState(false)
+      return { mode: state.config.mode, heating: heater.heating, message: 'Regulation is off.' }
+    } else {
+      // REGULATION
 
-  // // AUTO MODE
-  // if (state.config.mode === MODE_AUTO) {
-  //   // Regulate with automatic setpoint
-  //   await coreRegulate(state.config.setpoint.auto, tempAvg)
+      // Regulate with general setpoint
+      await coreRegulate(state.config.setpoint, tempAvg)
 
-  //   // Return mode, heater state and message
-  //   return { mode: state.config.mode, heating: heater.heating, message: 'Automatic regulation done.' }
-  // }
-
-  // // FORCED MODE
-  // if (state.config.mode === MODE_FORCED) {
-  //   // Regulate with forced setpoint
-  //   await coreRegulate(state.config.setpoint.forced, tempAvg)
-
-  //   // Return mode, heater state and message
-  //   return { mode: state.config.mode, heating: heater.heating, message: 'Forced regulation done.' }
-  // }
+      // Return mode, heater state and message
+      return { mode: state.config.mode, heating: heater.heating, message: 'Regulation done.' }
+    }
+  } catch (error) {
+    // We could not read average temperature, stop heater by security
+    heater.switchState(false)
+    throw error
+  }
 }

@@ -1,5 +1,4 @@
 const express = require('express')
-const state = require('../lib/state')
 const router = express.Router()
 const heater = require('../lib/heater')
 

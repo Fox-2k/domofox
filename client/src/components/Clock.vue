@@ -1,8 +1,8 @@
 <template>
-  <block class="block-xl" icon="mdi-clock">
-    <v-card-text class="text-center pt-8">
-      <p class="display-3">{{ getTime }}</p>
-      <p class="display-1">{{ getDate }}</p>
+  <block class="block" icon="mdi-clock">
+    <v-card-text class="text-center pt-12">
+      <p class="display-1">{{ getTime }}</p>
+      <p style="font-size: 2em;">{{ getDate }}</p>
     </v-card-text>
   </block>
 </template>

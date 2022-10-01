@@ -69,4 +69,6 @@ api/state.json
 # Jest report
 junit.xml
 
-client-old/
+# Traces database
+/api/*.db
+/api/*.db-journal
