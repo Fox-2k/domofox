@@ -119,8 +119,6 @@ sudo systemctl reload nginx
 # Create the system D target to launch only chromium when booting
 
 ```
-sudo apt install unclutter
-sudo systemctl set-default multi-user.target
 sudo chmod +x /opt/domofox/linux/domofox-browser.sh
 
 sudo ln -s /opt/domofox/linux/domofox-browser.service /etc/systemd/system
