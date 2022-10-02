@@ -117,7 +117,7 @@ export default {
               }
             },
             y: {
-                min: 10,
+                // min: 10,
                 ticks: {
                   color: "rgba(200,200,200)",
                 },
@@ -151,6 +151,8 @@ export default {
     },
     AVG_TEMP: function (data) {
       this.chart.data.datasets[2].data = data
+      this.chart.options.scales.y.min = data.reduce((c, v) => Math.min(c, v.y), data[0]?.y || 15) - 1
+      this.chart.options.scales.y.max = data.reduce((c, v) => Math.max(c, v.y), data[0]?.y || 15) + 1
       this.chart.update()
     },
   },
