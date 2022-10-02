@@ -2,7 +2,7 @@
 Description=Domofox local browser launch
 Wants=domofox.service
 ConditionFileIsExecutable=/opt/domofox/linux/domofox-browser.sh
-After=network.target
+After=multi-user.target
 
 [Service]
 Type=oneshot

@@ -5,6 +5,3 @@ Wants=domofox-archive.timer
 [Service]
 Type=oneshot
 ExecStart=/usr/bin/curl -s http://localhost:3000/api/traces/archive
-
-[Install]
-WantedBy=multi-user.target
