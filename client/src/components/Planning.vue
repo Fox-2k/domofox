@@ -27,13 +27,13 @@
       </v-dialog>
     </v-card-title>
     <v-card-actions class="d-flex justify-end">
-      <v-chip x-small class="mx-1" :color="planning.days[0] ? 'success' : 'secondary'" :text-color="planning.days[0] ? 'black' : 'white'" @click="toggleDay(0)">Mon</v-chip>
-      <v-chip x-small class="mx-1" :color="planning.days[1] ? 'success' : 'secondary'" :text-color="planning.days[1] ? 'black' : 'white'" @click="toggleDay(1)">Tue</v-chip>
-      <v-chip x-small class="mx-1" :color="planning.days[2] ? 'success' : 'secondary'" :text-color="planning.days[2] ? 'black' : 'white'" @click="toggleDay(2)">Wed</v-chip>
-      <v-chip x-small class="mx-1" :color="planning.days[3] ? 'success' : 'secondary'" :text-color="planning.days[3] ? 'black' : 'white'" @click="toggleDay(3)">Thu</v-chip>
-      <v-chip x-small class="mx-1" :color="planning.days[4] ? 'success' : 'secondary'" :text-color="planning.days[4] ? 'black' : 'white'" @click="toggleDay(4)">Fri</v-chip>
-      <v-chip x-small class="mx-1" :color="planning.days[5] ? 'success' : 'secondary'" :text-color="planning.days[5] ? 'black' : 'white'" @click="toggleDay(5)">Sat</v-chip>
-      <v-chip x-small class="mx-1" :color="planning.days[6] ? 'success' : 'secondary'" :text-color="planning.days[6] ? 'black' : 'white'" @click="toggleDay(6)">Sun</v-chip>
+      <v-chip x-small class="mx-1" :color="planning.days[1] ? 'success' : 'secondary'" :text-color="planning.days[1] ? 'black' : 'white'" @click="toggleDay(1)">Mon</v-chip>
+      <v-chip x-small class="mx-1" :color="planning.days[2] ? 'success' : 'secondary'" :text-color="planning.days[2] ? 'black' : 'white'" @click="toggleDay(2)">Tue</v-chip>
+      <v-chip x-small class="mx-1" :color="planning.days[3] ? 'success' : 'secondary'" :text-color="planning.days[3] ? 'black' : 'white'" @click="toggleDay(3)">Wed</v-chip>
+      <v-chip x-small class="mx-1" :color="planning.days[4] ? 'success' : 'secondary'" :text-color="planning.days[4] ? 'black' : 'white'" @click="toggleDay(4)">Thu</v-chip>
+      <v-chip x-small class="mx-1" :color="planning.days[5] ? 'success' : 'secondary'" :text-color="planning.days[5] ? 'black' : 'white'" @click="toggleDay(5)">Fri</v-chip>
+      <v-chip x-small class="mx-1" :color="planning.days[6] ? 'success' : 'secondary'" :text-color="planning.days[6] ? 'black' : 'white'" @click="toggleDay(6)">Sat</v-chip>
+      <v-chip x-small class="mx-1" :color="planning.days[0] ? 'success' : 'secondary'" :text-color="planning.days[0] ? 'black' : 'white'" @click="toggleDay(0)">Sun</v-chip>
     </v-card-actions>
   </v-card>
 </template>

@@ -53,7 +53,7 @@ export default {
 
       // Only show selected day plannings, or all
       if (this.selectedDay < 7) {
-        plannings = plannings.filter(p => p.days[this.selectedDay])
+        plannings = plannings.filter(p => p.days[(this.selectedDay + 1) % 7])
       }
 
       // Order plannings by time
