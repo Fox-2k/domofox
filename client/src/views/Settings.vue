@@ -13,6 +13,39 @@
         <hysteresis sign="pos"></hysteresis>
         <hysteresis sign="neg"></hysteresis>
       </div>
+      <div class="d-flex flex-row flex-sm-column justify-content-between">
+        <v-btn elevation="6" dark fab large class="ma-3" @click="refreshBrowser()">
+          <v-icon>mdi-refresh</v-icon>
+        </v-btn>
+        <v-dialog v-model="dialogReboot">
+          <template v-slot:activator="{ on, attrs }">
+            <v-btn elevation="6" dark fab large class="ma-3" v-bind="attrs" v-on="on">
+              <v-icon>mdi-cog-refresh</v-icon>
+            </v-btn>
+          </template>
+          <v-card class="grey darken-2">
+            <v-card-title>Reboot system ?</v-card-title>
+            <v-card-actions class="justify-space-around">
+              <v-btn fab x-large color="secondary" @click="dialogReboot = false"><v-icon>mdi-close-circle-outline</v-icon></v-btn>
+              <v-btn fab x-large color="primary" @click="rebootDevice()"><v-icon>mdi-checkbox-marked-circle-outline</v-icon></v-btn>
+            </v-card-actions>
+          </v-card>
+        </v-dialog>
+        <v-dialog v-model="dialogShutdown">
+          <template v-slot:activator="{ on, attrs }">
+            <v-btn elevation="6" dark fab large class="ma-3" v-bind="attrs" v-on="on">
+              <v-icon>mdi-power</v-icon>
+            </v-btn>
+          </template>
+          <v-card class="grey darken-2">
+            <v-card-title>Shutdown system ?</v-card-title>
+            <v-card-actions class="justify-space-around">
+              <v-btn fab x-large color="secondary" @click="dialogShutdown = false"><v-icon>mdi-close-circle-outline</v-icon></v-btn>
+              <v-btn fab x-large color="primary" @click="shutdownDevice()"><v-icon>mdi-checkbox-marked-circle-outline</v-icon></v-btn>
+            </v-card-actions>
+          </v-card>
+        </v-dialog>
+      </div>
     </v-container>
   </div>
 </template>
@@ -22,6 +55,7 @@ import { mapGetters } from 'vuex'
 import Block from '@/components/Block.vue'
 import Hysteresis from '@/components/Hysteresis.vue'
 import SensorConfig from '@/components/SensorConfig.vue'
+import device from '@/api/device.js'
 
 export default {
   name: 'Settings',
@@ -29,12 +63,14 @@ export default {
     Block,
     Hysteresis,
     SensorConfig
-  },
+},
   computed: {
     ...mapGetters(['getSensorsList'])
   },
   data () {
     return {
+      dialogReboot: false,
+      dialogShutdown: false,
       styleObject: {
         height: "100%",
         background: this.$config.SETTINGS_BKG || "black",
@@ -48,6 +84,17 @@ export default {
   methods: {
     createNewSensor: function () {
       this.$store.dispatch('createSensor')
+    },
+    refreshBrowser: function () {
+      location.reload()
+    },
+    rebootDevice: function () {
+      this.dialogReboot = false
+      device.reboot()
+    },
+    shutdownDevice: function () {
+      this.dialogShutdown = false
+      device.shutdown()
     }
   }
 }

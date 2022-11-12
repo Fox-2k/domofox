@@ -10,6 +10,7 @@ const planningsRouter = require('../routes/plannings')
 const regulateRouter = require('../routes/regulate')
 const heaterRouter = require('../routes/heater')
 const tracesRouter = require('../routes/traces')
+const deviceRouter = require('../routes/device')
 
 // Launch express web server
 const app = express()
@@ -27,5 +28,6 @@ app.use('/api/plannings', planningsRouter)
 app.use('/api/regulate', regulateRouter)
 app.use('/api/heater', heaterRouter)
 app.use('/api/traces', tracesRouter)
+app.use('/api/device', deviceRouter)
 
 module.exports = app
