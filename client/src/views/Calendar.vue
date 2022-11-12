@@ -34,7 +34,7 @@ export default {
   },
   data () {
     return {
-      selectedDay: 0,
+      selectedDay: (new Date().getDay() + 6) % 7,
       styleObject: {
         height: "100%",
         background: this.$config.CALENDAR_BKG || "black",
