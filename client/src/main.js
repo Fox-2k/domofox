@@ -27,4 +27,6 @@ function refreshRoutine () {
   store.dispatch('getSensors')
   store.dispatch('getMode')
   store.dispatch('getHeating')
+  store.dispatch('getHysteresis', 'pos')
+  store.dispatch('getHysteresis', 'neg')
 }

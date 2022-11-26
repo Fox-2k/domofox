@@ -160,10 +160,15 @@ export default new Vuex.Store({
         dispatch('getPlannings')
       })
     },
+    async getHysteresis ({ commit }, sign) {
+      await handleIfError(async () => {
+        const { data } = await hysteresis.getHysteresis(sign)
+        commit('setHysteresis', { sign, value: data.value })
+      })
+    },
     async setHysteresis ({ commit }, { sign, value }) {
       await handleIfError(async () => {
         const { data } = await hysteresis.setHysteresis(sign, value)
-        console.log(data)
         commit('setHysteresis', { sign, value: data.value })
       })
     },
