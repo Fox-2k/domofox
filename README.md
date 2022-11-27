@@ -1,4 +1,4 @@
-# DomoFox [![pipeline status](https://gitlab.com/Fox2k/domofox/badges/main/pipeline.svg)](https://gitlab.com/Fox2k/domofox/-/commits/main) [![coverage report](https://gitlab.com/Fox2k/domofox/badges/main/coverage.svg)](https://gitlab.com/Fox2k/domofox/-/commits/main)
+# DomoFox
 
 An home thermostat project, intended to run into Raspberry pi with a 7" screen.
 It is designed to work with a relay switch connected to the Raspberry pi GPIO.
@@ -6,6 +6,8 @@ It is designed to work with a relay switch connected to the Raspberry pi GPIO.
 Connect your home heater to this switch, connect a temperature sensor (see below) and, voila, you have a Domofox thermostat!
 
 *Although it is actually working, please note this project is still under developement. You may experience bugs and/or unpolished design/features. If you consider contributing, please read the corresponding chapter below.*
+
+![](./docs/DomofoxOnWall.jpg)
 
 # Overview
 
@@ -42,7 +44,8 @@ Currently VueJs2 with Vuetify
 
 ## API
 
-This is the core engine of Domofox temperature regulation. NodeJs powered with ExpressJs
+This is the core engine of Domofox temperature regulation. NodeJs powered with ExpressJs.
+See [the full API specifications](./docs/openAPI.yml)
 
 # Installation
 

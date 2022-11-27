@@ -21,6 +21,8 @@ tags:
     description: Sensors related commands
   - name: Setpoint
     description: Setpoint related commands
+  - name: Traces
+    description: Values history related commands
 paths:
   /device/reboot:
     get:
@@ -585,6 +587,108 @@ paths:
           $ref: "#/components/responses/400"
         '500':
           $ref: "#/components/responses/500"
+  /traces/archive:
+    get:
+      tags:
+        - Traces
+      summary: Launch an archive iteration
+      responses:
+        '200':
+          description: Archive iteration successfully processed
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  result:
+                    type: boolean
+                    enum: 
+                      - true
+                  data:
+                    type: object
+                    description: the snapshot archived
+                    properties:
+                      mode:
+                        type: number
+                        description: regulation mode
+                        enum:
+                          - 0
+                          - 1
+                          - 2
+                      heating:
+                        type: boolean
+                        description: The heater state
+                      setpoint:
+                        type: number
+                        description: The setpoint value
+                      tempAvg:
+                        type: number
+                        description: The average temperature
+                      message:
+                        type: string
+                        description: Archive result message
+        '400':
+          $ref: "#/components/responses/400"
+        '500':
+          $ref: "#/components/responses/500"
+  /traces/{code}:
+    get:
+      tags:
+        - Traces
+      summary: Get historical values about the specified trace code
+      parameters:
+        - name: code
+          in: path
+          description: code of the trace values to retreive
+          required: true
+          schema:
+            type: string
+            enum:
+            - SETPOINT
+            - AVG_TEMP
+            - HEATER
+            - HISTDETAIL
+            - HISTDAY
+            - HISTMONTH
+        - name: from
+          in: query
+          description: Date to get values from
+          required: true
+          schema:
+            type: string
+        - name: to
+          in: query
+          description: Date to get values to
+          required: true
+          schema:
+            type: string
+      responses:
+          '200':
+            description: traces values successfullty fetched
+            content:
+              application/json:
+                schema:
+                  type: object
+                  properties:
+                    result:
+                      type: boolean
+                      enum: 
+                        - true
+                    data:
+                      type: array
+                      items:
+                        type: object
+                        properties:
+                          x:
+                            description: Timestamp
+                            type: string
+                          y:
+                            description: Value
+                            type: number
+          '400':
+            $ref: "#/components/responses/400"
+          '500':
+            $ref: "#/components/responses/500"
 components:
   responses:
     200:
