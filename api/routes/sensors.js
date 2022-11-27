@@ -7,7 +7,7 @@ const router = express.Router()
 const _newDefaultSensor = {
   id: '',
   label: '',
-  driver: 'spi.js',
+  driver: 'ds18b20.js',
   params: {},
   weight: 1,
   calibration: {
