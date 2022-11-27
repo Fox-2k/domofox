@@ -1,0 +1,703 @@
+openapi: '3.0.2'
+info:
+  title: Domofox  - Home thermostat API
+  version: '1.0'
+servers:
+  - url: http://localhost/api
+tags:
+  - name: Device
+    description: Device related commands
+  - name: Heater
+    description: Heater related commands
+  - name: Hysteresis
+    description: Hysteresis read/write commands
+  - name: Mode
+    description: Regulation mode
+  - name: Planning
+    description: Setpoint planning related commands
+  - name: Regulation
+    description: Regulation related commands
+  - name: Sensors
+    description: Sensors related commands
+  - name: Setpoint
+    description: Setpoint related commands
+paths:
+  /device/reboot:
+    get:
+      tags:
+        - Device
+      summary: Triggers device's reboot
+      responses:
+        '200':
+          $ref: "#/components/responses/200"
+        '500':
+          $ref: "#/components/responses/500"
+  /device/shutdown:
+    get:
+      tags:
+        - Device
+      summary: Triggers device's shutdown
+      responses:
+        '200':
+          description: OK
+  /heater/heating:
+    get:
+      tags:
+        - Heater
+      summary: Get the heater current state. Is it heating or not?
+      responses:
+        '200':
+          description: Heater state is returned
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  result:
+                    type: boolean
+                    enum: 
+                      - true
+                  value:
+                    description: Heater state
+                    type: boolean
+        '500':
+          $ref: "#/components/responses/500"
+  /hysteresis/{sign}:
+    get:
+      tags:
+        - Hysteresis
+      summary: Get the positive/negative hysteresis value configured
+      parameters:
+        - name: sign
+          in: path
+          description: Sign of the hysteresis to get
+          required: true
+          schema:
+            type: string
+            enum:
+              - pos
+              - neg
+      responses:
+        '200':
+          description: Hysteresis is returned
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  result:
+                    type: boolean
+                    enum: 
+                      - true
+                  value:
+                    description: Hysteresis value
+                    type: number
+        '500':
+          $ref: "#/components/responses/500"
+    put:
+      tags:
+        - Hysteresis
+      summary: Set the positive/negative hysteresis value
+      parameters:
+        - name: sign
+          in: path
+          description: Sign of the hysteresis to get
+          required: true
+          schema:
+            type: string
+            enum:
+              - pos
+              - neg
+      requestBody:
+        required: true
+        content: 
+          application/json:
+            schema:
+              type: object
+              properties:
+                value:
+                  type: number
+              required:
+                - value
+      responses:
+        '200':
+          description: Hysteresis is updated
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  result:
+                    type: boolean
+                    enum: 
+                      - true
+                  value:
+                    description: Hysteresis new value
+                    type: number
+        '500':
+          $ref: "#/components/responses/500"
+  /mode:
+    get:
+      tags:
+        - Mode
+      summary: Get the current regulation mode
+      responses:
+        '200':
+          description: Current regulation mode is returned
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  result:
+                    type: boolean
+                    enum: 
+                      - true
+                  value:
+                    description: Mode value
+                    type: number
+                    enum:
+                      - 0
+                      - 1
+                      - 2
+        '500':
+          $ref: "#/components/responses/500"
+    put:
+      tags:
+        - Mode
+      summary: Set the current regulation mode
+      responses:
+        '200':
+          description: Current regulation mode is updated
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  result:
+                    type: boolean
+                    enum: 
+                      - true
+        '500':
+          $ref: "#/components/responses/500"
+  /plannings:
+    get:
+      tags:
+        - Planning
+      summary: Get all configured setpoint plannings
+      responses:
+        '200':
+          description: All current plannings successfully fetched
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  result:
+                    type: boolean
+                    enum: 
+                      - true
+                  value:
+                    description: The configured plannings array
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/plannings_default"
+        '400':
+          $ref: "#/components/responses/400"
+        '500':
+          $ref: "#/components/responses/500"
+    post:
+      tags:
+        - Planning
+      summary: Create a new setpoint planning
+      requestBody:
+        required: false
+        content: 
+          application/json:
+            schema:
+              $ref: "#/components/schemas/plannings_default"
+      responses:
+        '200':
+          description: Planning successfully planned
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  result:
+                    type: boolean
+                    enum: 
+                      - true
+                  value:
+                    description: The created planning
+                    $ref: "#/components/schemas/plannings_default"
+        '400':
+          $ref: "#/components/responses/400"
+        '500':
+          $ref: "#/components/responses/500"
+  /plannings/{id}:
+    delete:
+      tags:
+        - Planning
+      summary: Delete a planned setpoint
+      parameters:
+        - name: id
+          in: path
+          description: id of the planning to delete
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Planning successfully deleted
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  result:
+                    type: boolean
+                    enum: 
+                      - true
+                  value:
+                    description: The deleted planning
+                    $ref: "#/components/schemas/plannings_default"
+        '400':
+          $ref: "#/components/responses/400"
+        '500':
+          $ref: "#/components/responses/500"
+    put:
+      tags:
+        - Planning
+      summary: Update a planned setpoint
+      parameters:
+        - name: id
+          in: path
+          description: id of the planning to update
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Planning successfully updated
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  result:
+                    type: boolean
+                    enum: 
+                      - true
+                  value:
+                    description: The updated planning
+                    $ref: "#/components/schemas/plannings_default"
+        '400':
+          $ref: "#/components/responses/400"
+        '500':
+          $ref: "#/components/responses/500"
+    get:
+      tags:
+        - Planning
+      summary: Get a planned setpoint
+      parameters:
+        - name: id
+          in: path
+          description: id of the planning to get
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Planning successfully fetched
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  result:
+                    type: boolean
+                    enum: 
+                      - true
+                  value:
+                    description: The fetched planning
+                    $ref: "#/components/schemas/plannings_default"
+        '400':
+          $ref: "#/components/responses/400"
+        '500':
+          $ref: "#/components/responses/500"
+  /regulate:
+    get:
+      tags:
+        - Regulation
+      summary: Launch one regulation iteration
+      responses:
+        '200':
+          description: Regulation iteration processed successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  result:
+                    type: boolean
+                    enum: 
+                      - true
+                  value:
+                    description: Regulation state after this iteration
+                    type: object
+                    properties:
+                      mode:
+                        type: number
+                        enum:
+                          - 0
+                          - 1
+                          - 2
+                      heating:
+                        type: boolean
+                      message:
+                        type: string
+        '400':
+          $ref: "#/components/responses/400"
+        '500':
+          $ref: "#/components/responses/500"
+  /sensors:
+    get:
+      tags:
+        - Sensors
+      summary: Get all configured sensors
+      responses:
+        '200':
+          description: All sensors fetched
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  result:
+                    type: boolean
+                    enum: 
+                      - true
+                  value:
+                    description: The configured sensors array
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/sensors_default"
+        '400':
+          $ref: "#/components/responses/400"
+        '500':
+          $ref: "#/components/responses/500"
+    post:
+      tags:
+        - Sensors
+      summary: Create a new sensor
+      requestBody:
+        required: false
+        content: 
+          application/json:
+            schema:
+              $ref: "#/components/schemas/sensors_default"
+      responses:
+        '200':
+          description: New sensor created successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  result:
+                    type: boolean
+                    enum: 
+                      - true
+                  value:
+                    $ref: "#/components/schemas/sensors_default"
+        '400':
+          $ref: "#/components/responses/400"
+        '500':
+          $ref: "#/components/responses/500"
+  /sensors/{id}:
+    delete:
+      tags:
+        - Sensors
+      summary: Delete a configured sensor
+      parameters:
+        - name: id
+          in: path
+          description: id of the sensor to delete
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Sensor successfully deleted
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  result:
+                    type: boolean
+                    enum: 
+                      - true
+                  value:
+                    description: The deleted sensor
+                    $ref: "#/components/schemas/sensors_default"
+        '400':
+          $ref: "#/components/responses/400"
+        '500':
+          $ref: "#/components/responses/500"
+    put:
+      tags:
+        - Sensors
+      summary: Update a configured sensor
+      parameters:
+        - name: id
+          in: path
+          description: id of the sensor to update
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Sensor successfully updated
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  result:
+                    type: boolean
+                    enum: 
+                      - true
+                  value:
+                    description: The updated sensor
+                    $ref: "#/components/schemas/sensors_default"
+        '400':
+          $ref: "#/components/responses/400"
+        '500':
+          $ref: "#/components/responses/500"
+    get:
+      tags:
+        - Sensors
+      summary: Get a sensor configuration
+      parameters:
+        - name: id
+          in: path
+          description: id of the sensor to get
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Sensor configuration successfully fetched
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  result:
+                    type: boolean
+                    enum: 
+                      - true
+                  value:
+                    description: The fetched sensor
+                    $ref: "#/components/schemas/sensors_default"
+        '400':
+          $ref: "#/components/responses/400"
+        '500':
+          $ref: "#/components/responses/500"
+  /sensors/average:
+    get:
+      tags:
+        - Sensors
+      summary: Get the average temperature
+      responses:
+        '200':
+          description: Average temperature successfully computed
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  result:
+                    type: boolean
+                    enum: 
+                      - true
+                  value:
+                    type: number
+                    description: The average temperature
+        '400':
+          $ref: "#/components/responses/400"
+        '500':
+          $ref: "#/components/responses/500"
+  /setpoint:
+    get:
+      tags:
+        - Setpoint
+      summary: Get the current general setpoint
+      responses:
+        '200':
+          description: General setpoint successfully fetched
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  result:
+                    type: boolean
+                    enum: 
+                      - true
+                  value:
+                    type: number
+                    description: The current general setpoint
+        '400':
+          $ref: "#/components/responses/400"
+        '500':
+          $ref: "#/components/responses/500"
+    put:
+      tags:
+        - Setpoint
+      summary: Update the general setpoint
+      requestBody:
+        required: true
+        content: 
+          application/json:
+            schema:
+              type: object
+              properties:
+                value:
+                  type: number
+              required:
+                - value
+      responses:
+        '200':
+          description: Setpoint successfully updated
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  result:
+                    type: boolean
+                    enum: 
+                      - true
+        '400':
+          $ref: "#/components/responses/400"
+        '500':
+          $ref: "#/components/responses/500"
+components:
+  responses:
+    200:
+        description: Request succeeded
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/200"
+    400:
+        description: Request invalid
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/400"
+    500:
+        description: Internal error
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/500"
+  schemas:
+    200: 
+      type: object
+      properties:
+        result: 
+          type: boolean
+          enum: 
+            - true
+    400: 
+      type: object
+      properties:
+        result: 
+          type: boolean
+          enum: 
+            - false
+        error: 
+          type: string
+    500: 
+      type: object
+      properties:
+        result: 
+          type: boolean
+          enum: 
+            - false
+        error: 
+          type: string
+    plannings_default:
+      type: object
+      properties:
+        id:
+          type: string
+          description: planned setpoint unique id
+        label:
+          type: string
+          description: planned setpoint label
+        active:
+          type: boolean
+          description: planned setpoint enabled state
+        time:
+          type: object
+          description: time of the day when to apply this planned setpoint
+          properties:
+            hour:
+              type: number
+            min:
+              type: number
+        days:
+          type: array
+          description: Array of days when to apply this planned setpoint (index 0 is sunday)
+          minLength: 7
+          maxLength: 7
+          items:
+            type: boolean
+        setpoint:
+          type: number
+          description: The setpoint value to apply
+          minimum: 10
+          maximum: 30
+    sensors_default:
+      type: object
+      properties:
+        id:
+          type: string
+          description: Sensor unique id
+        label:
+          type: string
+          description: Sensor description
+        driver:
+          type: string
+          description: driver file to execute to get this sensor value
+          default: "ds18b20.js"
+        params:
+          type: object
+          description: additional parameters (depends on driver)
+        weight:
+          type: number
+          description: weight of this sensors to compute temperature average
+          default: 1
+        calibration:
+          type: object
+          properties:
+            a:
+              type: number
+              description: calibration factor
+              default: 1
+            b:
+              type: number
+              description: calibration offset
+        active:
+          type: boolean
+          description: Sensor enabled state
+        created:
+          type: string
+          description: Sensor date of creation
+
+        
