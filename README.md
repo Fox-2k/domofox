@@ -13,15 +13,15 @@ Connect your home heater to this switch, connect a temperature sensor (see below
 
 # Overview
 
-Here is the features Domofox can handle
+Here is the features Domofox can handle :
 * 3 switchable behaviours: off, manual mode and automatic mode (see below)
 * Clock display
-* See the thermostat history of the last 24h: a chart with local temperature, the setpoint and the heater state
+* Chart of the last 24h:local temperature, the setpoint and the heater state
 * Define precisely your planning, from minute to day of the week
 * Customize your ambiant temperature by adding more than one sensor (see below)
 * Define your own positive and negative hysteresis, to tune your temperature more effectively
 * Refresh, restart or shutdown your Raspberry pi device
-* As your Raspberry pi is connected on wifi, you can browse your Domofox thermostat on your smartphone, at your local adress : http://domofox.local
+* As your Raspberry pi is connected on wifi, you can browse your Domofox thermostat on your own smartphone, at your local address : http://domofox.local (not that on android phones, you may use the local ip adress instead)
 
 # Working modes
 
