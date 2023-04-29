@@ -1,16 +1,14 @@
 import Head from 'next/head'
 import Image from 'next/image'
-
-import styles from '@/styles/Home.module.css'
 import Layout from '@/components/layout'
 
 
 
-export default function Home() {
+export default function Planning() {
   return (
     <>
       <Layout>
-        <h1>Domofox</h1>
+        <h1>Planning</h1>
       </Layout>
     </>
   )
