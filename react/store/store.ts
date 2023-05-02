@@ -9,6 +9,7 @@ const makeStore = () => configureStore({
   }
 });
 
-export type AppStore = ReturnType<typeof makeStore>
+type AppStore = ReturnType<typeof makeStore>
+export type AppState = ReturnType<AppStore['getState']>
 
 export const wrapper = createWrapper<AppStore>(makeStore)

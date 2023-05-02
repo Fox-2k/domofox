@@ -1,4 +1,5 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice } from "@reduxjs/toolkit"
+import { AppState } from "@/store/store";
 
 export const statusSlice = createSlice({
     name: "status",
@@ -10,8 +11,14 @@ export const statusSlice = createSlice({
         setpoint: 0,
     },
     reducers: {
-
+        setMode: (state, action) => {
+            state.mode = action.payload;
+        }
     }
 })
+
+export const { setMode } = statusSlice.actions
+
+export const getMode = (state: AppState) => state.status.mode
 
 export default statusSlice.reducer
