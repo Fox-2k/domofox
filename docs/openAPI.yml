@@ -3,7 +3,7 @@ info:
   title: Domofox  - Home thermostat API
   version: '1.0'
 servers:
-  - url: http://localhost/api
+  - url: http://localhost/api:3000
 tags:
   - name: Device
     description: Device related commands

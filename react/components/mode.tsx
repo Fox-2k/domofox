@@ -1,18 +1,24 @@
 
 import { useSelector, useDispatch } from "react-redux"
-import { setMode, getMode } from "@/reducers/statusSlice"
+import { fetchMode, getMode } from "@/reducers/statusSlice"
+import styles from "@/styles/Mode.module.css"
+import { useEffect } from "react"
 
 export default function Mode() {
     const mode = useSelector(getMode)
     const dispatch = useDispatch()
 
-    return <div>
+    useEffect(() => {
+        setTimeout(() => dispatch(fetchMode()), 1000)
+    }, [])
+
+    return (<div>
         <h5>Mode</h5>
         <div>{mode}</div>
-        <div>{
+        {/* <div>{
             [0,1,2].map(numMode => (
-                <button onClick={() => dispatch(setMode(numMode))}>{numMode}</button>
+                <button className={styles.btn} key={numMode} onClick={() => dispatch(setMode(numMode))}>{numMode}</button>
             ))
-        }</div>
-    </div>
+        }</div> */}
+    </div>)
 }
