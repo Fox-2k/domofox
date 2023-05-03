@@ -18,6 +18,7 @@ export const statusSlice = createSlice({
 })
 
 export const fetchMode = createAction("mode/fetchMode")
+export const updateMode = createAction<number>("mode/updateMode")
 export const { modeFetched } = statusSlice.actions
 
 export const getMode = (state: AppState) => state.status.mode

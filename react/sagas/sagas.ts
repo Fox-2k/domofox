@@ -1,20 +1,28 @@
-import { put, takeEvery } from "redux-saga/effects"
-import { fetchMode, modeFetched } from "@/reducers/statusSlice"
+import { put, call, takeEvery, debounce } from "redux-saga/effects"
+import { fetchMode, updateMode, modeFetched } from "@/reducers/statusSlice"
 import axios from "axios"
-
-const APIBASE = "http://document.location.hostname:3000" // "https://3000-fox2k-domofox-30xyhbg65fi.ws-eu96b.gitpod.io"
 
 function* fetchModeFromApi() {
     try {
-        const { data } = yield axios.get(`${APIBASE}/api/mode`)
+        const { data } = yield call(axios.get, `http://${document.location.hostname}:3000/api/mode`)
         yield put(modeFetched(data.value))
     } catch (error) {
         console.error(error)
     }
 }
 
+function* updateModeToApi(action: ReturnType<typeof updateMode>) {
+    try {
+        yield call(axios.put, `http://${document.location.hostname}:3000/api/mode`, { value: action.payload })
+        yield put(modeFetched(action.payload))
+    } catch (error) {
+        console.error(error)
+    }
+}
+
 function* mySaga() {
-    yield takeEvery(fetchMode.toString(), fetchModeFromApi)
+    yield debounce(500, fetchMode.toString(), fetchModeFromApi)
+    yield debounce(500, updateMode.toString(), updateModeToApi)
 }
 
 export default mySaga
