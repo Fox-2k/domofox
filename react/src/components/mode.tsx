@@ -1,8 +1,7 @@
 
 import { useSelector, useDispatch } from "react-redux"
-import { updateMode, getMode } from "@/reducers/statusSlice"
+import { updateMode, getMode } from "@/features/status/statusSlice"
 import styles from "@/styles/Mode.module.css"
-import { useEffect } from "react"
 
 export default function Mode() {
     const mode = useSelector(getMode)

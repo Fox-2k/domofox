@@ -1,5 +1,5 @@
 import { put, call, takeEvery, debounce } from "redux-saga/effects"
-import { fetchMode, updateMode, modeFetched } from "@/reducers/statusSlice"
+import { fetchMode, updateMode, modeFetched } from "./statusSlice"
 import axios from "axios"
 
 function* fetchModeFromApi() {
@@ -20,9 +20,9 @@ function* updateModeToApi(action: ReturnType<typeof updateMode>) {
     }
 }
 
-function* mySaga() {
+function* statusSaga() {
     yield debounce(500, fetchMode.toString(), fetchModeFromApi)
     yield debounce(500, updateMode.toString(), updateModeToApi)
 }
 
-export default mySaga
+export default statusSaga

@@ -1,5 +1,5 @@
 import { createSlice, createAction } from "@reduxjs/toolkit"
-import { AppState } from "@/store/store";
+import { AppState } from "@/store";
 
 export const statusSlice = createSlice({
     name: "status",
