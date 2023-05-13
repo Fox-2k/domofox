@@ -4,6 +4,7 @@ import axios from "axios"
 
 function* fetchModeFromApi() {
     try {
+        if(typeof document === "undefined") return
         const { data } = yield call(axios.get, `http://${document.location.hostname}:3000/api/mode`)
         yield put(modeFetched(data.value))
     } catch (error) {
