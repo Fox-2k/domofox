@@ -10,7 +10,9 @@ export default function Home() {
             sx={{
                 display: 'flex',
                 justifyContent: 'center',
-                alignItems: 'center'    
+                alignItems: 'center',
+                flexWrap: 'wrap',
+                padding: 0,  
             }}
         >
             <AverageTemp />

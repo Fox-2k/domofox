@@ -1,12 +1,18 @@
-import { useState } from 'react'
+import { updateSetpoint, getSetpoint } from "@/features/status/statusSlice"
 
 import ValueBlock from "./valueBlock";
 import EditIcon from '@mui/icons-material/Edit';
+import { useAppDispatch, useAppSelector } from '@/hooks';
 
 export default function SetPointTemp() {
-    const [virtualTemp, setVirtualTemp] = useState(17)
+    const setpoint = useAppSelector(getSetpoint)
+    const dispatch = useAppDispatch()
+
+    const handleChange = (newValue: number) => {
+        dispatch(updateSetpoint(newValue))
+    }
 
     return (
-        <ValueBlock icon={<EditIcon />} value={20.1} unit="°C" editable={true} />
+        <ValueBlock icon={<EditIcon />} value={setpoint} unit="°C" onChange={handleChange} />
     )
 }

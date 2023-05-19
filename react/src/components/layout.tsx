@@ -16,7 +16,7 @@ import TabPanel from '@/components/tabPanel'
 import styles from '@/styles/Home.module.css'
 
 
-import { fetchMode } from "@/features/status/statusSlice"
+import { fetchMode, fetchSetpoint } from "@/features/status/statusSlice"
 
 const roboto = Roboto({
     weight: ["300", "400", "500", "700"],
@@ -35,6 +35,7 @@ export default function Layout(props: layoutProps) {
 
     const refreshRoutine = () => {
         dispatch(fetchMode())
+        dispatch(fetchSetpoint())
     }
 
     useImmediateInterval(refreshRoutine, 10000)
@@ -48,7 +49,7 @@ export default function Layout(props: layoutProps) {
             <Head>
                 <title>DomoFox</title>
                 <meta name="description" content="Your home thermostat" />
-                <meta name="viewport" content="width=device-width, initial-scale=1" />
+                <meta name="viewport" content="width=480, user-scalable=no" />
                 <link rel="icon" href="/favicon.ico" />
             </Head>
             <main className={roboto.className}>

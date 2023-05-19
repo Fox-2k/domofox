@@ -28,7 +28,7 @@ export default function Block({ sx, height, width, children, icon, onClick } : B
         borderTopLeftRadius: 20,
         borderBottomRightRadius: 20,
         p: 2,
-        mx: '10px',
+        m: '10px',
         height: height ?? 180,
         width: width ?? 200,
         color: 'text.primary',

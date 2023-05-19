@@ -1,4 +1,4 @@
-import { useSelector, useDispatch } from "react-redux"
+import { useAppSelector, useAppDispatch } from "@/hooks"
 import { updateMode, getMode } from "@/features/status/statusSlice"
 
 import styles from "@/styles/Mode.module.css"
@@ -7,8 +7,8 @@ import TuneIcon from '@mui/icons-material/Tune';
 import Block from "@/components/block"
 
 export default function Mode() {
-    const mode = useSelector(getMode)
-    const dispatch = useDispatch()
+    const mode = useAppSelector(getMode)
+    const dispatch = useAppDispatch()
 
     return (
         <Block icon={<TuneIcon />}>

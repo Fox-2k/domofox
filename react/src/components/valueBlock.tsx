@@ -1,8 +1,9 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 
 import Dialog from '@mui/material/Dialog';
 import DialogTitle from '@mui/material/DialogTitle';
 import Box from "@mui/material/Box"
+import Grid from '@mui/material/Grid';
 import Button from '@mui/material/Button';
 import Paper from '@mui/material/Paper';
 import KeyboardDoubleArrowLeftIcon from '@mui/icons-material/KeyboardDoubleArrowLeft';
@@ -17,7 +18,7 @@ import Block from "./block";
 
 interface EditValueDialogProps {
     onClose: Function,
-    initialValue: number,
+    value?: number,
     open: boolean
 }
 
@@ -25,56 +26,65 @@ interface valueBlockProps {
     icon: React.ReactNode,
     value: number,
     unit?: string,
-    editable?: boolean
+    onChange?: Function
 }
 
-function EditValueDialog({ onClose, initialValue, open} : EditValueDialogProps) {
-    const [value, setValue] = useState(initialValue)
+function EditValueDialog({ onClose, value, open} : EditValueDialogProps) {
+    const [localValue, setLocalValue] = useState(value || 0)
+
+    useEffect(() => {
+        if(open) setLocalValue(value || 0)
+    }, [open])
 
     const handleClose = () => {
         onClose(undefined)
     }
 
     const handleValidate = () => {
-        onClose(value)
+        onClose(localValue)
     }
 
     return (
         <Dialog onClose={handleClose} open={open}>
             <Paper >
-                <DialogTitle sx={{ textAlign: "center", fontSize: 50, p:0 }}>{value}</DialogTitle>
+                <DialogTitle sx={{ textAlign: "center", fontSize: 50, p:0 }}>{localValue}</DialogTitle>
             </Paper>
-            <Box sx={{ display: 'flex' }} >
-                <Button sx={{ m: 2, minWidth: 150, minHeight: 50 }} variant="contained"><KeyboardDoubleArrowLeftIcon /></Button>
-                <Button sx={{ m: 2, minWidth: 150, minHeight: 50 }} variant="contained"><KeyboardDoubleArrowRightIcon /></Button>
-            </Box>
-            <Box sx={{ display: 'flex' }} >
-                <Button sx={{ m: 2, minWidth: 150, minHeight: 50 }} variant="contained"><KeyboardArrowLeftIcon /></Button>
-                <Button sx={{ m: 2, minWidth: 150, minHeight: 50 }} variant="contained"><KeyboardArrowRightIcon /></Button>
-            </Box>
-            <Paper elevation={-3} sx={{ display: 'flex' }} >
-                <Button sx={{ m: 2, minWidth: 150, minHeight: 50, backgroundColor: "secondary.main" }} variant="contained"><CancelIcon /></Button>
-                <Button sx={{ m: 2, minWidth: 150, minHeight: 50, backgroundColor: "success.main" }} variant="contained"><CheckCircleIcon /></Button>
+            <Grid container justifyContent="center">
+                <Grid item >
+                    <Button sx={{ m: 2, minWidth: 150, minHeight: 60 }} variant="contained" onClick={() => setLocalValue(Math.round(10 * (localValue - 1)) / 10)}><KeyboardDoubleArrowLeftIcon /></Button>
+                </Grid>
+                <Grid item order={{ sm: 4 }}>
+                    <Button sx={{ m: 2, minWidth: 150, minHeight: 60 }} variant="contained" onClick={() => setLocalValue(Math.round(10 * (localValue + 1)) / 10)}><KeyboardDoubleArrowRightIcon /></Button>
+                </Grid>
+                <Grid item >
+                    <Button sx={{ m: 2, minWidth: 75, minHeight: 60 }} variant="contained" onClick={() => setLocalValue(Math.round(10 * (localValue - 0.1)) / 10)}><KeyboardArrowLeftIcon /></Button>
+                </Grid>
+                <Grid item >
+                    <Button sx={{ m: 2, minWidth: 75, minHeight: 60 }} variant="contained" onClick={() => setLocalValue(Math.round(10 * (localValue + 0.1)) / 10)}><KeyboardArrowRightIcon /></Button>
+                </Grid>
+                
+            </Grid>
+            <Paper sx={{ display: 'flex', justifyContent: 'space-between' }} >
+                <Button sx={{ m: 2, minWidth: "40%", minHeight: 60, backgroundColor: "secondary.main" }} variant="contained" onClick={handleClose}><CancelIcon /></Button>
+                <Button sx={{ m: 2, minWidth: "40%", minHeight: 60, backgroundColor: "success.main" }} variant="contained" onClick={handleValidate}><CheckCircleIcon /></Button>
             </Paper>
         </Dialog>
     )
 }
 
-export default function ValueBlock({ icon, value, unit, editable } : valueBlockProps) {
+export default function ValueBlock({ icon, value, unit, onChange } : valueBlockProps) {
     const [openDialog, setOpenDialog] = useState(false)
+    const editable = !!onChange
 
     const handleClickOpen = () => {
-        console.log("open")
         editable && setOpenDialog(true)
     }
 
     const handleClose = (newValue: number) => {
         setOpenDialog(false)
-        if(newValue != undefined) 
-            console.log("close and new value = ", newValue)
-        else
-            console.log("close and cancelled")
-
+        if(editable && newValue != undefined) {
+            onChange(newValue)
+        }
     }
 
     return (
@@ -101,7 +111,7 @@ export default function ValueBlock({ icon, value, unit, editable } : valueBlockP
                     <div style={{fontSize: 30}}>{unit ?? ""}</div>
                 </Box>
             </Block>
-            <EditValueDialog initialValue={value} open={openDialog} onClose={handleClose}/>
+            <EditValueDialog value={value} open={openDialog} onClose={handleClose}/>
         </>
     )
 }

@@ -14,7 +14,7 @@ export default function TabPanel(props: TabPanelProps) {
       hidden={!showWhen}
     >
       {showWhen && (
-        <Box sx={{ p: 3 }}>
+        <Box sx={{ p: 1 }}>
           {children}
         </Box>
       )}
