@@ -16,7 +16,8 @@ import TabPanel from '@/components/tabPanel'
 import styles from '@/styles/Home.module.css'
 
 
-import { fetchMode, fetchSetpoint } from "@/features/status/statusSlice"
+import { fetchAvgTemp, fetchMode, fetchSetpoint } from "@/features/status/statusSlice"
+import { fetchHeaterValue } from '@/features/heater/heaterSlice'
 
 const roboto = Roboto({
     weight: ["300", "400", "500", "700"],
@@ -35,7 +36,9 @@ export default function Layout(props: layoutProps) {
 
     const refreshRoutine = () => {
         dispatch(fetchMode())
+        dispatch(fetchAvgTemp())
         dispatch(fetchSetpoint())
+        dispatch(fetchHeaterValue())
     }
 
     useImmediateInterval(refreshRoutine, 10000)

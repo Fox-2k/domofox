@@ -1,5 +1,5 @@
 import { put, call, takeEvery, debounce } from "redux-saga/effects"
-import { fetchMode, fetchSetpoint, updateMode, updateSetpoint, modeFetched, setpointFetched } from "./statusSlice"
+import { fetchMode, fetchSetpoint, updateMode, updateSetpoint, modeFetched, setpointFetched, fetchAvgTemp, avgTempFetched } from "./statusSlice"
 import axios from "axios"
 
 function* fetchModeFromApi() {
@@ -17,6 +17,16 @@ function* fetchSetPointFromApi() {
         if(typeof document === "undefined") return
         const { data } = yield call(axios.get, `http://${document.location.hostname}:3000/api/setpoint`)
         yield put(setpointFetched(data.value))
+    } catch (error) {
+        console.error(error)
+    }
+}
+
+function* fetchAvgTempFromApi() {
+    try {
+        if(typeof document === "undefined") return
+        const { data } = yield call(axios.get, `http://${document.location.hostname}:3000/api/sensors/average`)
+        yield put(avgTempFetched(data.value))
     } catch (error) {
         console.error(error)
     }
@@ -43,6 +53,7 @@ function* updateSetpointToApi(action: ReturnType<typeof updateMode>) {
 function* statusSaga() {
     yield debounce(500, fetchMode.toString(), fetchModeFromApi)
     yield debounce(500, fetchSetpoint.toString(), fetchSetPointFromApi)
+    yield debounce(500, fetchAvgTemp.toString(), fetchAvgTempFromApi)
     yield debounce(500, updateMode.toString(), updateModeToApi)
     yield debounce(500, updateSetpoint.toString(), updateSetpointToApi)
 }

@@ -4,15 +4,19 @@ import createSagaMiddleware from "redux-saga"
 import statusReducer from '@/features/status/statusSlice'
 import statusSaga from '@/features/status/statusSaga';
 
+import heaterReducer from '@/features/heater/heaterSlice'
+import heaterSaga from '@/features/heater/heaterSaga'
+
 export function makeStore() {
   const sagaMiddleware = createSagaMiddleware();
 
   const store = configureStore({
-    reducer: { status: statusReducer },
+    reducer: { status: statusReducer, heater: heaterReducer },
     middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat([sagaMiddleware])
   })
 
   sagaMiddleware.run(statusSaga)
+  sagaMiddleware.run(heaterSaga)
 
   return store
 }
