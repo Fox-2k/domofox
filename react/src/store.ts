@@ -8,7 +8,9 @@ import heaterReducer from '@/features/heater/heaterSlice'
 import heaterSaga from '@/features/heater/heaterSaga'
 
 import hysteresisReducer from '@/features/hysteresis/hysteresisSlice'
-import hysteresisSaga from './features/hysteresis/hysteresisSaga';
+import hysteresisSaga from '@/features/hysteresis/hysteresisSaga';
+
+import deviceSaga from '@/features/device/deviceSaga';
 
 export function makeStore() {
   const sagaMiddleware = createSagaMiddleware();
@@ -21,6 +23,7 @@ export function makeStore() {
   sagaMiddleware.run(statusSaga)
   sagaMiddleware.run(heaterSaga)
   sagaMiddleware.run(hysteresisSaga)
+  sagaMiddleware.run(deviceSaga)
 
   return store
 }

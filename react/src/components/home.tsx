@@ -18,8 +18,8 @@ export default function Home() {
         >
             <AverageTemp />
             <SetPointTemp />
-            <Clock />
             <Mode />
+            <Clock />
             <Graph />
         </Box>
     )

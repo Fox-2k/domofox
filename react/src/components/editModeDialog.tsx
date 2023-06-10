@@ -34,9 +34,9 @@ export default function EditModeDialog({onClose, open, value}: EditModeDialogPro
 
     return (
         <Dialog onClose={handleClose} open={open}>
-            <Box sx={{ p: 3 }}>{
+            <Box sx={{ p: 1.5 }}>{
                 [0,1,2].map(numMode => (
-                    <Fab key={numMode} onClick={() => handleValidate(numMode)} sx={{ m: 2, width: 100, height: 100 }}>
+                    <Fab key={numMode} onClick={() => handleValidate(numMode)} sx={{ m: 1.5, width: 100, height: 100 }}>
                         <ModeIcon mode={numMode} />
                     </Fab>
                 ))

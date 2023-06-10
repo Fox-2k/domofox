@@ -2,6 +2,7 @@ import { useRef, useEffect, useState } from 'react'
 
 import Block from "./block";
 import AccessTimeIcon from '@mui/icons-material/AccessTime';
+import Typography from '@mui/material/Typography';
 
 
 function setImmediateInterval(fn: () => void, delay: number): NodeJS.Timer {
@@ -36,13 +37,12 @@ export default function Clock() {
                 flexDirection: "column",
                 alignItems: 'center',
                 justifyContent: 'center',
-                fontWeight: "100",
-                fontSize: 34
+                
             }}
             icon={<AccessTimeIcon />}
         >
-            <div style={{marginBottom: '10px'}}>{dateTime.time}</div>
-            <div>{dateTime.date}</div>
+            <div style={{marginBottom: '10px', fontWeight: "400", fontSize: 42}}>{dateTime.time}</div>
+            <div style={{marginBottom: '10px', fontWeight: "400", fontSize: 30}}>{dateTime.date}</div>
         </Block>
     )
 }

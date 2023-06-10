@@ -15,7 +15,7 @@ interface BlockProps {
 }
 
 const BlockButton = styled(Button)<ButtonProps>(({theme}) => ({
-    background: "repeating-linear-gradient(0deg, #00000088, #00000055 20%, #00000055 80%, #00000088)",
+    background: "repeating-linear-gradient(0deg, #00000088, #00000088 20%, #00000055 80%, #000000AA)",
     '&:hover': {
         backgroundColor: "#000000AA",
     },
@@ -24,7 +24,7 @@ const BlockButton = styled(Button)<ButtonProps>(({theme}) => ({
 export default function Block({ sx, height, width, children, icon, onClick } : BlockProps) {
     const customSx: SxProps = {
         position: 'relative',
-        bgcolor: onClick ? "transparent" : '#00000055',
+        bgcolor: onClick ? "transparent" : '#00000088',
         borderTopLeftRadius: 20,
         borderBottomRightRadius: 20,
         p: 2,
