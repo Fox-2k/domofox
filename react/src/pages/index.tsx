@@ -5,7 +5,7 @@ import { ThemeProvider, createTheme } from '@mui/material/styles'
 import Layout from '@/components/layout'
 import Home from '@/components/home'
 import Planning from './planning'
-import Settings from './settings'
+import Settings from '../components/settings'
 
 const darkTheme = createTheme({
   palette: {

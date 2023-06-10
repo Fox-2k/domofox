@@ -24,12 +24,12 @@ export const statusSlice = createSlice({
     }
 })
 
-export const fetchMode = createAction("mode/fetchMode")
-export const fetchSetpoint = createAction("mode/fetchSetpoint")
-export const fetchAvgTemp = createAction("mode/fetchAvgTemp")
+export const fetchMode = createAction("status/fetchMode")
+export const fetchSetpoint = createAction("status/fetchSetpoint")
+export const fetchAvgTemp = createAction("status/fetchAvgTemp")
 
-export const updateMode = createAction<number>("mode/updateMode")
-export const updateSetpoint = createAction<number>("mode/updateSetPoint")
+export const updateMode = createAction<number>("status/updateMode")
+export const updateSetpoint = createAction<number>("status/updateSetPoint")
 
 export const { modeFetched, setpointFetched, avgTempFetched } = statusSlice.actions
 

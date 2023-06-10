@@ -7,16 +7,20 @@ import statusSaga from '@/features/status/statusSaga';
 import heaterReducer from '@/features/heater/heaterSlice'
 import heaterSaga from '@/features/heater/heaterSaga'
 
+import hysteresisReducer from '@/features/hysteresis/hysteresisSlice'
+import hysteresisSaga from './features/hysteresis/hysteresisSaga';
+
 export function makeStore() {
   const sagaMiddleware = createSagaMiddleware();
 
   const store = configureStore({
-    reducer: { status: statusReducer, heater: heaterReducer },
+    reducer: { status: statusReducer, heater: heaterReducer, hysteresis: hysteresisReducer },
     middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat([sagaMiddleware])
   })
 
   sagaMiddleware.run(statusSaga)
   sagaMiddleware.run(heaterSaga)
+  sagaMiddleware.run(hysteresisSaga)
 
   return store
 }

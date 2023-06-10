@@ -1,8 +1,9 @@
 import Box from "@mui/material/Box"
-import Clock from '@/components/clock';
+import Clock from '@/components/clock'
 import Mode from '@/components/mode'
-import AverageTemp from "./averageTemp";
-import SetPointTemp from "./setPointTemp";
+import AverageTemp from "./averageTemp"
+import SetPointTemp from "./setPointTemp"
+import Graph from "./graph"
 
 export default function Home() {
     return (
@@ -19,6 +20,7 @@ export default function Home() {
             <SetPointTemp />
             <Clock />
             <Mode />
+            <Graph />
         </Box>
     )
 }
