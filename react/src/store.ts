@@ -12,11 +12,13 @@ import hysteresisSaga from '@/features/hysteresis/hysteresisSaga';
 
 import deviceSaga from '@/features/device/deviceSaga';
 
+import sensorsReducer from '@/features/sensors/sensorsSlice';
+
 export function makeStore() {
   const sagaMiddleware = createSagaMiddleware();
 
   const store = configureStore({
-    reducer: { status: statusReducer, heater: heaterReducer, hysteresis: hysteresisReducer },
+    reducer: { status: statusReducer, heater: heaterReducer, hysteresis: hysteresisReducer, sensors: sensorsReducer },
     middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat([sagaMiddleware])
   })
 
