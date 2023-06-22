@@ -24,6 +24,10 @@ export const sensorsSlice = createSlice({
     name: "sensors",
     initialState: sensorsAdapter.getInitialState(),
     reducers: {
+        sensorsFetched: (state, action) => {
+            sensorsAdapter.removeAll(state)
+            sensorsAdapter.addMany(state, action.payload)
+        },
         sensorAdded: sensorsAdapter.addOne,
         sensorUpdated: sensorsAdapter.updateOne,
         sensorRemoved: sensorsAdapter.removeOne,
@@ -31,10 +35,11 @@ export const sensorsSlice = createSlice({
 })
 
 export const fetchSensors = createAction("sensors/fetchSensors")
-export const updateSensor = createAction<Update<Sensor>>("sensors/updateSensors")
-export const removeSensor = createAction<string>("sensors/updateSensors")
+export const addSensor = createAction<Sensor>("sensors/addSendor")
+export const updateSensor = createAction<Update<Sensor>>("sensors/updateSensor")
+export const removeSensor = createAction<string>("sensors/updateSensor")
 
-export const { sensorAdded, sensorUpdated, sensorRemoved } = sensorsSlice.actions
+export const { sensorsFetched, sensorAdded, sensorUpdated, sensorRemoved } = sensorsSlice.actions
 
 export const { selectAll, selectById } = sensorsAdapter.getSelectors<AppState>(state => state.sensors)
 

@@ -5,10 +5,19 @@ import SetHysteresisNeg from "./setHysteresisNeg"
 import RefreshButton from "./refreshButton"
 import RebootButton from "./rebootButton"
 import ShutdownButton from "./shutdownButton"
+import { useEffect } from "react"
+import { useAppDispatch } from "@/hooks"
+import { fetchSensors } from "@/features/sensors/sensorsSlice"
 
 
 
 export default function Settings() {
+  const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    dispatch(fetchSensors())
+  })
+
   return (
     <Box
             sx={{
