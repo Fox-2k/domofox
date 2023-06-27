@@ -5,7 +5,9 @@ type Sensor = {
     id: string,
     label: string,
     driver: string,
-    params: object,
+    params: {
+        id?: string,
+    },
     weight: number,
     calibration: {
         a: number,

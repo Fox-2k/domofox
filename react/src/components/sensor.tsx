@@ -62,7 +62,7 @@ export default function Sensor({id, label, active, weight, value}: SensorProps) 
             <Box sx={{ color: "#FFFFFF88" }}>
                 {weightedValueString}
             </Box>
-            <EditSensorDialog open={editDialog} onClose={handleClose} />
+            <EditSensorDialog open={editDialog} onClose={handleClose} id={id} />
         </Paper>
     )
 }
