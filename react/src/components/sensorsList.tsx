@@ -6,14 +6,22 @@ import { useAppDispatch, useAppSelector } from "@/hooks";
 import { selectAll, addSensor } from "@/features/sensors/sensorsSlice";
 import Fab from '@mui/material/Fab';
 import AddIcon from '@mui/icons-material/Add';
+import EditSensorDialog from "./editSensorDialog";
+import { useState } from "react";
 
 export default function SensorsList() {
     const dispatch = useAppDispatch()
     const sensors = useAppSelector(selectAll)
+    const [createDialog, setCreateDialog] = useState(false)
 
 
     const handleAddClick = () => {
+        setCreateDialog(true)
         // dispatch(addSensor())
+    }
+
+    const handleClose = () => {
+        setCreateDialog(false)
     }
 
     return (
@@ -38,6 +46,7 @@ export default function SensorsList() {
             <Fab sx={{ position: "absolute", bottom: 8, right: 8 }} onClick={handleAddClick}>
                 <AddIcon />
             </Fab>
+            <EditSensorDialog open={createDialog} onClose={handleClose} />
         </Block>
     )
 }

@@ -6,10 +6,11 @@ import Button from "@mui/material/Button";
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import Paper from "@mui/material/Paper";
-import { updateSensor } from "@/features/sensors/sensorsSlice";
+import { removeSensor, updateSensor } from "@/features/sensors/sensorsSlice";
 import { useAppDispatch } from "@/hooks";
 import { useState } from "react";
 import EditSensorDialog from "./editSensorDialog";
+import ConfirmedButton from "./confirmedButton";
 
 interface SensorProps {
     id: string,
@@ -32,8 +33,12 @@ export default function Sensor({id, label, active, weight, value}: SensorProps) 
         }
     }
 
-    const handleClick = () => {
+    const handleEditClick = () => {
         setEditDialog(true)
+    }
+
+    const handleDeleteClick = () => {
+        dispatch(removeSensor(id))
     }
 
     const handleClose = () => {
@@ -55,8 +60,15 @@ export default function Sensor({id, label, active, weight, value}: SensorProps) 
             >
                 <FormControlLabel control={<Switch checked={active} onChange={toggleActive}/>} label={label} />
                 <ButtonGroup variant="outlined">
-                    <Button onClick={handleClick}><EditIcon /></Button>
-                    <Button color="error"><DeleteIcon /></Button>
+                    <Button onClick={handleEditClick}>
+                        <EditIcon />
+                    </Button>
+                    <ConfirmedButton 
+                        prompt={`Delete sensor named '${label}'?`} 
+                        onClick={handleDeleteClick}  
+                        color="error">
+                        <DeleteIcon />
+                    </ConfirmedButton>
                 </ButtonGroup>
             </Box>
             <Box sx={{ color: "#FFFFFF88" }}>

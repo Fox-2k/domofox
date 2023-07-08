@@ -4,17 +4,17 @@ import { useEffect, useState } from "react";
 import CheckCircleIcon from '@mui/icons-material/CheckCircle'
 import CancelIcon from '@mui/icons-material/Cancel'
 import { useAppDispatch, useAppSelector } from "@/hooks";
-import { fetchSensors, selectById, updateSensor } from "@/features/sensors/sensorsSlice";
+import { addSensor, fetchSensors, selectById, updateSensor } from "@/features/sensors/sensorsSlice";
 
 interface EditSensorDialogProps {
-    id: string,
+    id?: string,
     onClose: Function,
     open: boolean
 }
 
 export default function EditSensorDialog({id, onClose, open}: EditSensorDialogProps) {
 
-    const sensor = useAppSelector(state => selectById(state, id))
+    const sensor = useAppSelector(state => selectById(state, id || ""))
     const dispatch = useAppDispatch();
     
     const [label, setLabel] = useState("")
@@ -29,27 +29,42 @@ export default function EditSensorDialog({id, onClose, open}: EditSensorDialogPr
     }, [dispatch, open])
 
     useEffect(() => {
-        setLabel(sensor?.label || "")
-        setDriver(sensor?.driver || "")
-        setSensorId(sensor?.params?.id || "")
-        setWeight(sensor?.weight.toString() || "1")
-        setCalibrationFactor(sensor?.calibration?.a.toString() || "1")
-        setCalibrationOffset(sensor?.calibration?.b.toString() || "0")
-    }, [sensor])
+        if(open) {
+            setLabel(sensor?.label || "")
+            setDriver(sensor?.driver || "")
+            setSensorId(sensor?.params?.id || "")
+            setWeight(sensor?.weight.toString() || "1")
+            setCalibrationFactor(sensor?.calibration?.a.toString() || "1")
+            setCalibrationOffset(sensor?.calibration?.b.toString() || "0")
+        }
+    }, [open, sensor])
     
 
     const handleClose = () => {
+        setLabel("")
+        setDriver("")
+        setSensorId("")
+        setWeight("1")
+        setCalibrationFactor("1")
+        setCalibrationOffset("0")
         onClose()
     }
 
     const handleValidate = () => {
-        dispatch(updateSensor({ id, changes: {
+        const enteredSensorValues = {
             label, 
             driver, 
             params: { id: sensorId }, 
             weight: parseFloat(weight), 
             calibration: {a: parseFloat(calibrationFactor), b: parseFloat(calibrationOffset) || 0 }
-        }}))
+        }
+
+        if(id) {
+            dispatch(updateSensor({ id, changes: enteredSensorValues}))
+        }
+        else {
+            dispatch(addSensor(enteredSensorValues))
+        }
         onClose()
     }
 

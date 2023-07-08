@@ -1,8 +1,16 @@
 import { AppState } from "@/store"
 import { Update, createAction, createEntityAdapter, createSlice } from "@reduxjs/toolkit"
 
-type Sensor = {
+interface Sensor extends NewSensor{
     id: string,
+    active: boolean,
+    created: string,
+    raw: number,
+    value?: number,
+    last?: string
+}
+
+interface NewSensor {
     label: string,
     driver: string,
     params: {
@@ -13,11 +21,6 @@ type Sensor = {
         a: number,
         b: number
     },
-    active: boolean,
-    created: string,
-    raw: number,
-    value?: number,
-    last?: string
 }
 
 const sensorsAdapter = createEntityAdapter<Sensor>()
@@ -37,7 +40,7 @@ export const sensorsSlice = createSlice({
 })
 
 export const fetchSensors = createAction("sensors/fetchSensors")
-export const addSensor = createAction<Sensor>("sensors/addSendor")
+export const addSensor = createAction<NewSensor>("sensors/addSensor")
 export const updateSensor = createAction<Update<Sensor>>("sensors/updateSensor")
 export const removeSensor = createAction<string>("sensors/updateSensor")
 

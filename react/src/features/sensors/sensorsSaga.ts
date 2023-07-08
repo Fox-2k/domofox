@@ -14,8 +14,8 @@ function* fetchSensorsFromApi() {
 
 function* addSensorToApi(action: ReturnType<typeof addSensor>) {
     try {
-        yield call(axios.post, `http://${document.location.hostname}:3000/api/sensors`, action.payload)
-        yield put(sensorAdded(action.payload))
+        const { data } = yield call(axios.post, `http://${document.location.hostname}:3000/api/sensors`, action.payload)
+        yield put(sensorAdded(data.value))
     } catch (error) {
         console.error(error)
     }
@@ -32,8 +32,8 @@ function* updateSensorToApi(action: ReturnType<typeof updateSensor>) {
 
 function* removeSensorToApi(action: ReturnType<typeof removeSensor>) {
     try {
-        yield call(axios.delete, `http://${document.location.hostname}:3000/api/sensors/${action.payload}`)
-        yield put(sensorRemoved(action.payload))
+        const { data } = yield call(axios.delete, `http://${document.location.hostname}:3000/api/sensors/${action.payload}`)
+        yield put(sensorRemoved(data.value.id))
     } catch (error) {
         console.error(error)
     }
