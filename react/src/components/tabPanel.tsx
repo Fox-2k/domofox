@@ -1,12 +1,13 @@
-import Box from '@mui/material/Box'
+import Box, { BoxProps } from '@mui/material/Box'
 
 interface TabPanelProps {
   children?: React.ReactNode,
   showWhen: boolean
+  boxProps?: BoxProps
 }
 
 export default function TabPanel(props: TabPanelProps) {
-  const { children, showWhen } = props
+  const { children, showWhen, boxProps } = props
 
   return (
     <div
@@ -14,7 +15,7 @@ export default function TabPanel(props: TabPanelProps) {
       hidden={!showWhen}
     >
       {showWhen && (
-        <Box sx={{ p: 1 }}>
+        <Box {...boxProps}>
           {children}
         </Box>
       )}

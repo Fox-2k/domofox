@@ -9,7 +9,7 @@ body {
 }
 
 body {
-  background: center/cover url(/clouds.jpg) no-repeat;
+  background: center/cover url(/clouds.jpg) no-repeat fixed;
 }
 
 a {

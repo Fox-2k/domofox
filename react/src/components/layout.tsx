@@ -59,13 +59,13 @@ export default function Layout(props: layoutProps) {
                 <link rel="icon" href="/favicon.ico" />
             </Head>
             <main className={roboto.className}>
-                <TabPanel showWhen={tabValue === "Home"}>
+                <TabPanel showWhen={tabValue === "Home"} boxProps={{ sx:{ p: 1} }}>
                     {props.homeContent}
                 </TabPanel>
                 <TabPanel showWhen={tabValue === "Planning"}>
                     {props.planningContent}
                 </TabPanel>
-                <TabPanel showWhen={tabValue === "Settings"}>
+                <TabPanel showWhen={tabValue === "Settings"} boxProps={{ sx:{ p: 1} }}>
                     {props.settingsContent}
                 </TabPanel>
             </main>
