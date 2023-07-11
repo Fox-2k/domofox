@@ -1,7 +1,7 @@
 import { AppState } from "@/store"
 import { Update, createAction, createEntityAdapter, createSlice } from "@reduxjs/toolkit"
 
-interface Job extends NewJob {
+export interface Job extends NewJob {
     id: string,
     created: string,
     updated: string,
