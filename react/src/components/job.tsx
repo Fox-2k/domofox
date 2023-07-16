@@ -4,6 +4,7 @@ import Box from "@mui/material/Box";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import Paper from "@mui/material/Paper";
 import Switch from "@mui/material/Switch";
+import { MobileTimePicker } from '@mui/x-date-pickers/MobileTimePicker';
 import ConfirmedButton from "./confirmedButton";
 import DeleteIcon from '@mui/icons-material/Delete';
 import Stack from "@mui/material/Stack";
@@ -46,6 +47,7 @@ export default function Job({ id, active, time, setpoint, days }: JobProps) {
                 <Stack direction={"row"}>
                     <Switch checked={active} onChange={toggleActive}/>
                     <Typography variant="h4">{printTime(time)}</Typography>
+                    <MobileTimePicker value={printTime(time)} ></MobileTimePicker>
                 </Stack>
                 <div>{setpoint}°C</div>
                 

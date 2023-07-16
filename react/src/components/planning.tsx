@@ -21,12 +21,12 @@ export default function Planning() {
 
   return (
     <>
-      <Box sx={{ position: "fixed", width: "100%" }}>
+      <Box sx={{ position: "fixed", width: "100%", zIndex: 1 }}>
         <Paper elevation={1}>
           <DaysFilter value={dayOfWeek} onChange={handleDayOfWeekChange} />
         </Paper>
       </Box>
-      <JobList />
+      <JobList dayOfWeek={dayOfWeek} />
     </>
   )
 }
