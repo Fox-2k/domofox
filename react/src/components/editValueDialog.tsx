@@ -14,7 +14,7 @@ import CancelIcon from '@mui/icons-material/Cancel'
 
 
 interface EditValueDialogProps {
-    onClose: Function,
+    onClose: (value?: number) => void,
     value?: number,
     open: boolean
 }

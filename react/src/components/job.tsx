@@ -10,6 +10,10 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import Stack from "@mui/material/Stack";
 import Typography from "@mui/material/Typography";
 import DaysSelector from "./daysSelector";
+import dayjs, { Dayjs } from "dayjs";
+import { InputBaseComponentProps, TextField } from "@mui/material";
+import { MouseEventHandler, useState } from "react";
+import EditValueDialog from "./editValueDialog";
 
 type JobProps = Job
 
@@ -19,6 +23,8 @@ function printTime(time: { hour: number, min: number}) {
 
 export default function Job({ id, active, time, setpoint, days }: JobProps) {
 
+    const [openSetpointDialog, setOpenSetpointDialog] = useState(false)
+
     const dispatch = useAppDispatch()
 
     const toggleActive = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -26,6 +32,33 @@ export default function Job({ id, active, time, setpoint, days }: JobProps) {
             dispatch(updateJob({
                 id,
                 changes: { active: event.target.checked }
+            }))
+        }
+    }
+
+    const handleTimeChange = (validatedTime: Dayjs | null) => {
+        if(validatedTime) {
+            const time = {
+                hour: validatedTime.hour(),
+                min: validatedTime.minute()
+            }
+            dispatch(updateJob({
+                id,
+                changes: { time }
+            }))   
+        }
+    }
+
+    const handleSetpointInput = () => {
+        setOpenSetpointDialog(true)
+    }
+
+    const handleSetpointChange = (value: number | undefined) => {
+        setOpenSetpointDialog(false)
+        if(value != undefined && value !== setpoint) {
+            dispatch(updateJob({
+                id,
+                changes: { setpoint: value }
             }))
         }
     }
@@ -41,16 +74,17 @@ export default function Job({ id, active, time, setpoint, days }: JobProps) {
         }))
     }
 
+    const customInputProps: InputBaseComponentProps = { style: { fontSize: 36, textAlign: "center", padding: 0 } };
+
     return (
-        <Paper sx={{ p: 2, fontSize: 36,}}>
-            <Stack direction={"row"} justifyContent={"space-between"}>
-                <Stack direction={"row"}>
+        <Paper sx={{ p: 1.5, fontSize: 36,}}>
+            <Stack direction={"row"} justifyContent={"flex-start"} alignItems={"center"} gap={3}>
+                <Stack direction={"row"} sx={{ alignItems: "center"}}>
                     <Switch checked={active} onChange={toggleActive}/>
-                    <Typography variant="h4">{printTime(time)}</Typography>
-                    <MobileTimePicker value={printTime(time)} ></MobileTimePicker>
+                    <MobileTimePicker slotProps={{ textField: { size: "small", sx: { width: 130 }, inputProps: customInputProps} }} ampmInClock={false} format="HH:mm" ampm={false} value={dayjs(printTime(time), "HH:mm")} onAccept={handleTimeChange} ></MobileTimePicker>
                 </Stack>
-                <div>{setpoint}°C</div>
-                
+                <TextField size={"small"} sx={{ width: 140 }} inputProps={{...customInputProps, readOnly: true}} value={`${setpoint}°C`} onClick={handleSetpointInput} ></TextField>
+                <div style={{ flexGrow: 1 }} />
                 <ConfirmedButton 
                     prompt={`Delete job which set ${setpoint}°C at ${printTime(time)}?`} 
                     onClick={handleDeleteClick}  
@@ -58,7 +92,8 @@ export default function Job({ id, active, time, setpoint, days }: JobProps) {
                     <DeleteIcon />
                 </ConfirmedButton>
             </Stack>
-            <DaysSelector sx={{ float: "right" }} value={days} onChange={handleDaysChange}/>
+            <DaysSelector sx={{ mt: 1, float: "right" }} value={days} onChange={handleDaysChange}/>
+            <EditValueDialog open={openSetpointDialog} onClose={handleSetpointChange} value={setpoint}/>
         </Paper>
     )
 }
