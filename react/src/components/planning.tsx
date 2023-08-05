@@ -21,7 +21,7 @@ export default function Planning() {
 
   return (
     <>
-      <Box sx={{ position: "fixed", width: "100%", zIndex: 1 }}>
+      <Box sx={{ position: "fixed", width: "100%", zIndex: 1 }} data-cy="pagePlanning" >
         <Paper elevation={1}>
           <DaysFilter value={dayOfWeek} onChange={handleDayOfWeekChange} />
         </Paper>

@@ -75,9 +75,9 @@ export default function Layout(props: layoutProps) {
                     value={tabValue}
                     onChange={handleTabChange}
                 >
-                    <BottomNavigationAction label="Home" value="Home" icon={<HomeIcon />} />
-                    <BottomNavigationAction label="Planning" value="Planning" icon={<EventIcon />} />
-                    <BottomNavigationAction label="Settings" value="Settings" icon={<SettingsIcon />} />
+                    <BottomNavigationAction data-cy="navHome" label="Home" value="Home" icon={<HomeIcon />} />
+                    <BottomNavigationAction data-cy="navPlanning" label="Planning" value="Planning" icon={<EventIcon />} />
+                    <BottomNavigationAction data-cy="navSettings" label="Settings" value="Settings" icon={<SettingsIcon />} />
                 </BottomNavigation>
             </footer>
         </>

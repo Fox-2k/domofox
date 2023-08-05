@@ -29,6 +29,7 @@ export default function Settings() {
                 padding: 0,  
                 position: 'relative',
             }}
+            data-cy="pageSetting"
         >
         <SensorsList />
         <Box

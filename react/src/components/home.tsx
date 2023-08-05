@@ -15,6 +15,7 @@ export default function Home() {
                 flexWrap: 'wrap',
                 padding: 0,  
             }}
+            data-cy="pageHome"
         >
             <AverageTemp />
             <SetPointTemp />
