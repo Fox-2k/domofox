@@ -49,7 +49,7 @@ export default function Sensor({id, label, active, weight, value}: SensorProps) 
     const weightedValueString = `${value?.toFixed(1) || "??"}°C x ${weight}`
 
     return (
-        <Paper sx={{ p: 1, m: 1}}>
+        <Paper sx={{ p: 1, mb: 1}}>
             <Box 
                 sx={{
                     p: 1,

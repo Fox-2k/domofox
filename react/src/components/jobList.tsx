@@ -1,9 +1,9 @@
-import { useState } from "react"
 import Job from "./job"
 import Box from "@mui/material/Box"
-import Stack from "@mui/material/Stack"
 import { useAppSelector } from "@/hooks"
 import { selectAll } from "@/features/planning/planningSlice"
+import { TransitionGroup } from 'react-transition-group';
+import { Collapse, styled } from "@mui/material"
 
 type JobListProps = {
     dayOfWeek?: number,
@@ -28,8 +28,20 @@ export default function JobList({ dayOfWeek }: JobListProps) {
     })
 
     return (
-        <Stack p={1} py={9} spacing={1}>
-            {OrderedAndFilteredJobs.map(job => <Job key={job.id} {...job} />)}
-        </Stack>
+        <Box p={1} py={9}>
+            <StyledTransitionGroup>
+                {OrderedAndFilteredJobs.map(job => 
+                    <Collapse key={job.id}>
+                        <Job  {...job} />
+                    </Collapse>
+                )}
+            </StyledTransitionGroup>
+        </Box>
     )
 }
+
+const StyledTransitionGroup = styled(TransitionGroup)({
+    display: "flex",
+    flexDirection: "column",
+    gap: "8px",
+})

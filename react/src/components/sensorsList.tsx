@@ -8,6 +8,8 @@ import Fab from '@mui/material/Fab';
 import AddIcon from '@mui/icons-material/Add';
 import EditSensorDialog from "./editSensorDialog";
 import { useState } from "react";
+import { Collapse } from "@mui/material";
+import { TransitionGroup } from 'react-transition-group';
 
 export default function SensorsList() {
     const dispatch = useAppDispatch()
@@ -41,7 +43,9 @@ export default function SensorsList() {
                     flexGrow: 1
                 }}
             >
-                {sensors.map(sensor => <Sensor key={sensor.id} {...sensor} />)}
+                <TransitionGroup>
+                    {sensors.map(sensor => <Collapse key={sensor.id}><Sensor {...sensor} /></Collapse>)}
+                </TransitionGroup>
             </Box>
             <Fab sx={{ position: "absolute", bottom: 8, right: 8 }} onClick={handleAddClick}>
                 <AddIcon />
