@@ -18,11 +18,14 @@ import sensorsSaga from './features/sensors/sensorsSaga'
 import planningReducer from '@/features/planning/planningSlice'
 import planningSaga from './features/planning/planningSaga'
 
+import tracesReducer from '@/features/traces/tracesSlice'
+import tracesSaga from './features/traces/tracesSaga'
+
 export function makeStore() {
   const sagaMiddleware = createSagaMiddleware();
 
   const store = configureStore({
-    reducer: { status: statusReducer, heater: heaterReducer, hysteresis: hysteresisReducer, sensors: sensorsReducer, planning: planningReducer },
+    reducer: { status: statusReducer, heater: heaterReducer, hysteresis: hysteresisReducer, sensors: sensorsReducer, planning: planningReducer, traces: tracesReducer },
     middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat([sagaMiddleware])
   })
 
@@ -32,6 +35,7 @@ export function makeStore() {
   sagaMiddleware.run(deviceSaga)
   sagaMiddleware.run(sensorsSaga)
   sagaMiddleware.run(planningSaga)
+  sagaMiddleware.run(tracesSaga)
 
   return store
 }

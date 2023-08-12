@@ -19,6 +19,8 @@ import styles from '@/styles/Home.module.css'
 import { fetchAvgTemp, fetchMode, fetchSetpoint } from "@/features/status/statusSlice"
 import { fetchHeaterValue } from '@/features/heater/heaterSlice'
 import { fetchPos, fetchNeg } from '@/features/hysteresis/hysteresisSlice'
+import { fetchAllTraces } from '@/features/traces/tracesSlice'
+import { DateTime } from 'luxon'
 
 const roboto = Roboto({
     weight: ["300", "400", "500", "700"],
@@ -42,6 +44,7 @@ export default function Layout(props: layoutProps) {
         dispatch(fetchHeaterValue())
         dispatch(fetchPos())
         dispatch(fetchNeg())
+        dispatch(fetchAllTraces({ from: DateTime.now().minus({days: 1}).toISO() || "", to: DateTime.now().toISO() || ""}))
     }
 
     useImmediateInterval(refreshRoutine, 10000)

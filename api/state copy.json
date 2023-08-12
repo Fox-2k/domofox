@@ -1,0 +1,144 @@
+{
+  "heater": {
+    "gpio": 17,
+    "coolDown": 10000,
+    "value": true
+  },
+  "mode": 1,
+  "hysteresis": {
+    "pos": 0.6,
+    "neg": 0.2
+  },
+  "setpoint": 19.1,
+  "sensors": [
+    {
+      "id": "bc266f92-5f4c-476f-832b-20601cf95817",
+      "label": "Main sensor",
+      "driver": "mock.js",
+      "params": {},
+      "weight": 1,
+      "calibration": {
+        "a": 0.1,
+        "b": 8
+      },
+      "active": true,
+      "created": "2022-09-09T05:35:08.118Z",
+      "raw": 100,
+      "value": 18,
+      "last": "2023-06-03T10:17:00.966Z",
+      "updated": "2022-12-24T08:05:25.351Z"
+    }
+  ],
+  "plannings": [
+    {
+      "id": "27a11d19-c30b-40d0-976c-518ead3b97a1",
+      "label": "",
+      "active": false,
+      "time": {
+        "hour": 10,
+        "min": 18
+      },
+      "days": [
+        false,
+        true,
+        false,
+        false,
+        false,
+        false,
+        false
+      ],
+      "setpoint": 19,
+      "preset": "",
+      "created": "2022-11-12T09:18:09.196Z",
+      "updated": "2022-11-12T09:18:12.799Z"
+    },
+    {
+      "id": "d2f312de-4dc4-4411-bb31-86b7158855b4",
+      "label": "",
+      "active": false,
+      "time": {
+        "hour": 10,
+        "min": 18
+      },
+      "days": [
+        false,
+        false,
+        true,
+        false,
+        false,
+        false,
+        false
+      ],
+      "setpoint": 19,
+      "preset": "",
+      "created": "2022-11-12T09:18:15.802Z",
+      "updated": "2022-11-12T09:18:20.827Z"
+    },
+    {
+      "id": "43bfa3ea-2c5f-43e7-8262-6877b363ec09",
+      "label": "",
+      "active": true,
+      "time": {
+        "hour": 8,
+        "min": 0
+      },
+      "days": [
+        true,
+        false,
+        false,
+        false,
+        false,
+        false,
+        true
+      ],
+      "setpoint": 19,
+      "preset": "",
+      "created": "2022-11-12T09:18:21.795Z",
+      "updated": "2022-12-24T07:59:25.709Z"
+    },
+    {
+      "id": "b7dae8e7-566c-4b16-85ff-4101f829fbc0",
+      "label": "",
+      "active": true,
+      "time": {
+        "hour": 12,
+        "min": 0
+      },
+      "days": [
+        true,
+        false,
+        false,
+        false,
+        false,
+        false,
+        true
+      ],
+      "setpoint": 15,
+      "preset": "",
+      "created": "2022-12-24T07:59:30.660Z",
+      "updated": "2022-12-24T08:00:15.016Z"
+    },
+    {
+      "id": "3f178efd-a8a3-482f-8749-118fa68b7c42",
+      "label": "",
+      "active": true,
+      "time": {
+        "hour": 17,
+        "min": 0
+      },
+      "days": [
+        true,
+        false,
+        false,
+        false,
+        false,
+        false,
+        true
+      ],
+      "setpoint": 19,
+      "preset": "",
+      "created": "2022-12-24T08:00:01.667Z",
+      "updated": "2022-12-24T08:00:18.348Z"
+    }
+  ]
+}
