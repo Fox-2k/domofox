@@ -20,7 +20,7 @@ export default function ValueBlock({ icon, value, unit, onChange } : valueBlockP
         editable && setOpenDialog(true)
     }
 
-    const handleClose = (newValue: number) => {
+    const handleClose = (newValue?: number) => {
         setOpenDialog(false)
         if(editable && newValue != undefined) {
             onChange(newValue)
@@ -47,7 +47,7 @@ export default function ValueBlock({ icon, value, unit, onChange } : valueBlockP
                         alignItems: 'baseline',
                     }}
                 >
-                    <div>{value}</div>
+                    <div>{Math.round(value * 10) / 10}</div>
                     <div style={{fontSize: 30}}>{unit ?? ""}</div>
                 </Box>
             </Block>
