@@ -1,0 +1,12 @@
+[Unit]
+Description=Domofox NextJS App
+After=network.target
+
+[Service]
+Type=exec
+WorkingDirectory=/opt/domofox/react
+ExecStart=/opt/domofox/react/node_modules/.bin/next start -p 80
+RemainAfterExit=yes
+
+[Install]
+WantedBy=multi-user.target

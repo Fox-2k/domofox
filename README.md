@@ -49,7 +49,7 @@ Domofox is by default designed to work with a **DS18B20 temperature probe** work
 
 ## Client
 
-Currently VueJs2 with Vuetify
+NextJS with redux-saga. The application is using the Google's material UI.
 
 ## API
 

@@ -63,58 +63,25 @@ sudo systemctl daemon-reload
 sudo systemctl start domofox-archive.timer
 sudo systemctl enable domofox-archive.timer
 ```
-
-# Build the vueJS app
-This is the front side, the human interface to control Domofox.
+# Build the NextJS app
+This is the web server which will serve the front side, the human interface to control Domofox.
 
 ```
-cd /opt/domofox/client
+cd /opt/domofox/react
+npm install --omit=optional # see note below
 npm run build
 ```
-The app production version is now created at `/opt/domofox/client/dist`
+About the `--omit=optional` : Because we are about to build the NextJS application, we need to install de dev dependencies. Doing that may also install Cypress which may not desired for a production installation, especially if your are installing Domofox to a Raspberry pi, where Cypress is not supported. That's why Cypress was placed as an optional dependencie you can now omit for the production installation.
 
-Check the config file `/opt/domofox/client/dist/config/config.json` if you want to customize somme settings
-
-
-# Install Nginx server
+# Create the NextJS service
+This service enable our NextJS application to launch automatically
 
 ```
-sudo apt install -y nginx
+sudo ln -s /opt/domofox/linux/domofox-nextjs.service /etc/systemd/system
+sudo systemctl daemon-reload
+sudo systemctl start domofox-nextjs
+sudo systemctl enable domofox-nextjs
 ```
-
-Create the configuration file below in `/etc/nginx/sites-available/domofox`
-
-```
-##
-#
-# Domofox web interface configuration
-#
-##
-
-server {
-        listen 80 default_server;
-        listen [::]:80 default_server;
-
-        root /opt/domofox/client/dist;
-
-        index index.html;
-
-        server_name _;
-
-        location / {
-                # First attempt to serve request as file, then
-                # as directory, then fall back to displaying a 404.
-                try_files $uri $uri/ =404;
-        }
-}
-```
-Disable default config and enable this one.
-```
-sudo rm /etc/nginx/sites-enabled/default
-sudo ln -s /etc/nginx/sites-available/domofox /etc/nginx/sites-enabled
-sudo systemctl reload nginx
-```
-
 
 # Create the system D target to launch only chromium when booting
 
