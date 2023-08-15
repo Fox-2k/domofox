@@ -59,7 +59,9 @@ export default function Layout(props: layoutProps) {
                 <title>DomoFox</title>
                 <meta name="description" content="Your home thermostat" />
                 <meta name="viewport" content="width=480, user-scalable=no" />
-                <link rel="icon" href="/favicon.ico" />
+                <link rel="icon" type="image/png" href="/favicon.png" />
+                <link rel="apple-touch-icon" href="favicon.png" />
+                <meta name="apple-mobile-web-app-capable" content="yes" />
             </Head>
             <main className={roboto.className}>
                 <TabPanel showWhen={tabValue === "Home"} boxProps={{ sx:{ p: 1} }}>
